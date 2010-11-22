@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block body %}
+<lu>
+{% for item in page.choices %}
+<li><a href="{{ item.1 }}" class="item">{{ item.0 }}</a></li>
+{% endfor %}
+</lu>
+<script type="text/javascript">
+$(function(){
+    $('a.item').button();
+});
+</script>
+{% endblock body %}
+

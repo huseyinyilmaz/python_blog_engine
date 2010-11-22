@@ -1,0 +1,15 @@
+<html>
+  <head>
+    {% include "jquery.html" %}
+
+    <title>{{ page.title }}</title>
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+    <div><h1>Python Blog Engine Administration</h1>
+    <h3>{{ page.title }}</h3></div>
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>
