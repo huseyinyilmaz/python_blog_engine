@@ -11,6 +11,8 @@ class StaticPage(models.Model):
 
     creation_date = models.DateTimeField('Creation date',auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
+    def __str__(self):
+        return self.name
     
 class StaticPageForm(forms.ModelForm):
     class Meta:

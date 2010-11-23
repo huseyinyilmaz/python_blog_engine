@@ -6,7 +6,9 @@ from template_helpers import Page
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
+from blog.models import BlogPost
 from blog.models import BlogForm
+from blog.models import BlogPostForm
 
 from django.template import RequestContext
 def index(request):
@@ -18,7 +20,9 @@ def index(request):
     page.choices = [
         ('menuMain',reverse('menuMain')),
         ('Static Pages',reverse('staticPageMain')),
-        ('Blogs',reverse('blogMain')),]
+        ('Blogs',reverse('blogMain')),
+        ('Blog Posts',reverse('blogListMain')),
+        ]
     return render_to_response('menu.html',{'page':page})
 
 def _addurls(item,editHandler,deleteHandler):
@@ -45,7 +49,9 @@ def blogMain(request):
     return render_to_response('admin/item_list.html',
                               {'page':page,
                                'item_set':staticPage_set,
-                               'createUrl':reverse('blogCreate',)})
+                               'item_display_label':'Name',
+                               'createUrl':reverse('blogCreate'),
+                               })
 
 
 def staticPageMain(request):
@@ -60,7 +66,9 @@ def staticPageMain(request):
     return render_to_response('admin/item_list.html',
                               {'page':page,
                                'item_set':staticPage_set,
-                               'createUrl':reverse('staticPageCreate',)})
+                               'item_display_label':'Name',
+                               'createUrl':reverse('staticPageCreate'),
+                               })
 
 def staticPageCreate(request):
     page = Page()
@@ -69,7 +77,6 @@ def staticPageCreate(request):
         ('Static page menu',reverse('staticPageMain')),
         ]
     if request.method == 'POST': # If the form has been submitted...
-        import pdb;pdb.set_trace()
         form = StaticPageForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
@@ -93,7 +100,6 @@ def staticPageEdit(request,id):
         ('Static page menu',reverse('staticPageMain')),
         ]
     staticPage = get_object_or_404(StaticPage,pk=id)
-#    import pdb;pdb.set_trace()
     if request.method == 'POST': # If the form has been submitted...
         form = StaticPageForm(request.POST,instance=staticPage)
         if form.is_valid(): # All validation rules pass
@@ -121,7 +127,6 @@ def blogCreate(request):
         ('Blog menu',reverse('blogMain')),
         ]
     if request.method == 'POST': # If the form has been submitted...
-        import pdb;pdb.set_trace()
         form = BlogForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
@@ -163,6 +168,80 @@ def blogDelete(request,id):
     blog.delete()
     return HttpResponseRedirect(reverse('blogMain')) # Redirect after POST
 
+def blogListMain(request):
+    """
+    Blog list for main blog post page
+    """
+    page = Page()
+    page.title = ""
+    page.choices = [
+        ('Main Menu',reverse('index')),
+        ]
+    page.choices += map(lambda x:(x.name,reverse('blogPostMain',kwargs={'id':x.id})),Blog.objects.all())
+    return render_to_response('menu.html',{'page':page})
+
+def blogPostMain(request,id):
+    page = Page()
+    page.title = "Blog Post Management"
+    page.choices = [
+        ('Main admin menu',reverse('index')),
+        ]
+
+    staticPage_set = map(lambda x:_addurls(x,'blogPostEdit','blogPostDelete'),Blog.objects.get(pk=id).blogpost_set.all())
+
+    return render_to_response('admin/item_list.html',
+                              {'page':page,
+                               'item_set':staticPage_set,
+                               'item_display_label':'Name',
+                               'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
+                               })
 
 
+def blogPostCreate(request,blog_id):
+    page = Page()
+    page.title = "Create new blog post"
+    page.choices = [
+        ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
+        ]
+    if request.method == 'POST': # If the form has been submitted...
+        form = BlogPostForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            #print form.cleaned_data['slug']
+            form.save()
+            return HttpResponseRedirect(reverse('blogPostMain')) # Redirect after POST
+    else:
+        form = BlogPostForm() # An unbound form
 
+    return render_to_response('admin/formpage.html',
+        {'form': form,
+        'formAction': reverse('blogPostCreate',kwargs={'blog_id':blog_id}),
+        'page': page},context_instance=RequestContext(request))
+
+def blogPostEdit(request,id):
+    blogPost = get_object_or_404(BlogPost,pk=id)
+    blog_id = blogPost.blog.id
+    page = Page()
+    page.title = "Edit blogPost post"
+    page.choices = [
+        ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
+        ]
+    if request.method == 'POST': # If the form has been submitted...
+        form = BlogPostForm(request.POST,instance=blogPost)
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(reverse('blogPostMain')) # Redirect after POST
+    else:
+        form = BlogPostForm(instance=blogPost) 
+
+    return render_to_response('admin/formpage.html',
+        {'form': form,
+        'formAction': reverse('blogPostEdit',kwargs={'id':id,'blog_id':blog_id}),
+        'page': page},context_instance=RequestContext(request))
+
+def blogPostDelete(request,id):
+    blogPost = get_object_or_404(BlogPost,pk=id)
+    blogPost.delete()
+    return HttpResponseRedirect(reverse('blogPostMain')) # Redirect after POST

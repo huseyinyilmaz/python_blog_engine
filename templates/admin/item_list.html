@@ -15,12 +15,12 @@
 <table class="grid" id="grid">
 <tr class="ui-widget-header">
   <th>Id</th>
-  <th>Name</th>
+  <th>{{ item_display_label }}</th>
 </tr>
 {% for item in item_set %}
   <tr class="ui-widget-content grid_row">
     <td>{{ item.id }}</td>
-    <td>{{ item.name }}</td>
+    <td>{{ item }}</td>
     <input type="hidden" class="editUrl" value="{{ item.editUrl }}" />
     <input type="hidden" class="deleteUrl" value="{{ item.deleteUrl }}" />
   </tr>

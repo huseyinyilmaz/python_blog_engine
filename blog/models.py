@@ -9,7 +9,8 @@ class Blog(models.Model):
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField('Creation date',auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
-
+    def __str__(self):
+        return self.name
 class Tag(models.Model):
     name = models.CharField(max_length=500)
 
@@ -37,6 +38,14 @@ class BlogForm(forms.ModelForm):
         return self.cleaned_data
 
 
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ('title','teaser','content')
+    def clean(self):
+        super(BlogForm,self).clean()
+        self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
+        return self.cleaned_data
 
 
 
