@@ -86,8 +86,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'main',
-    'staticpages',
+#    'staticpages',
     'blog',
-    'admin',
+#    'admin',
 )
 

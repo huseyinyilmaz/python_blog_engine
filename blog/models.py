@@ -13,10 +13,13 @@ class Blog(models.Model):
         return self.name
 class Tag(models.Model):
     name = models.CharField(max_length=500)
+    def __unicode__(self):
+        return self.name
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=500)
     slug = models.SlugField()
+    published = models.BooleanField()
     teaser = models.TextField()
     teaser_HTML = models.TextField()
     content = models.TextField()
@@ -27,24 +30,26 @@ class BlogPost(models.Model):
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
 
 
-
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('name','title','description')
+        fields = ('name','slug','title','description')
     def clean(self):
-        super(BlogForm,self).clean()
+        super(forms.ModelForm,self).clean()
         self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
         return self.cleaned_data
 
 
 class BlogPostForm(forms.ModelForm):
+#    tags = forms.CharField()
     class Meta:
         model = BlogPost
-        fields = ('title','teaser','content')
+        fields = ('published','blog','title','slug','content','teaser','tags')
     def clean(self):
-        super(BlogForm,self).clean()
-        self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
+        super(forms.ModelForm,self).clean()
+        #tags = map(lambda x: x.strip(),self.data['tags'].split(','))
+        #self.cleaned_data['tags'] = tags
+        self.cleaned_data['slug'] = slugify(self.cleaned_data['title'])
         return self.cleaned_data
 
 

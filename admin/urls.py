@@ -20,6 +20,9 @@ urlpatterns = patterns('',
     url(r'^blogpost/edit/(?P<id>\d+)/$',views.blogPostEdit,name='blogPostEdit'),
     url(r'^blogpost/delete/(?P<id>\d+)/$',views.blogPostDelete,name='blogPostDelete'),
 
+    url(r'^tag/create/$',views.blogCreate,name='tagCreate'),
+    url(r'^tag/edit/(?P<id>\d+)/$',views.blogEdit,name='tagEdit'),
+    url(r'^tag/delete/(?P<id>\d+)/$',views.blogDelete,name='tagDelete'),
                        )
 
 
