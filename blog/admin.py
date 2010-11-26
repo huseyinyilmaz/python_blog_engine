@@ -1,30 +1,23 @@
 from django.contrib import admin
+
 from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
+
 from blog.models import BlogForm
 from blog.models import BlogPostForm
+
 class BlogAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'
     form = BlogForm
     list_display = ('name','slug','title','creation_date')
-    #list_editable = ('slug',)
     list_select_related = True
     ordering = ('name',)
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ('creation_date','last_modified')
     save_on_top = True
     save_as = True
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('name', 'title', 'description')
-    #     }),
-    #     # ('Advanced options', {
-    #     #     'classes': ('collapse',),
-    #     #     'fields': ('enable_comments', 'registration_required', 'template_name')
-    #     # }),
-    # )
-
+    search_fields = ['name','title']
 
 class BlogPostAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'
@@ -37,6 +30,12 @@ class BlogPostAdmin(admin.ModelAdmin):
     readonly_fields = ('creation_date','last_modified')
     save_on_top = True
     save_as = True
+    search_fields = ['title']
+    def save_model(self, request, obj, form, change):
+        print 'deneme'
+        obj.teaser_HTML = obj.teaser
+        obj.content_HTML = obj.content
+        obj.save()
 
 class TagAdmin(admin.ModelAdmin):
     pass

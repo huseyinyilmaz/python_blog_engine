@@ -30,7 +30,7 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 3
+SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -62,12 +62,18 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-#    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'python_blog_engine.urls'
 
@@ -79,15 +85,17 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+
+    'debug_toolbar',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'main',
-#    'staticpages',
+    'django.contrib.flatpages',
     'blog',
-#    'admin',
+    'menu',
 )
 

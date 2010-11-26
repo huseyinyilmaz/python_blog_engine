@@ -1,6 +1,6 @@
 from django.db import models
 from django import forms
-from django.template.defaultfilters import slugify
+
 
 class Blog(models.Model):
     name = models.CharField(max_length=255)
@@ -34,23 +34,10 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ('name','slug','title','description')
-    def clean(self):
-        super(forms.ModelForm,self).clean()
-        self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-        return self.cleaned_data
 
 
 class BlogPostForm(forms.ModelForm):
-#    tags = forms.CharField()
     class Meta:
         model = BlogPost
         fields = ('published','blog','title','slug','content','teaser','tags')
-    def clean(self):
-        super(forms.ModelForm,self).clean()
-        #tags = map(lambda x: x.strip(),self.data['tags'].split(','))
-        #self.cleaned_data['tags'] = tags
-        self.cleaned_data['slug'] = slugify(self.cleaned_data['title'])
-        return self.cleaned_data
-
-
 

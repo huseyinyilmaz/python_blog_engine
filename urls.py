@@ -21,7 +21,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-     (r'^$',include('main.urls')),
+#     (r'^$',include('main.urls')),
      (r'^blog/',include('blog.urls')),
 #     (r'^admin/', include('admin.urls')),
 #     (r'^staticpages/', include('staticpages.urls')),
