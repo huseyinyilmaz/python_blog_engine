@@ -4,8 +4,8 @@ from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
 
-from blog.models import BlogForm
-from blog.models import BlogPostForm
+from blog.forms import BlogForm
+from blog.forms import BlogPostForm
 
 class BlogAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'

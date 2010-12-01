@@ -1,9 +1,8 @@
 from django.conf.urls.defaults import *
-
+import views
 urlpatterns = patterns('',
-                       ('^$', 'django.views.generic.simple.direct_to_template',
-                        {'template': 'home.html'}),
-#                       (r'^$',include('site.main.urls')),
- #                      (r'^blog/',include('site.blog.urls')),
+                       url('^(?P<blog_slug>\S+)/(?P<year>\d+)/(?P<month>\d+)/(?P<post_slug>\S+)/$', views.post, name = 'post'),
+                       url('^(?P<blog_slug>\S+)/(?P<year>\d+)/(?P<month>\d+)/$', views.month, name = 'month'),
+                       url('^(?P<blog_slug>\S+)/(?P<year>\d+)/$', views.year, name = 'year'),
+                       url('^(?P<blog_slug>\S+)/$', views.archive_index, name = 'archive_index'),
                        )
-

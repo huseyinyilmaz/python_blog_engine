@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+{% for blogpost in blogpost_set %}
+  {% include "blog/blogpost_teaser.html" %}
+{% endfor %}
+
+{% endblock body %}
+
+
+{% block widget_1 %}
+  <div class="widget_container">
+    <div class="widget_title">
+      Archive
+    </div>
+
+    <ul>
+    {% for y in date_list %}
+    <li class="list"><a href="{% url blog.views.year blog.slug y.year %}">{{y.year}}</a></li>
+    {% endfor %}
+  </ul>
+  </div>
+  
+{% endblock %}

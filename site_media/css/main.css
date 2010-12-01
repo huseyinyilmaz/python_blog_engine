@@ -1,32 +1,33 @@
-li {
-    margin:0;
-    padding:0;
-    list-style: none;
-    text-indent: 0px;	
-}
-
-tr.grid_selected_row{
-    background-color:#77c1dc;
-}
-tr.grid_mouse_hover{
-    background-color:yellow;
-}
-
-table.grid{
-    cellspacing:0px;
-    cellpadding:3px;
-    width:400px;
-    border-style:hidden;
-    background-color:gray;
-}
-
-tr.grid_header_row{
-    background-color:#AAAAAA;
-}
-
-tr.grid_row{
-    background-color:#DDDDDD;
+div.title_area {
+    background-color:green;
 }
 
 
+div.widget_container {
+	border-style:solid;
+	border-width:1px;
+}
+
+li.list{
+       	margin:0;
+       	padding:0;
+       	list-style: none;
+	text-indent: 0px;
+}
+div.widget_title{
+	background-color:green;
+	text-align:center;
+}
+span.blogpost_date{
+	font-size: 60%;
+}
+
+a {
+    color: #1C94C4;
+    text-decoration: none;
+}
+a:hover {
+    color: #EC8E0C;
+    text-decoration: underline;
+}
 

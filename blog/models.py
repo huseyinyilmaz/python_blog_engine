@@ -1,6 +1,5 @@
 from django.db import models
-from django import forms
-
+from django.core.urlresolvers import reverse
 
 class Blog(models.Model):
     name = models.CharField(max_length=255)
@@ -11,6 +10,9 @@ class Blog(models.Model):
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
     def __str__(self):
         return self.name
+    def getURL(self):
+        return reverse('main',kwarkg={'blog_slug':self.slug})
+
 class Tag(models.Model):
     name = models.CharField(max_length=500)
     def __unicode__(self):
@@ -28,16 +30,7 @@ class BlogPost(models.Model):
     blog = models.ForeignKey(Blog)
     creation_date = models.DateTimeField('Creation date',auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
+    def getURL(self):
+        return reverse('post',kwarkg={'blog_slug':self.blog.slug,'post_slug':self.slug})
 
-
-class BlogForm(forms.ModelForm):
-    class Meta:
-        model = Blog
-        fields = ('name','slug','title','description')
-
-
-class BlogPostForm(forms.ModelForm):
-    class Meta:
-        model = BlogPost
-        fields = ('published','blog','title','slug','content','teaser','tags')
 

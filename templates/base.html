@@ -1,15 +1,52 @@
-<html>
-  <head>
-    {% include "jquery.html" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/site_media/css/g960.css" type="text/css" media="screen" />
 
+    {% include "jquery.html" %}
     <title>{{ page.title }}</title>
     {% block head %}
     {% endblock %}
-  </head>
-  <body>
-    <div><h1>Python Blog Engine Administration</h1>
-    <h3>{{ page.title }}</h3></div>
-    {% block body %}
-    {% endblock %}
-  </body>
+</head>
+<body>
+                
+<div id="header" class="container_12">
+  <div id="" class="grid_12 ">
+      <div class="title_area"><h1 class="main_title">Python Blog Engine Administration</h1></div>
+  </div>
+</div>
+
+<div id="content" class="container_12">
+
+<div id="" class="grid_9 ">
+  <div id="" class="grid_9 ">
+    <h3>{{ page.title }}</h3>
+  </div>
+  <div id="" class="grid_9 ">
+      {% block body %}
+      {% endblock %}
+  </div>
+  
+</div>
+
+<div id="right_sidebar" class="grid_3 ">
+{% block right_sidebar %}
+  <div class="grid_3">{% block widget_1 %}{% endblock widget_1 %}</div>
+  <div class="grid_3">{% block widget_2 %}{% endblock widget_2 %}</div>
+  <div class="grid_3">{% block widget_3 %}{% endblock widget_3 %}</div>
+{% endblock right_sidebar %}
+</div>
+
+</div>
+
+<div id="footer" class="container_12">
+
+<div id="" class="grid_12 ">
+</div>
+
+</div>
+
+            
+</body>
 </html>

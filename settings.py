@@ -87,6 +87,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
 
     'debug_toolbar',
+    'django_extensions',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -96,6 +97,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'blog',
-    'menu',
+    
 )
 
