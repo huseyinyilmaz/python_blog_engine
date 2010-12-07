@@ -1,0 +1,4 @@
+  <a href="{% url blog.views.post blog.slug blogpost.creation_date.year blogpost.creation_date.month blogpost.slug%}" class="header">{{ blogpost.title }}</a> 
+  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</span>
+  <p>{{ blogpost.teaser_HTML }}</p>
+  <hr />

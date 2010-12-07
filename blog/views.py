@@ -1,64 +1,80 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.views.generic import date_based
+from django.http import Http404
 from models import Blog
 from models import BlogPost
+from models import Tag
+
 import logging
 logger = logging.getLogger(__name__)
 
-def archive_index(request,blog_slug):
-    logger.info('slug : ' + blog_slug)
+def index(request,blog_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
-    return date_based.archive_index(
-        request,
-        queryset = blog.blogpost_set.all(),
-        date_field = 'creation_date',
-        template_name = "blog/blogpost_archive.html",
-        template_object_name = "blogpost_set",
-        extra_context = {'blog':blog}
-    )
+    tag_list = blog.tag_set.all()
 
-def year(request,blog_slug,year):
-    logger.info('slug : ' + blog_slug)
-    logger.info('year :' + year)
-    blog = get_object_or_404(Blog,slug=blog_slug)
-    return date_based.archive_year(
-        request,
-        queryset = blog.blogpost_set.all(),
-        date_field = 'creation_date',
-        year = year,
-        template_name = "blog/blogpost_archive_year.html",
-        make_object_list = True,
-        template_object_name = "blogpost",
-        extra_context = {'blog':blog}
-    )
-
-def month(request,blog_slug,year,month):
-    logger.info('slug : ' + blog_slug)
-    logger.info('year :' + year)
-    logger.info('month :' + month)
-    blog = get_object_or_404(Blog,slug=blog_slug)
-    return date_based.archive_month(
-        request,
-        queryset = blog.blogpost_set.all(),
-        date_field = 'creation_date',
-        year = year,
-        month = month,
-        month_format = '%m',
-        template_name = "blog/blogpost_archive_month.html",
-        template_object_name = "blogpost",
-        extra_context = {'blog':blog}
-    )
+    return render_to_response('blog/blogpost_index.html',
+                              {'blog':blog,
+                               'date_list':blog.get_date_list(),
+                               'tag_list':tag_list,
+                               'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
+                               },
+                              )
 
 def post(request,blog_slug,year,month,post_slug):
-    logger.info('slug : ' + blog_slug)
-    logger.info('year :' + year)
-    logger.info('month :' + month)
     blog = get_object_or_404(Blog,slug=blog_slug)
-    post = get_object_or_404(BlogPost,blog=blog,slug=post_slug)
-    tags = post.tags.all()
+    try:
+        post = BlogPost.view_objects.with_content().get(blog=blog,slug=post_slug)
+    except BlogPost.DoesNotExist:
+        raise Http404("Blog post does not exist.")
+
+    tag_list = blog.tag_set.all()
+    post_tag_list = post.tags.all()
+
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
+                               'date_list':blog.get_date_list(),
+                               'tag_list':tag_list,
                                'blogpost':post,
-                               'tags':tags, 
+                               'post_tag_list':post_tag_list,
                                })
+
+def month(request,blog_slug,year,month):
+    year = int(year)
+    month = int(month)
+
+    blog = get_object_or_404(Blog,slug=blog_slug)
+
+    date_list = blog.get_date_list()
+
+    tag_list = blog.tag_set.all()
+
+    return render_to_response("blog/blogpost_archive_month.html",
+                              {'blog':blog,
+                               'date_list':date_list,
+                               'tag_list':tag_list,
+                               'month':month,
+                               'year':year,
+                               'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog,creation_date__year=year, creation_date__month=month),
+                               },
+                              )
+
+def tag(request,blog_slug,tag_slug):
+
+    blog = get_object_or_404(Blog,slug=blog_slug)
+    tag = get_object_or_404(Tag,name=tag_slug)
+
+    date_list = blog.get_date_list()
+    tag_list = blog.tag_set.all()
+    blogpost_set = BlogPost.view_objects.tag(tag).all()
+
+
+    return render_to_response("blog/blogpost_tag.html",
+                              {'blog':blog,
+                               'date_list':date_list,
+                               'tag_list':tag_list,
+                               'tag':tag,
+                               'blogpost_set':blogpost_set,
+                               },
+                              )
+

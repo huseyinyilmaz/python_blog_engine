@@ -1,0 +1,16 @@
+  <div class="widget_container">
+    <div class="widget_header header">
+      Tags
+    </div>
+    <ul>
+    {% for t in tag_list %}
+    <li class="list">
+      {% ifequal t tag %}
+      {{ t.name }}
+      {% else %}
+      <a href="{% url blog_tag blog.slug t.name %}"> {{ t.name }}</a>
+      {% endifequal %}
+    </li>
+    {% endfor %}
+  </ul>
+  </div>

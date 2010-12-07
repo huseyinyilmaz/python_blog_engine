@@ -1,33 +1,65 @@
-div.title_area {
-    background-color:green;
+body{
+    font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;
+    font-size:14px;
 }
 
+div.header{
+    background-color:#5581C0;
+    color:#FFFFFF;
+}
+
+div.blog_header{
+    text-align:center;
+    font-size:35px;
+    font-weight:bold;
+}
+
+div.widget_header{
+	text-align:center;
+}
 
 div.widget_container {
 	border-style:solid;
 	border-width:1px;
+	margin:10px;
 }
 
 li.list{
-       	margin:0;
-       	padding:0;
-       	list-style: none;
-	text-indent: 0px;
+   	margin:0;
+   	padding:0;
+   	list-style: none;
+    text-indent: 0px;
 }
-div.widget_title{
-	background-color:green;
-	text-align:center;
+
+span.blogpost_footer{
+	font-size: 80%;
 }
 span.blogpost_date{
-	font-size: 60%;
+    font-style:italic;
+	font-size: 80%;
+}
+
+span.blogpost_tag{
+    text-align:right;
 }
 
 a {
-    color: #1C94C4;
+    color: #0066CC;
     text-decoration: none;
 }
 a:hover {
-    color: #EC8E0C;
+    color: #4358A5;
     text-decoration: underline;
+}
+a.header {
+    color: #333333;
+    text-decoration: none;
+    font-weight:bold;
+    font-size:20px;
+}
+a.header:hover {
+    color: #0066CC;
+    font-weight:bold;
+    font-size:20px;
 }
 

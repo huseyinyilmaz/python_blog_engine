@@ -5,28 +5,25 @@
 
 {% block body %}
 <h2>{{ blogpost.title }}</h2>
-  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</span>
-  <div>
-    {% for tag in tags %}
-      {{ tag.name }}
-    {% endfor %}
-  </div> 
   <p>{{ blogpost.content_HTML }}</p>
+<br />
+<span class="blogpost_footer">
+Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</span> | 
+  <span class="blogpost_tag">
+    Tags:
+    {% for t in post_tag_list %}
+      <a href="{% url blog_tag blog.slug t.name %}">{{ t.name }}</a>, 
+    {% endfor %}
+  </span> 
+</span> 
   <hr />
+
 {% endblock body %}
 
-
 {% block widget_1 %}
-  <div class="widget_container">
-    <div class="widget_title">
-      Archive
-    </div>
-    <ul>
-    </ul>
-  </div>
-  
+{% include "blog/widgets/tags.html" %}
 {% endblock %}
 
-
-
-
+{% block widget_2 %}
+{% include "blog/widgets/date_archive.html" %}
+{% endblock %}

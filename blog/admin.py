@@ -32,7 +32,6 @@ class BlogPostAdmin(admin.ModelAdmin):
     save_as = True
     search_fields = ['title']
     def save_model(self, request, obj, form, change):
-        print 'deneme'
         obj.teaser_HTML = obj.teaser
         obj.content_HTML = obj.content
         obj.save()

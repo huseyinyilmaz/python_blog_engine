@@ -1,0 +1,17 @@
+  <div class="widget_container">
+    <div class="widget_header header">
+      Date Archive
+    </div>
+    <ul>
+    {% for date in date_list %}
+    <li class="list">
+      {% if month == date.month and year == date.year %}
+      {{ date }}
+      {% else %}
+      <a href="{% url blog_month blog.slug date.year date.month %}"> {{ date }}</a>
+      {% endif %}
+      
+    </li>
+    {% endfor %}
+  </ul>
+  </div>
