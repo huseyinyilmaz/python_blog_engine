@@ -12,8 +12,9 @@ urlpatterns = patterns(
 
     (r'^blog/',include('blog.urls')),
     (r'^flatpages/',include('flatpages.urls')),
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
+    (r'^admin2/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin2/', include(admin.site.urls)),
+    (r'^admin/',include('admin.urls')),
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),

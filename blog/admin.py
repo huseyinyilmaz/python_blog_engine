@@ -4,12 +4,13 @@ from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
 
-from blog.forms import BlogForm
-from blog.forms import BlogPostForm
+from blog.forms import BlogFormAdmin
+from blog.forms import BlogPostFormAdmin
 
+#########################################
 class BlogAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'
-    form = BlogForm
+    form = BlogFormAdmin
     list_display = ('name','slug','title','creation_date')
     list_select_related = True
     ordering = ('name',)
@@ -21,7 +22,7 @@ class BlogAdmin(admin.ModelAdmin):
 
 class BlogPostAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'
-    form = BlogPostForm
+    form = BlogPostFormAdmin
     list_display = ('title','slug','blog','creation_date','published')
     list_filter = ('blog','published')
     list_select_related = True

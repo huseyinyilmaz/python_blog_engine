@@ -1,28 +1,27 @@
 from django.conf.urls.defaults import patterns,url
 import views
 urlpatterns = patterns('',
-    url(r'^$',views.index,name='index'),
-    url(r'^menumain/$',views.menuMain,name='menuMain'),
-    url(r'^blogs/$',views.blogMain,name='blogMain'),
-    url(r'^bloglist/$',views.blogListMain,name='blogListMain'),
-    url(r'^blogposts/(?P<id>\d+)/$',views.blogPostMain,name='blogPostMain'),
-    url(r'^staticpage/$',views.staticPageMain,name='staticPageMain'),
+    url(r'^$',views.index,name='admin_index'),
+    url(r'^blogs/$',views.blogMain,name='admin_blogMain'),
+    url(r'^bloglist/$',views.blogListMain,name='admin_blogListMain'),
+    url(r'^flatpage/$',views.staticPageMain,name='admin_flatPageMain'),
 
-    url(r'^staticpage/create/$',views.staticPageCreate,name='staticPageCreate'),
-    url(r'^staticpage/edit/(?P<id>\d+)/$',views.staticPageEdit,name='staticPageEdit'),
-    url(r'^staticpage/delete/(?P<id>\d+)/$',views.staticPageDelete,name='staticPageDelete'),
+    url(r'^blog/(?P<id>\d+)/$',views.blog,name='admin_blog'),
+    url(r'^blog/create/$',views.blogCreate,name='admin_blogCreate'),
+    url(r'^blog/edit/(?P<id>\d+)/$',views.blogEdit,name='admin_blogEdit'),
+    url(r'^blog/delete/(?P<id>\d+)/$',views.blogDelete,name='admin_blogDelete'),
 
-    url(r'^blog/create/$',views.blogCreate,name='blogCreate'),
-    url(r'^blog/edit/(?P<id>\d+)/$',views.blogEdit,name='blogEdit'),
-    url(r'^blog/delete/(?P<id>\d+)/$',views.blogDelete,name='blogDelete'),
+    # url(r'^staticpage/create/$',views.staticPageCreate,name='admin_staticPageCreate'),
+    # url(r'^staticpage/edit/(?P<id>\d+)/$',views.staticPageEdit,name='admin_staticPageEdit'),
+    # url(r'^staticpage/delete/(?P<id>\d+)/$',views.staticPageDelete,name='admin_staticPageDelete'),
 
-    url(r'^blogpost/(?P<blog_id>\d+)/create/$',views.blogPostCreate,name='blogPostCreate'),
-    url(r'^blogpost/edit/(?P<id>\d+)/$',views.blogPostEdit,name='blogPostEdit'),
-    url(r'^blogpost/delete/(?P<id>\d+)/$',views.blogPostDelete,name='blogPostDelete'),
+    url(r'^blogpost/(?P<blog_id>\d+)/create/$',views.blogPostCreate,name='admin_blogPostCreate'),
+    url(r'^blogpost/edit/(?P<id>\d+)/$',views.blogPostEdit,name='admin_blogPostEdit'),
+    url(r'^blogpost/delete/(?P<id>\d+)/$',views.blogPostDelete,name='admin_blogPostDelete'),
 
-    url(r'^tag/create/$',views.blogCreate,name='tagCreate'),
-    url(r'^tag/edit/(?P<id>\d+)/$',views.blogEdit,name='tagEdit'),
-    url(r'^tag/delete/(?P<id>\d+)/$',views.blogDelete,name='tagDelete'),
+    # url(r'^tag/create/$',views.blogCreate,name='admin_tagCreate'),
+    # url(r'^tag/edit/(?P<id>\d+)/$',views.blogEdit,name='admin_tagEdit'),
+    # url(r'^tag/delete/(?P<id>\d+)/$',views.blogDelete,name='admin_tagDelete'),
                        )
 
 

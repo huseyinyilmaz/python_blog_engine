@@ -25,7 +25,7 @@ class _Month:
         return "%s (%d)"%(self.datetime.strftime("%B %Y"),self.count)
 
 class Blog(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField('Name of the Blog',max_length=255)
     slug = models.SlugField()    
     title = models.CharField(max_length=500, blank=True)
     tagline = models.CharField(max_length=500, blank=True)
@@ -50,6 +50,12 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.SlugField(max_length=500)
+    blog = models.ForeignKey(Blog)
+    def __unicode__(self):
+        return self.name
+    
 class BlogPostViewManager(models.Manager):
     def get_query_set(self):
         return super(BlogPostViewManager,self).get_query_set().defer('content','teaser').order_by('-creation_date')
@@ -63,19 +69,24 @@ class BlogPostViewManager(models.Manager):
 class BlogPost(models.Model):
     title = models.CharField(max_length=500)
     slug = models.SlugField()
-    published = models.BooleanField()
+    published = models.BooleanField(default=True)
     teaser = models.TextField(blank=True)
     teaser_HTML = models.TextField(blank=True)
     content = models.TextField()
     content_HTML = models.TextField()
     tags = models.ManyToManyField(Tag)
+    categories = models.ManyToManyField(Category)
+    
     blog = models.ForeignKey(Blog)
     creation_date = models.DateTimeField('Creation date', auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
-
+    
     view_objects = BlogPostViewManager()
-
+    objects = models.Manager()
+    
     def getURL(self):
         return reverse('post',kwarkg={'blog_slug':self.blog.slug,'post_slug':self.slug})
         
+    def __str__(self):
+        return self.title
         
