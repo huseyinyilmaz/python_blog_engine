@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
-from django.views.generic import date_based
 from django.http import Http404
 from models import Blog
 from models import BlogPost
