@@ -44,7 +44,7 @@ def blogMain(request):
         lambda x:setBlogLink(
             setBlogDeleteLink(x,reverse('admin_blogDelete',kwargs={'id':x.id})),
             reverse('admin_blog',kwargs={'id':x.id})),
-        Blog.objects.only('id','name').all())
+        Blog.objects.only('id','name').all().order_by('name'))
     
     return render_to_response('admin/blog_main.html',
                               {'page':page,
@@ -55,11 +55,12 @@ def blogMain(request):
 
 def blog(request,id):
     page = Page()
-    page.title = "blog management"
+    blog = Blog.objects.get(pk=id)
+    page.title = "Blog options for '%s'"%blog.name
     page.choices = [
         ('Main blog menu',reverse('admin_blogMain')),
+        ('Edit blog',reverse('admin_blogEdit',kwargs={'id':id})),
         ]
-    blog = Blog.objects.get(pk=id)
 
     setEditLink = _makeAttrSetter('editUrl')
     setDeleteLink = _makeAttrSetter('deleteUrl')
@@ -72,6 +73,7 @@ def blog(request,id):
     
     return render_to_response('admin/blog_main.html',
                               {'page':page,
+                               'blog'
                                'item_set':blogPost_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_blogPostCreate', kwargs={'blog_id':id}),
@@ -147,8 +149,6 @@ def blogCreate(request):
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
-            print form.cleaned_data['slug']
-            
             form.save()
             return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
     else:
@@ -177,7 +177,7 @@ def blogEdit(request,id):
 
     return render_to_response('admin/formpage.html',
         {'form': form,
-        'formAction': reverse('blogEdit',kwargs={'id':id}),
+        'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
         'page': page},context_instance=RequestContext(request))
 
 def blogDelete(request,id):

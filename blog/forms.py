@@ -1,6 +1,7 @@
 from django import forms
 from models import Blog
 from models import BlogPost
+from models import Tag
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
@@ -14,20 +15,18 @@ class BlogErrorList(forms.util.ErrorList):
 
 class BlogForm(forms.ModelForm):
     name=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
-    slug=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
+    slug=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}),required=False)
     title=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
     tagline=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'3'}))
     description=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'10'}))
     class Meta:
         model = Blog
 
-    def clean_name(self):
-        #self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-        return self.cleaned_data['name']
-    def clean_slug(self):
-        if not self.cleaned_data['slug']:
+    def clean(self):
+        if not self.cleaned_data.get('slug'):
             self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-        return self.cleaned_data['slug']
+        return self.cleaned_data
+
     def __init__(self, *args, **kwargs):
         kwargs_new = {'error_class': BlogErrorList}
         kwargs_new.update(kwargs)
@@ -35,10 +34,20 @@ class BlogForm(forms.ModelForm):
 
 class BlogPostForm(forms.ModelForm):
     published = forms.BooleanField(initial=True)
-    content = forms.CharField(widget=forms.Textarea)
+    title=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
+    slug=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
+    content=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'10'}))
+    teaser=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'3'}))
+    tags = forms.ModelMultipleChoiceField(widget=forms.MultipleHiddenInput(),queryset=Tag.objects.filter(name__startswith='t'))
+ #   MultipleHiddenInput
     class Meta:
         model = BlogPost
         fields = ('published','title','slug','content','teaser','tags','categories')
+    def clean_slug(self):
+        if not self.cleaned_data['slug']:
+            self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
+
+        return self.cleaned_data['slug']
 
 ##################################################
 class BlogFormAdmin(forms.ModelForm):
