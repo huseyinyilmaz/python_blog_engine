@@ -2,7 +2,8 @@ from django.shortcuts import render_to_response
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
-from template_helpers import Page
+from django.utils import simplejson
+
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
@@ -12,7 +13,7 @@ from blog.forms import BlogPostForm
 
 from django.template import RequestContext
 def index(request):
-    page = Page()
+    page = object()
     page.title = ""
     page.choices = [
         ('Flat Pages',reverse('admin_flatPageMain')),
@@ -31,7 +32,7 @@ def _makeAttrSetter(attr):
     return f
 
 def blogMain(request):
-    page = Page()
+    page = object()
     page.title = "blog management"
     page.choices = [
         ('Main admin menu',reverse('admin_index')),
@@ -54,7 +55,7 @@ def blogMain(request):
                                })
 
 def blog(request,id):
-    page = Page()
+    page = object()
     blog = Blog.objects.get(pk=id)
     page.title = "Blog options for '%s'"%blog.name
     page.choices = [
@@ -86,11 +87,12 @@ def blog(request,id):
 ##############
 
 def blogPostCreate(request,blog_id):
-    page = Page()
+    page = object()
     page.title = "Create new blog post"
     page.choices = [
         ('Blog menu',reverse('admin_blog',kwargs={'id':blog_id})),
         ]
+    
     if request.method == 'POST': # If the form has been submitted...
         form = BlogPostForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
@@ -107,10 +109,11 @@ def blogPostCreate(request,blog_id):
         'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'page': page},context_instance=RequestContext(request))
 
+
 def blogPostEdit(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
     blog_id = blogPost.blog.id
-    page = Page()
+    page = object()
     page.title = "Edit blogPost post"
     page.choices = [
         ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
@@ -139,7 +142,7 @@ def blogPostDelete(request,id):
 #########
 
 def blogCreate(request):
-    page = Page()
+    page = object()
     page.title = "Create new blog"
     page.choices = [
         ('Blog menu',reverse('admin_blogMain')),
@@ -160,7 +163,7 @@ def blogCreate(request):
         'page': page},context_instance=RequestContext(request))
 
 def blogEdit(request,id):
-    page = Page()
+    page = object()
     page.title = "Edit blog"
     page.choices = [
         ('Blog menu',reverse('admin_blogMain')),
@@ -188,7 +191,7 @@ def blogDelete(request,id):
 
 
 def flatPageMain(request):
-    page = Page()
+    page = object()
     page.title = "Static page management"
     page.choices = [
         ('Main admin menu',reverse('admin_index')),
@@ -205,7 +208,7 @@ def flatPageMain(request):
 
 
 def staticPageMain(request):
-    page = Page()
+    page = object()
     page.title = "Static page management"
     page.choices = [
         ('Main admin menu',reverse('admin_index')),
@@ -221,7 +224,7 @@ def staticPageMain(request):
                                })
 
 def staticPageCreate(request):
-    page = Page()
+    page = object()
     page.title = "Create new static page"
     page.choices = [
         ('Static page menu',reverse('staticPageMain')),
@@ -244,7 +247,7 @@ def staticPageCreate(request):
 
 
 def staticPageEdit(request,id):
-    page = Page()
+    page = object()
     page.title = "Edit static page"
     page.choices = [
         ('Static page menu',reverse('staticPageMain')),
@@ -275,7 +278,7 @@ def blogListMain(request):
     """
     Blog list for main blog post page
     """
-    page = Page()
+    page = object()
     page.title = ""
     page.choices = [
         ('Main Menu',reverse('index')),
@@ -284,7 +287,7 @@ def blogListMain(request):
     return render_to_response('menu.html',{'page':page})
 
 def blogPostMain(request,id):
-    page = Page()
+    page = object()
     page.title = "Blog Post Management"
     page.choices = [
         ('Main admin menu',reverse('index')),
