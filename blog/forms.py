@@ -1,7 +1,6 @@
 from django import forms
 from models import Blog
 from models import BlogPost
-from models import Tag
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
@@ -38,11 +37,11 @@ class BlogPostForm(forms.ModelForm):
     slug=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
     content=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'10'}))
     teaser=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'3'}))
-    tags = forms.ModelMultipleChoiceField(widget=forms.MultipleHiddenInput(),queryset=Tag.objects.filter(name__startswith='t'))
- #   MultipleHiddenInput
+
     class Meta:
         model = BlogPost
-        fields = ('published','title','slug','content','teaser','tags','categories')
+        fields = ('published','title','slug','content','teaser')
+
     def clean_slug(self):
         if not self.cleaned_data['slug']:
             self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
