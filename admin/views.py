@@ -8,17 +8,20 @@ from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
 from blog.models import BlogPost
+from blog.models import Tag
+from blog.models import Category
+
 from blog.forms import BlogForm
 from blog.forms import BlogPostForm
 
 from django.template import RequestContext
 def index(request):
-    page = object()
-    page.title = ""
-    page.choices = [
-        ('Flat Pages',reverse('admin_flatPageMain')),
-        ('Blogs',reverse('admin_blogMain')),
-        ]
+    page = {
+        'title' : "",
+        'choices' : [
+            ('Flat Pages',reverse('admin_flatPageMain')),
+            ('Blogs',reverse('admin_blogMain')),
+        ]}
     return render_to_response('menu.html',{'page':page})
 
 def _addurls(item,editHandler,deleteHandler):
@@ -32,12 +35,13 @@ def _makeAttrSetter(attr):
     return f
 
 def blogMain(request):
-    page = object()
-    page.title = "blog management"
-    page.choices = [
-        ('Main admin menu',reverse('admin_index')),
-        ]
-
+    page = {
+        'title' : "blog management",
+        'choices' : [
+            ('Main admin menu',reverse('admin_index')),
+            ]
+        }
+    
     setBlogLink = _makeAttrSetter('selectUrl')
     setBlogDeleteLink = _makeAttrSetter('deleteUrl')
         
@@ -55,13 +59,15 @@ def blogMain(request):
                                })
 
 def blog(request,id):
-    page = object()
     blog = Blog.objects.get(pk=id)
-    page.title = "Blog options for '%s'"%blog.name
-    page.choices = [
-        ('Main blog menu',reverse('admin_blogMain')),
-        ('Edit blog',reverse('admin_blogEdit',kwargs={'id':id})),
-        ]
+    page = {
+        'blog' : blog,
+        'title' : "Blog options for '%s'"%blog.name,
+        'choices' : [
+            ('Main blog menu',reverse('admin_blogMain')),
+            ('Edit blog',reverse('admin_blogEdit',kwargs={'id':id})),
+            ]
+        }
 
     setEditLink = _makeAttrSetter('editUrl')
     setDeleteLink = _makeAttrSetter('deleteUrl')
@@ -81,43 +87,60 @@ def blog(request,id):
                                })
 
 
-
 ##############
 # Blog Post  #
 ##############
 
 def blogPostCreate(request,blog_id):
-    page = object()
-    page.title = "Create new blog post"
-    page.choices = [
-        ('Blog menu',reverse('admin_blog',kwargs={'id':blog_id})),
-        ]
+    
+    page = dict()
+    post = dict()
+    page.update({
+            'title': "Create new blog post",
+            'choices' : [
+                ('Blog menu',reverse('admin_blog',kwargs={'id':blog_id})),
+                ],
+            'post':post,
+            })
     
     if request.method == 'POST': # If the form has been submitted...
-        form = BlogPostForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
-            #print form.cleaned_data['slug']
-            form.save()
-            return HttpResponseRedirect(reverse('admin_blogPostMain')) # Redirect after POST
+        #save form
+        return HttpResponseRedirect(reverse('admin_blogPostMain')) # Redirect after POST
     else:
-        form = BlogPostForm() # An unbound form
+        post.update({'title':"",
+                     'slug' :"",
+                     'published':True,
+                     'teaser':"",
+                     'content':""})
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
+        def objFactory(source):
+            result = dict()
+            result['name'] = source.name
+            result['selected'] = False
+            return result
+        
+        post['tags'] = map(objFactory,Tag.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+        post['categories'] = map(objFactory,Category.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+
+        page['post_json'] = simplejson.dumps(post)
+
+
+    return render_to_response('admin/blogpostpage.html',
+        {
         'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
-        'page': page},context_instance=RequestContext(request))
+        'page': page})
 
 
 def blogPostEdit(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
     blog_id = blogPost.blog.id
-    page = object()
-    page.title = "Edit blogPost post"
-    page.choices = [
-        ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
-        ]
+    page = {
+        'title' : "Edit blogPost post",
+        'choices' : [
+            ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
+            ],
+        }
+    
     if request.method == 'POST': # If the form has been submitted...
         form = BlogPostForm(request.POST,instance=blogPost)
         if form.is_valid(): # All validation rules pass
@@ -142,11 +165,12 @@ def blogPostDelete(request,id):
 #########
 
 def blogCreate(request):
-    page = object()
-    page.title = "Create new blog"
-    page.choices = [
-        ('Blog menu',reverse('admin_blogMain')),
-        ]
+    page = {
+        'title' : "Create new blog",
+        'choices' : [
+            ('Blog menu',reverse('admin_blogMain')),
+            ],
+        }
     if request.method == 'POST': # If the form has been submitted...
         form = BlogForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
@@ -163,11 +187,12 @@ def blogCreate(request):
         'page': page},context_instance=RequestContext(request))
 
 def blogEdit(request,id):
-    page = object()
-    page.title = "Edit blog"
-    page.choices = [
-        ('Blog menu',reverse('admin_blogMain')),
-        ]
+    page = {
+        'title' : "Edit blog",
+        'choices' : [
+            ('Blog menu',reverse('admin_blogMain')),
+            ],
+        }
     blog = get_object_or_404(Blog,pk=id)
     if request.method == 'POST': # If the form has been submitted...
         form = BlogForm(request.POST,instance=blog)
