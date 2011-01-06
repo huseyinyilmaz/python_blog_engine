@@ -93,15 +93,12 @@ def blog(request,id):
 
 def blogPostCreate(request,blog_id):
     
-    page = dict()
     post = dict()
-    page.update({
-            'title': "Create new blog post",
-            'choices' : [
-                ('Blog menu',reverse('admin_blog',kwargs={'id':blog_id})),
-                ],
-            'post':post,
-            })
+    page = {
+        'title': "Create new blog post",
+        'post': post,
+        'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
+        }
     
     if request.method == 'POST': # If the form has been submitted...
         #save form
