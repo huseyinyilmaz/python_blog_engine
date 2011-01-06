@@ -1,4 +1,7 @@
 $(function(){
+    //enable logger
+    logger.enableLog = true;
+    logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
 	createRow:function(label,widget){
@@ -34,7 +37,7 @@ $(function(){
 	    return checkbox
 	}
     };//domManipulator
-    
+    //_______________________Program Logic_____________________________
     var Tag = Backbone.Model.extend();
     var Category = Backbone.Model.extend();
     var Tags = Backbone.Collection.extend({model:Tag});
@@ -42,11 +45,12 @@ $(function(){
     var BlogPost = Backbone.Model.extend(
 	{
 	    initialize:function(){
+		logger.startLog('BlogPost.initialize');
 		this.tags = new Tags(this.get("tags"));
 		this.categories = new Categories(this.get("categories"));
 		this.unset("tags",{"silent":true});
 		this.unset("categories",{"silent":true});
-
+		logger.endLog();
 	    }//initialize
 	}
     );
@@ -56,6 +60,7 @@ $(function(){
 	    tagName:"div",
 	    className:"mainView",
 	    render:function(){
+		logger.startLog('BlogPostView.render')
 		var d = $(document.createDocumentFragment()),
 		table=$('<table></table>').appendTo(d);
 		
@@ -66,14 +71,31 @@ $(function(){
 		table.append(domManipulator.createRow('Content:',domManipulator.getTextarea('content',this.model.get('slug'),15)));
 		
 		$(this.el).append(table);
+		logger.endLog();
 		return this;
+	    },
+	    onOKPressed:function(){
+		logger.startLog('BlogPostView.onOKPressed');
+		window.location = next_url;
+		logger.endLog();
+	    },
+	    onCancelPressed:function(){
+		logger.startLog('BlogPostView.onCancelPresed');
+		window.location = next_url;
+		logger.endLog();
 	    }
+
+
 	}
     );
-
     var blogPost = new BlogPost(data);
+    logger.log('Blog post was created from json data');
+    logger.log(data)
     var blogPostView = new BlogPostView({model:blogPost});
-
-    $('#blogPostMainForm').append(blogPostView.render().el)
-
+    //connect BlogPostView with dom
+    $('#blogPostMainForm').append(blogPostView.render().el);
+    //connect buttons
+    $('#saveButton').click(function(){blogPostView.onOKPressed();});
+    $('#cancelButton').click(function(){blogPostView.onCancelPressed();});
+    logger.endLog();
 });
