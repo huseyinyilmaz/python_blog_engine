@@ -76,7 +76,19 @@ $(function(){
 	    },
 	    onOKPressed:function(){
 		logger.startLog('BlogPostView.onOKPressed');
-		window.location = next_url;
+		function getId(name){
+		    return "#" + domManipulator.getId(name);
+		}
+		data = {
+		    "published":$(getId("published")).attr("checked"),
+		    "title":$(getId("title")).val(),
+		    "slug":$(getId("slug")).val(),
+		    "teaser":$(getId("teaser")).val(),
+		    "content":$(getId("content")).val()
+		       }
+		logger.log(data);
+		this.model.set(data);
+		//window.location = next_url;
 		logger.endLog();
 	    },
 	    onCancelPressed:function(){
