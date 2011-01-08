@@ -3,7 +3,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
-
+from django.http import HttpResponse
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
@@ -97,12 +97,22 @@ def blogPostCreate(request,blog_id):
     page = {
         'title': "Create new blog post",
         'post': post,
+        'blog_url':reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
         }
     
     if request.method == 'POST': # If the form has been submitted...
         #save form
-        return HttpResponseRedirect(reverse('admin_blogPostMain')) # Redirect after POST
+        print 'we are here'
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info('we are here log')
+        
+        blogPost = simplejson.loads(request.POST.keys()[0])
+        # todo save model
+        response = {'result':'ok'}
+        return HttpResponse(simplejson.dumps(response),mimetype='text/html')
+
     else:
         post.update({'title':"",
                      'slug' :"",

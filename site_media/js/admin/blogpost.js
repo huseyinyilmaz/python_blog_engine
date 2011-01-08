@@ -50,8 +50,31 @@ $(function(){
 		this.categories = new Categories(this.get("categories"));
 		this.unset("tags",{"silent":true});
 		this.unset("categories",{"silent":true});
+		this.bind("change",function(model){this.onChanged(model)})
 		logger.endLog();
-	    }//initialize
+	    },//initialize
+	    url:blog_url,
+	    onChanged:function(model){
+		logger.log("I am here");
+		logger.log(model);
+		model.save(undefined,{
+		    success:function(model,result){
+			logger.startLog("save-success-callback");
+			logger.log(result)
+			logger.endLog();
+		    },
+		    error:function(model,xhrObject){
+			logger.startLog("save-error-callback");
+			logger.log(xhrObject);
+			var message = status==0?'Could not reach the server' : xhrObject.status + ' : ' + xhrObject.statusText;
+			//todo change alert call with a jquery ui dialog call
+			alert(message);
+			//make model dirty
+			model._changed=true;
+			logger.endLog();
+		    }
+		});
+	    }
 	}
     );
 
@@ -102,7 +125,6 @@ $(function(){
     );
     var blogPost = new BlogPost(data);
     logger.log('Blog post was created from json data');
-    logger.log(data)
     var blogPostView = new BlogPostView({model:blogPost});
     //connect BlogPostView with dom
     $('#blogPostMainForm').append(blogPostView.render().el);
