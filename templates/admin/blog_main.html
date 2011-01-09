@@ -62,7 +62,7 @@ $(function(){
 	window.location = selectedRow.children("input.selectUrl").val()
     });
     $("#grid_button_delete").button({disabled:true}).click(function(){
-	$("#deleteDialog").html("Are you sure you want to delete static page '" + selectedRow.children("td:eq(1)").html() + "' ?");
+	$("#deleteDialog").html("Are you sure you want to delete blog post '" + selectedRow.children("td:eq(1)").html() + "' ?");
 	$("#deleteDialog").dialog('open');
     });
     $(".item").button();//list items

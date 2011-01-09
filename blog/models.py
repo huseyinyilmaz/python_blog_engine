@@ -74,8 +74,8 @@ class BlogPost(models.Model):
     teaser_HTML = models.TextField(blank=True)
     content = models.TextField()
     content_HTML = models.TextField()
-    tags = models.ManyToManyField(Tag)
-    categories = models.ManyToManyField(Category)
+    tags = models.ManyToManyField(Tag,blank=True, null=True,)
+    categories = models.ManyToManyField(Category,blank=True, null=True,)
     
     blog = models.ForeignKey(Blog)
     creation_date = models.DateTimeField('Creation date', auto_now_add=True)

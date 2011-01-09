@@ -2,8 +2,10 @@ from django.shortcuts import render_to_response
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
+from django.db.transaction import commit_on_success
 from django.utils import simplejson
 from django.http import HttpResponse
+from django.http import Http404
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
@@ -77,10 +79,9 @@ def blog(request,id):
             setDeleteLink(x,reverse('admin_blogPostDelete',kwargs={'id':x.id})),
             reverse('admin_blogPostEdit',kwargs={'id':x.id})),
         blog.blogpost_set.all())
-    
+
     return render_to_response('admin/blog_main.html',
                               {'page':page,
-                               'blog'
                                'item_set':blogPost_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_blogPostCreate', kwargs={'blog_id':id}),
@@ -90,7 +91,7 @@ def blog(request,id):
 ##############
 # Blog Post  #
 ##############
-
+@commit_on_success
 def blogPostCreate(request,blog_id):
     
     post = dict()
@@ -100,15 +101,17 @@ def blogPostCreate(request,blog_id):
         'blog_url':reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
         }
-    
+
     if request.method == 'POST': # If the form has been submitted...
-        #save form
-        print 'we are here'
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.info('we are here log')
-        
+
         blogPost = simplejson.loads(request.POST.keys()[0])
+#        import ipdb;ipdb.set_trace()
+        new_post = BlogPost(content=blogPost['content'],
+                            teaser=blogPost['teaser'],
+                            title=blogPost['title'],
+                            slug=blogPost['slug'],
+                            blog_id=blog_id,)
+        new_post.save()
         # todo save model
         response = {'result':'ok'}
         return HttpResponse(simplejson.dumps(response),mimetype='text/html')
@@ -137,7 +140,7 @@ def blogPostCreate(request,blog_id):
         'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'page': page})
 
-
+@commit_on_success
 def blogPostEdit(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
     blog_id = blogPost.blog.id
@@ -162,10 +165,12 @@ def blogPostEdit(request,id):
         'formAction': reverse('blogPostEdit',kwargs={'id':id,'blog_id':blog_id}),
         'page': page},context_instance=RequestContext(request))
 
+@commit_on_success
 def blogPostDelete(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
     blogPost.delete()
-    return HttpResponseRedirect(reverse('blogPostMain')) # Redirect after POST
+    return HttpResponseRedirect(reverse('admin_blog',kwargs={'id':id}))#Redirect after process
+
 
 #########
 # Blog  #
