@@ -37,6 +37,12 @@ $(function(){
 	    return checkbox
 	}
     };//domManipulator
+    //______________________Jquery UI initialization___________________
+    var dialog = $("#messageBox").dialog({ hide: 'blind',
+					   autoOpen:false,
+					   buttons: { "Ok": function(){ dialog.dialog("close");}}
+					 });
+
     //_______________________Program Logic_____________________________
     var Tag = Backbone.Model.extend();
     var Category = Backbone.Model.extend();
@@ -62,13 +68,18 @@ $(function(){
 			logger.startLog("save-success-callback");
 			logger.log(result)
 			logger.endLog();
+			window.location = next_url;
+
 		    },
 		    error:function(model,xhrObject){
 			logger.startLog("save-error-callback");
 			logger.log(xhrObject);
-			var message = status==0?'Could not reach the server' : xhrObject.status + ' : ' + xhrObject.statusText;
-			//todo change alert call with a jquery ui dialog call
-			alert(message);
+			var title = xhrObject.status==0?'Error':'Status : ' + xhrObject.status; 
+			var message = xhrObject.status==0?'Could not reach the server' : xhrObject.statusText;
+			//show error dialog
+			dialog.dialog('option','title',title);
+			$("#messageContent",dialog).html(message);
+			dialog.dialog("open");
 			//make model dirty
 			model._changed=true;
 			logger.endLog();
@@ -111,7 +122,6 @@ $(function(){
 		       }
 		logger.log(data);
 		this.model.set(data);
-		//window.location = next_url;
 		logger.endLog();
 	    },
 	    onCancelPressed:function(){
