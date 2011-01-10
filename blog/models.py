@@ -83,7 +83,9 @@ class BlogPost(models.Model):
     
     view_objects = BlogPostViewManager()
     objects = models.Manager()
-    
+
+    class Meta():
+        unique_together = (("slug", "blog"),)
     def getURL(self):
         return reverse('post',kwarkg={'blog_slug':self.blog.slug,'post_slug':self.slug})
         

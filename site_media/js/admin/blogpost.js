@@ -35,14 +35,20 @@ $(function(){
 	    if(isChecked)
 		checkbox.attr({checked:'checked'});
 	    return checkbox
+	},
+	disableButtons:function(isDisable){
+	    okButton.button('option','disabled',isDisable);
+	    cancelButton.button('option','disabled',isDisable);
 	}
+	
     };//domManipulator
     //______________________Jquery UI initialization___________________
     var dialog = $("#messageBox").dialog({ hide: 'blind',
 					   autoOpen:false,
 					   buttons: { "Ok": function(){ dialog.dialog("close");}}
 					 });
-
+    var okButton = $("#okButton").button();
+    var cancelButton = $("#cancelButton").button();
     //_______________________Program Logic_____________________________
     var Tag = Backbone.Model.extend();
     var Category = Backbone.Model.extend();
@@ -61,17 +67,21 @@ $(function(){
 	    },//initialize
 	    url:blog_url,
 	    onChanged:function(model){
+		logger.startLog("BlogPost.onChanged")
 		logger.log("I am here");
 		logger.log(model);
-		model.save(undefined,{
+		model.save({},{
 		    success:function(model,result){
+			domManipulator.disableButtons(false);
 			logger.startLog("save-success-callback");
 			logger.log(result)
+			logger.log(model)
 			logger.endLog();
-			window.location = next_url;
+			//window.location = next_url;
 
 		    },
 		    error:function(model,xhrObject){
+			domManipulator.disableButtons(false);
 			logger.startLog("save-error-callback");
 			logger.log(xhrObject);
 			var title = xhrObject.status==0?'Error':'Status : ' + xhrObject.status; 
@@ -83,9 +93,11 @@ $(function(){
 			//make model dirty
 			model._changed=true;
 			logger.endLog();
-		    }
+		    },
+		    silent:true //so save does not trigger onchange event
 		});
-	    }
+		logger.endLog();
+	    }//onchanged
 	}
     );
 
@@ -110,6 +122,7 @@ $(function(){
 	    },
 	    onOKPressed:function(){
 		logger.startLog('BlogPostView.onOKPressed');
+		domManipulator.disableButtons(true);
 		function getId(name){
 		    return "#" + domManipulator.getId(name);
 		}
@@ -139,7 +152,7 @@ $(function(){
     //connect BlogPostView with dom
     $('#blogPostMainForm').append(blogPostView.render().el);
     //connect buttons
-    $('#saveButton').click(function(){blogPostView.onOKPressed();});
+    $('#okButton').click(function(){blogPostView.onOKPressed();});
     $('#cancelButton').click(function(){blogPostView.onCancelPressed();});
     logger.endLog();
 });
