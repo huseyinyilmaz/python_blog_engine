@@ -4,8 +4,9 @@ $(function(){
     logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
-	createRow:function(label,widget){
+	createRow:function(label,name,widget){
 	    var id = 'id_' + name,
+	    error_id = 'id_error_' + name,
 	    tr = $('<tr></tr>').append($('<th></th>')
 				       .append($('<label></label>')
 					       .attr({for:id})
@@ -13,7 +14,12 @@ $(function(){
 					      )
 				      ).append($('<td></td>')
 					       .append(widget)
-					      );
+					      ).append($('<td></td>')
+						       .append($('<div></div>')
+							       .attr({id:error_id})
+							       .addClass('error')
+							       .addClass('fieldError'))
+						      );
 	    return tr;
 	},
 	getId:function(name){return 'id_' + name},
@@ -110,11 +116,11 @@ $(function(){
 		var d = $(document.createDocumentFragment()),
 		table=$('<table></table>').appendTo(d);
 		
-		table.append(domManipulator.createRow('Published:',domManipulator.getCheckbox('published',this.model.get('published'))));
-		table.append(domManipulator.createRow('Title:',domManipulator.getTextInput('title',this.model.get('title'))));
-		table.append(domManipulator.createRow('Slug:',domManipulator.getTextInput('slug',this.model.get('slug'))));
-		table.append(domManipulator.createRow('Teaser:',domManipulator.getTextarea('teaser',this.model.get('slug'),5)));
-		table.append(domManipulator.createRow('Content:',domManipulator.getTextarea('content',this.model.get('slug'),15)));
+		table.append(domManipulator.createRow('Published:','published',domManipulator.getCheckbox('published',this.model.get('published'))));
+		table.append(domManipulator.createRow('Title:','title',domManipulator.getTextInput('title',this.model.get('title'))));
+		table.append(domManipulator.createRow('Slug:','slug',domManipulator.getTextInput('slug',this.model.get('slug'))));
+		table.append(domManipulator.createRow('Teaser:','teaser',domManipulator.getTextarea('teaser',this.model.get('teaser'),5)));
+		table.append(domManipulator.createRow('Content:','content',domManipulator.getTextarea('content',this.model.get('content'),15)));
 		
 		$(this.el).append(table);
 		logger.endLog();
