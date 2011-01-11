@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.db.transaction import commit_on_success
+from django.db import IntegrityError
 from django.utils import simplejson
 from django.http import HttpResponse
 from django.http import Http404
@@ -104,16 +105,21 @@ def blogPostCreate(request,blog_id):
 
     if request.method == 'POST': # If the form has been submitted...
 
+        response = {'result':'ok'}
         blogPost = simplejson.loads(request.POST.keys()[0])
-#        import ipdb;ipdb.set_trace()
+
         new_post = BlogPost(content=blogPost['content'],
                             teaser=blogPost['teaser'],
                             title=blogPost['title'],
                             slug=blogPost['slug'],
                             blog_id=blog_id,)
-        new_post.save()
-        # todo save model
-        response = {'result':'ok'}
+        try:
+            new_post.save()
+        except IntegrityError as e:
+            response['result'] = 'error'
+            response['slug_error'] = 'Slug value must be unique.'
+            response['error'] = e.args[0]
+
         return HttpResponse(simplejson.dumps(response),mimetype='text/html')
 
     else:
