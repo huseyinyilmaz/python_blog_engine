@@ -117,9 +117,9 @@ def blogPostCreate(request,blog_id):
             new_post.save()
         except IntegrityError as e:
             response['result'] = 'error'
-            response['slug_error'] = 'Slug value must be unique.'
+            response['slug_error'] = 'There is another post with slug value "%s"'%blogPost['slug']
             response['error'] = e.args[0]
-
+            response['errorTitle'] = "Integrity Error"
         return HttpResponse(simplejson.dumps(response),mimetype='text/html')
 
     else:

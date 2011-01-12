@@ -4,9 +4,26 @@ $(function(){
     logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
+	errorDiv : _.template('\
+<div class="ui-widget" id="<%= id %>">\
+    <div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">\
+      <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>\
+      <strong id="<%= id %>_title"></strong> <span id="<%= id %>_message"></span></p>\
+    </div>\
+</div>'),
+
+	createErrorRow:function(name){
+	    var error_id = this.getErrorId(name),
+	    tr = $('<tr></tr>').append($('<td></td>').append($(this.errorDiv({"id":error_id}))
+							     .addClass('error')
+							     .addClass('fieldError')
+							     .hide())
+				       .attr({colspan:'2'})
+				      )
+	    return tr;
+	},
 	createRow:function(label,name,widget){
-	    var id = 'id_' + name,
-	    error_id = 'id_error_' + name,
+	    var id = this.getId(name),
 	    tr = $('<tr></tr>').append($('<th></th>')
 				       .append($('<label></label>')
 					       .attr({for:id})
@@ -14,15 +31,12 @@ $(function(){
 					      )
 				      ).append($('<td></td>')
 					       .append(widget)
-					      ).append($('<td></td>')
-						       .append($('<div></div>')
-							       .attr({id:error_id})
-							       .addClass('error')
-							       .addClass('fieldError'))
-						      );
+					      );
 	    return tr;
 	},
 	getId:function(name){return 'id_' + name},
+	getErrorId:function(name){return 'id_error_' + name},
+	
 	getTextarea:function(name,value,rows,cols){
 	    if(!rows)rows="3";
 	    if(!cols)cols=""
@@ -55,6 +69,28 @@ $(function(){
 					 });
     var okButton = $("#okButton").button();
     var cancelButton = $("#cancelButton").button();
+
+    //________________main error panel initilization__________________
+    var highlightDiv = $("#highlightDiv")
+    highlightDiv.hide();
+
+    function showError(title,message){
+	$("#highlightTitle",highlightDiv).html(title).next('span').html(message);
+	highlightDiv.slideDown('fast');
+    }
+    function HideError(){
+	highlightDiv.slideUp('fast');
+    }
+    function showFieldError(fieldName,title,message){
+	var div = $("#" + domManipulator.getErrorId(fieldName) + "_title")
+	div.html(title).next('span').html(message);
+	$('#'+domManipulator.getErrorId(fieldName)).show();
+    }
+    function HideFieldError(fieldName){
+	var div = $("#" + domManipulator.getErrorId(fieldName) + "_title")
+	$('#'+domManipulator.getErrorId(fieldName)).hide();
+    }
+
     //_______________________Program Logic_____________________________
     var Tag = Backbone.Model.extend();
     var Category = Backbone.Model.extend();
@@ -72,18 +108,23 @@ $(function(){
 		logger.endLog();
 	    },//initialize
 	    url:blog_url,
-	    onChanged:function(model){
-		logger.startLog("BlogPost.onChanged")
-		logger.log("I am here");
-		logger.log(model);
-		model.save({},{
+	    savedata:function(){
+		logger.startLog("BlogPost.savedata");
+
+		this.save({},{
 		    success:function(model,result){
 			domManipulator.disableButtons(false);
 			logger.startLog("save-success-callback");
 			logger.log(result)
 			logger.log(model)
+			if(result.result === 'ok')
+			    window.location = next_url;
+			else if(result.result === 'error'){
+			    showError(result.errorTitle,result.error);
+			    if(result.hasOwnProperty('slug_error'))
+				showFieldError('slug','',result.slug_error);
+			}
 			logger.endLog();
-			//window.location = next_url;
 
 		    },
 		    error:function(model,xhrObject){
@@ -92,16 +133,19 @@ $(function(){
 			logger.log(xhrObject);
 			var title = xhrObject.status==0?'Error':'Status : ' + xhrObject.status; 
 			var message = xhrObject.status==0?'Could not reach the server' : xhrObject.statusText;
-			//show error dialog
-			dialog.dialog('option','title',title);
-			$("#messageContent",dialog).html(message);
-			dialog.dialog("open");
+			//show error
+			showError(title,message);
 			//make model dirty
 			model._changed=true;
 			logger.endLog();
 		    },
 		    silent:true //so save does not trigger onchange event
 		});
+
+	    },
+	    onChanged:function(model){
+		logger.startLog("BlogPost.onChanged")
+		logger.log(model);
 		logger.endLog();
 	    }//onchanged
 	}
@@ -115,11 +159,16 @@ $(function(){
 		logger.startLog('BlogPostView.render')
 		var d = $(document.createDocumentFragment()),
 		table=$('<table></table>').appendTo(d);
-		
+
+		table.append(domManipulator.createErrorRow('published'));
 		table.append(domManipulator.createRow('Published:','published',domManipulator.getCheckbox('published',this.model.get('published'))));
+		table.append(domManipulator.createErrorRow('title'));
 		table.append(domManipulator.createRow('Title:','title',domManipulator.getTextInput('title',this.model.get('title'))));
+		table.append(domManipulator.createErrorRow('slug'));
 		table.append(domManipulator.createRow('Slug:','slug',domManipulator.getTextInput('slug',this.model.get('slug'))));
+		table.append(domManipulator.createErrorRow('teaser'));
 		table.append(domManipulator.createRow('Teaser:','teaser',domManipulator.getTextarea('teaser',this.model.get('teaser'),5)));
+		table.append(domManipulator.createErrorRow('content'));
 		table.append(domManipulator.createRow('Content:','content',domManipulator.getTextarea('content',this.model.get('content'),15)));
 		
 		$(this.el).append(table);
@@ -141,6 +190,7 @@ $(function(){
 		       }
 		logger.log(data);
 		this.model.set(data);
+		this.model.savedata();
 		logger.endLog();
 	    },
 	    onCancelPressed:function(){
