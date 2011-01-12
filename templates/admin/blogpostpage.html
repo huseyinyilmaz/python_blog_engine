@@ -10,15 +10,23 @@
   var next_url = "{{page.next_url }}";
   var blog_url = "{{ page.blog_url}}";
 </script>
-
 {% endblock head%}
+
 {% block body %}
 
-<div id="blogPostMainForm"></div>
-<div>
-  <input type="button" name="save" value="Save" id="okButton"/>
-  <input type="button" name="cancel" value="Cancel" id="cancelButton"/>
-<div>
+  <!--highlight secion: this is used to give client side error messages -->
+  <div class="ui-widget" id="highlightDiv"> 
+    <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> 
+      <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+      <strong id="highlightTitle"></strong> <span id="highlightMessage"></span></p> 
+    </div> 
+  </div> 	
+
+  <div id="blogPostMainForm"></div>
+  <div>
+    <input type="button" name="save" value="Save" id="okButton"/>
+    <input type="button" name="cancel" value="Cancel" id="cancelButton"/>
+  </div>
 
 
 <script type="text/javascript" src="/site_media/js/admin/blogpost.js"></script>
