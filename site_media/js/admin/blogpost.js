@@ -143,11 +143,25 @@ $(function(){
 		});
 
 	    },
+	    events:{
+		'error':'errorHandler'
+	    },
 	    onChanged:function(model){
 		logger.startLog("BlogPost.onChanged")
 		logger.log(model);
 		logger.endLog();
-	    }//onchanged
+	    },//onchanged
+	    validate:function(){
+		logger.startLog("BlogPost.validate")
+		logger.endLog();
+		return 'blo';
+	    },
+	    errorHandler:function(a,b,c){
+		logger.startLog("BlogPost.errorHandler");
+		alert(1);
+		logger.endLog();
+	    }
+
 	}
     );
 
@@ -197,9 +211,28 @@ $(function(){
 		logger.startLog('BlogPostView.onCancelPresed');
 		window.location = next_url;
 		logger.endLog();
+	    },
+	    events:function(){
+		var e =  {}
+		e['change #'+domManipulator.getId('title')]='onTitleChanged';
+		return e;
+	    }(),
+	    onChangeField:function(event,name){
+		logger.startLog('blogPostView.onTitleChanged');
+		this.model.set( function(){
+		    var obj = {};
+		    obj[name]=event.target.value;
+		    return obj
+		}());
+		logger.endLog();
+	    },
+	    onTitleChanged:function(event){
+		logger.startLog('blogPostView.onTitleChanged');
+		this.onChangeField(event,'title');
+		logger.endLog();
 	    }
 
-
+	    
 	}
     );
     var blogPost = new BlogPost(data);
