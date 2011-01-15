@@ -105,6 +105,10 @@ $(function(){
 		this.unset("tags",{"silent":true});
 		this.unset("categories",{"silent":true});
 		this.bind("change",function(model){this.onChanged(model)})
+		this.bind('error',function(model,error,options){
+		    this.errorHandler(model,error,options);
+		});    
+
 		logger.endLog();
 	    },//initialize
 	    url:blog_url,
@@ -143,22 +147,30 @@ $(function(){
 		});
 
 	    },
-	    events:{
-		'error':'errorHandler'
-	    },
 	    onChanged:function(model){
 		logger.startLog("BlogPost.onChanged")
 		logger.log(model);
 		logger.endLog();
 	    },//onchanged
-	    validate:function(){
+	    validate:function(attrs){
+		errors = {}
+		hasErrors = False
 		logger.startLog("BlogPost.validate")
+		title validation
+
+		if(attrs.title===""){
+		    errors.title = "Title cannot be empty";
+		    hasErrors=true;
+		}
+
 		logger.endLog();
-		return 'blo';
+		
+		return errors;
 	    },
-	    errorHandler:function(a,b,c){
+	    errorHandler:function(model,error,options){
 		logger.startLog("BlogPost.errorHandler");
-		alert(1);
+		
+		showError('Validation Error:',error);
 		logger.endLog();
 	    }
 
