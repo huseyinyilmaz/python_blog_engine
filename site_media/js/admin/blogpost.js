@@ -4,12 +4,12 @@ $(function(){
     logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
-	errorDiv : _.template('\
-<div class="ui-widget" id="<%= id %>">\
-    <div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">\
-      <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>\
-      <strong id="<%= id %>_title"></strong> <span id="<%= id %>_message"></span></p>\
-    </div>\
+	errorDiv : _.template(' \
+<div class="ui-widget" id="<%= id %>"> \
+    <div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> \
+      <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> \
+      <strong id="<%= id %>_title"></strong> <span id="<%= id %>_message"></span></p> \
+    </div> \
 </div>'),
 
 	createErrorRow:function(name){
@@ -19,14 +19,14 @@ $(function(){
 							     .addClass('fieldError')
 							     .hide())
 				       .attr({colspan:'2'})
-				      )
+				      );
 	    return tr;
 	},
 	createRow:function(label,name,widget){
 	    var id = this.getId(name),
 	    tr = $('<tr></tr>').append($('<th></th>')
 				       .append($('<label></label>')
-					       .attr({for:id})
+					       .attr({'for':id})
 					       .html(label)
 					      )
 				      ).append($('<td></td>')
@@ -34,12 +34,12 @@ $(function(){
 					      );
 	    return tr;
 	},
-	getId:function(name){return 'id_' + name},
-	getErrorId:function(name){return 'id_error_' + name},
+	getId:function(name){return 'id_' + name;},
+	getErrorId:function(name){return 'id_error_' + name;},
 	
 	getTextarea:function(name,value,rows,cols){
-	    if(!rows)rows="3";
-	    if(!cols)cols=""
+	    if(!rows) rows="3";
+	    if(!cols) cols="";
 	    return $('<textarea></textarea>').attr({id:this.getId(name),
 						    name:name,
 						    rows:rows,
@@ -78,7 +78,7 @@ $(function(){
 	$("#highlightTitle",highlightDiv).html(title).next('span').html(message);
 	highlightDiv.slideDown('fast');
     }
-    function HideError(){
+    function hideError(){
 	highlightDiv.slideUp('fast');
     }
     function showFieldError(fieldName,title,message){
@@ -86,8 +86,7 @@ $(function(){
 	div.html(title).next('span').html(message);
 	$('#'+domManipulator.getErrorId(fieldName)).show();
     }
-    function HideFieldError(fieldName){
-	var div = $("#" + domManipulator.getErrorId(fieldName) + "_title")
+    function hideFieldError(fieldName){
 	$('#'+domManipulator.getErrorId(fieldName)).hide();
     }
 
@@ -152,28 +151,74 @@ $(function(){
 		logger.log(model);
 		logger.endLog();
 	    },//onchanged
+
 	    validate:function(attrs){
-		errors = {}
-		hasErrors = False
 		logger.startLog("BlogPost.validate")
-		title validation
 
-		if(attrs.title===""){
-		    errors.title = "Title cannot be empty";
-		    hasErrors=true;
-		}
+		var errors = {},
+		hasErrors = false;
+		//old is valid value
+		var isValid = this.validator.isValid();
 
-		logger.endLog();
+		var validateField = function(name,visual){
+		    if(attrs[name]===""){
+			//new field value is empty string
+			errors[name] = visual+" cannot be empty";
+			hasErrors=true;
+			this.validator[name] = false;
+		    }else if(attrs[name] !== undefined && !this.validator[name]){
+			//value has changed and it is not an empty string
+			//and old value was invalid
+			hideFieldError(name);
+			this.validator[name] = true;
+		    };
+		    
+		};
+		validateField = _.bind(validateField,this);
 		
-		return errors;
+		validateField('title','Title');
+		validateField('slug','Slug');
+		validateField('content','content');
+
+		//current isValid value is true but old one was false
+		if (!isValid && this.validator.isValid()){
+		    hideError();
+		};
+		logger.endLog();
+		if(hasErrors)
+		    return errors;
 	    },
+	    
 	    errorHandler:function(model,error,options){
 		logger.startLog("BlogPost.errorHandler");
-		
-		showError('Validation Error:',error);
-		logger.endLog();
-	    }
 
+		showError('Validation Error:','Please fix following errors.');
+
+		var fieldError = function(name){
+		    if(error[name]){
+			showFieldError(name,'',error[name]);
+		    };
+		};
+		fieldError('title');
+		fieldError('slug');
+		fieldError('teaser');
+		fieldError('content');
+		fieldError('published');
+
+		
+		logger.endLog();
+	    },
+
+	    validator:{
+		title : true,
+		slug : true,
+		teaser : true,
+		content : true,
+		published: true,
+		isValid:function(){
+		    return this.title && this.slug && this.teaser && this.content && this.published;
+		}
+	    }
 	}
     );
 
@@ -204,10 +249,10 @@ $(function(){
 	    onOKPressed:function(){
 		logger.startLog('BlogPostView.onOKPressed');
 		domManipulator.disableButtons(true);
-		function getId(name){
+		var getId = function(name){
 		    return "#" + domManipulator.getId(name);
 		}
-		data = {
+		var data = {
 		    "published":$(getId("published")).attr("checked"),
 		    "title":$(getId("title")).val(),
 		    "slug":$(getId("slug")).val(),
@@ -227,6 +272,11 @@ $(function(){
 	    events:function(){
 		var e =  {}
 		e['change #'+domManipulator.getId('title')]='onTitleChanged';
+		e['change #'+domManipulator.getId('slug')]='onSlugChanged';
+		e['change #'+domManipulator.getId('teaser')]='onTeaserChanged';
+		e['change #'+domManipulator.getId('content')]='onContentChanged';
+		e['change #'+domManipulator.getId('published')]='onPublishedChanged';
+
 		return e;
 	    }(),
 	    onChangeField:function(event,name){
@@ -234,6 +284,7 @@ $(function(){
 		this.model.set( function(){
 		    var obj = {};
 		    obj[name]=event.target.value;
+		    logger.log(obj);
 		    return obj
 		}());
 		logger.endLog();
@@ -242,7 +293,29 @@ $(function(){
 		logger.startLog('blogPostView.onTitleChanged');
 		this.onChangeField(event,'title');
 		logger.endLog();
+	    },
+
+	    onSlugChanged:function(event){
+		logger.startLog('blogPostView.onSlugChanged');
+		this.onChangeField(event,'slug');
+		logger.endLog();
+	    },
+	    onTeaserChanged:function(event){
+		logger.startLog('blogPostView.onTeaserChanged');
+		this.onChangeField(event,'teaser');
+		logger.endLog();
+	    },
+	    onContentChanged:function(event){
+		logger.startLog('blogPostView.onContentChanged');
+		this.onChangeField(event,'content');
+		logger.endLog();
+	    },
+	    onPublishedChanged:function(event){
+		logger.startLog('blogPostView.onPublishedChanged');
+		this.onChangeField(event,'published');
+		logger.endLog();
 	    }
+
 
 	    
 	}
@@ -255,5 +328,8 @@ $(function(){
     //connect buttons
     $('#okButton').click(function(){blogPostView.onOKPressed();});
     $('#cancelButton').click(function(){blogPostView.onCancelPressed();});
+    if(scopeleaks.leaks().toString()){
+	logger.log("Global Names = " + scopeleaks.leaks().toString());
+    }
     logger.endLog();
 });
