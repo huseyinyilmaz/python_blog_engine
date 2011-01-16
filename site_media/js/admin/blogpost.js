@@ -178,8 +178,13 @@ $(function(){
 		
 		validateField('title','Title');
 		validateField('slug','Slug');
+		if(attrs['slug'] && !errors['slug'] && !this.slugRegEx.test(attrs['slug'])){
+		    errors['slug'] = "Slug value must only contain alfa-numeric values, underscores or hypens";
+		    hasErrors = true;
+		    this.validator['slug'] = false;
+		};
 		validateField('content','content');
-
+		
 		//current isValid value is true but old one was false
 		if (!isValid && this.validator.isValid()){
 		    hideError();
@@ -218,7 +223,8 @@ $(function(){
 		isValid:function(){
 		    return this.title && this.slug && this.teaser && this.content && this.published;
 		}
-	    }
+	    },
+   	    slugRegEx: new RegExp("^[a-zA-Z-_0-9]+$"),
 	}
     );
 
