@@ -1,6 +1,7 @@
 $(function(){
     //enable logger
     logger.enableLog = true;
+    logger.showTiming = true;
     logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
@@ -46,7 +47,7 @@ $(function(){
 						    cols:cols}).addClass('grid_7').html(value);
 	},
 	getTextInput:function(name,value){
-	    return $('<input></input>').attr({id:this.getId(name),name:name,type:'text'}).addClass('grid_7').val(value);
+	    return $('<input></input>').attr({id:this.getId(name),name:name,type:'text',autocomplete:"off"}).addClass('grid_7').val(value);
 	},
 	getCheckbox:function(name,isChecked){
 	    var checkbox= $('<input></input>').attr({id:this.getId(name),
@@ -332,8 +333,12 @@ $(function(){
     //connect BlogPostView with dom
     $('#blogPostMainForm').append(blogPostView.render().el);
     //connect buttons
-    $('#okButton').click(function(){blogPostView.onOKPressed();});
+    $('#okButton').click(function(){_.defer(function(){blogPostView.onOKPressed();});});
     $('#cancelButton').click(function(){blogPostView.onCancelPressed();});
+    $('#'+domManipulator.getId('title')).keyup(_.throttle(function(event){document.getElementById(domManipulator.getId("slug")).value = URLify(this.value,200);},100));
+
+
+    //print scope leaks
     if(scopeleaks.leaks().toString()){
 	logger.log("Global Names = " + scopeleaks.leaks().toString());
     }
