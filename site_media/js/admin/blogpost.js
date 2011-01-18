@@ -6,24 +6,15 @@ $(function(){
     logger.startLog('JQuery initializer');
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
-	errorDiv : _.template(' \
-<div class="ui-widget" id="<%= id %>"> \
-    <div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> \
-      <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> \
-      <strong id="<%= id %>_title"></strong> <span id="<%= id %>_message"></span></p> \
-    </div> \
-</div>'),
-
+	errorRow : _.template($('#template_error_row').html()),
+	widget : _.template($('#template_widget').html()),
 	createErrorRow:function(name){
 	    var error_id = this.getErrorId(name),
-	    tr = $('<tr></tr>').append($('<td></td>').append($(this.errorDiv({"id":error_id}))
-							     .addClass('error')
-							     .addClass('fieldError')
-							     .hide())
-				       .attr({colspan:'2'})
-				      );
+	    tr = $(this.errorRow({id:error_id}));
+	    $('#'+error_id,tr).hide()
 	    return tr;
 	},
+	
 	createRow:function(label,name,widget){
 	    var id = this.getId(name),
 	    tr = $('<tr></tr>').append($('<th></th>')
@@ -36,6 +27,7 @@ $(function(){
 					      );
 	    return tr;
 	},
+
 	getId:function(name){return 'id_' + name;},
 	getErrorId:function(name){return 'id_error_' + name;},
 	

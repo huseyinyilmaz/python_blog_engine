@@ -15,6 +15,35 @@
   var next_url = "{{page.next_url }}";
   var blog_url = "{{ page.blog_url}}";
 </script>
+
+<script type="text/template" id="template_widget">
+<div class="widget_container">
+    <div class="widget_header header">
+      <%=title%>
+    </div>
+    <ul>
+    <% _.each(items, function(item){ %>
+    <li class="list">
+    <%=item%>
+    </li>
+    <%}); %>
+  </ul>
+</div>
+</script>
+
+<script type="text/template" id="template_error_row">
+  <tr>
+    <td colspan="2">
+      <div class="ui-widget error fieldError" id="<%= id %>">
+       <div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+	<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+	<strong id="<%= id %>_title"></strong> <span id="<%= id %>_message"></span></p>
+      </div>
+    </div>
+    </td>
+  </tr>
+</script>
+
 {% endblock head%}
 
 {% block body %}
@@ -41,3 +70,10 @@
 </div>
 {% endblock body%}
 
+{% block widget_1 %}
+{% include "blog/widgets/tags.html" %}
+{% endblock %}
+
+{% block widget_2 %}
+{% include "blog/widgets/date_archive.html" %}
+{% endblock %}
