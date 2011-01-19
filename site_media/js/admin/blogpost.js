@@ -7,25 +7,21 @@ $(function(){
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
 	errorRow : _.template($('#template_error_row').html()),
-	widget : _.template($('#template_widget').html()),
+	row : _.template($('#template_row').html()),
+	side_widget : _.template($('#template_side_widget').html()),
+	textarea:_.template('<textarea id="<%=id%>" rows="<%=rows%>" cols="<%=cols%>" name="<%=name%>" class="grid_7"><%=content%></textarea>'),
+	text_input: _.template('<input type="text" id="<%= id %>" name="<%= name %>" autocomplete="off" class="grid_7" value="<%= content %>"></input>'),
+	checkbox: _.template('<input type="checkbox" id="<%= id %>" name="<%= name %> <% if(isChecked){%>checked="checked"<%}%>"'),
 	createErrorRow:function(name){
 	    var error_id = this.getErrorId(name),
-	    tr = $(this.errorRow({id:error_id}));
-	    $('#'+error_id,tr).hide()
+	    tr = $(this.errorRow({id:error_id}))
+            $('#'+error_id,tr).hide();
 	    return tr;
 	},
 	
-	createRow:function(label,name,widget){
-	    var id = this.getId(name),
-	    tr = $('<tr></tr>').append($('<th></th>')
-				       .append($('<label></label>')
-					       .attr({'for':id})
-					       .html(label)
-					      )
-				      ).append($('<td></td>')
-					       .append(widget)
-					      );
-	    return tr;
+	createRow:function(label,name,widgetStr){
+	    var id = this.getId(name);
+	    return $(this.row({id:id,label:label,widget:widgetStr}));
 	},
 
 	getId:function(name){return 'id_' + name;},
@@ -34,22 +30,22 @@ $(function(){
 	getTextarea:function(name,value,rows,cols){
 	    if(!rows) rows="3";
 	    if(!cols) cols="";
-	    return $('<textarea></textarea>').attr({id:this.getId(name),
-						    name:name,
-						    rows:rows,
-						    cols:cols}).addClass('grid_7').html(value);
+	    return this.textarea({id:this.getId(name),
+				  name:name,
+				  rows:rows,
+				  cols:cols,
+				  content:value});
 	},
-	getTextInput:function(name,value){
 
-	    return $('<input></input>').attr({id:this.getId(name),name:name,type:'text',autocomplete:"off"}).addClass('grid_7').val(value);
+	getTextInput:function(name,value){
+	    return this.text_input({id:this.getId(name),
+				    name : name,
+				    content:value});
 	},
 	getCheckbox:function(name,isChecked){
-	    var checkbox= $('<input></input>').attr({id:this.getId(name),
-						     name:name,
-						     type:'checkbox'}).addClass('grid_7');
-	    if(isChecked)
-		checkbox.attr({checked:'checked'});
-	    return checkbox
+	    return this.checkbox({id:this.getId(name),
+				  name:name,
+				  isChecked:isChecked});
 	},
 	disableButtons:function(isDisable){
 	    okButton.button('option','disabled',isDisable);

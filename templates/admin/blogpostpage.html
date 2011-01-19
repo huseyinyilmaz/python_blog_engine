@@ -2,8 +2,9 @@
 {% block head %}
 <link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
 <script type="text/javascript" src="/site_media/js/scopeleaks.js"></script>
-<script type="text/javascript" src="/site_media/js/underscore-min.js"></script>
+<!-- <script type="text/javascript" src="/site_media/js/underscore-min.js"></script> -->
 <!-- <script type="text/javascript" src="/site_media/js/backbone-min.js"></script> -->
+<script type="text/javascript" src="/site_media/js/underscore.js"></script>
 <script type="text/javascript" src="/site_media/js/backbone.js"></script>
 
 <script type="text/javascript" src="/site_media/js/logger.js"></script>
@@ -16,7 +17,7 @@
   var blog_url = "{{ page.blog_url}}";
 </script>
 
-<script type="text/template" id="template_widget">
+<script type="text/template" id="template_side_widget">
 <div class="widget_container">
     <div class="widget_header header">
       <%=title%>
@@ -43,6 +44,18 @@
     </td>
   </tr>
 </script>
+
+<script type="text/template" id="template_row">
+  <tr>
+    <th>
+      <label for="<%= id %>"><%= label %></label>
+    </th>
+    <td>
+      <%= widget %>
+    </td>
+  </tr>
+</script>
+
 
 {% endblock head%}
 
