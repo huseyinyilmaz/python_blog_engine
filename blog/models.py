@@ -86,9 +86,16 @@ class BlogPost(models.Model):
 
     class Meta():
         unique_together = (("slug", "blog"),)
+
     def getURL(self):
         return reverse('post',kwarkg={'blog_slug':self.blog.slug,'post_slug':self.slug})
         
     def __str__(self):
         return self.title
         
+    def save(self,*args,**kwargs):
+        if not self.teaser:
+            self.teaser = self.content
+        self.teaser_HTML = self.teaser
+        self.content_HTML = self.content
+        super(BlogPost,self).save(*args,**kwargs)

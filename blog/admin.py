@@ -32,10 +32,10 @@ class BlogPostAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
     search_fields = ['title']
-    def save_model(self, request, obj, form, change):
-        obj.teaser_HTML = obj.teaser
-        obj.content_HTML = obj.content
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     obj.teaser_HTML = obj.teaser
+    #     obj.content_HTML = obj.content
+    #     obj.save()
 
 class TagAdmin(admin.ModelAdmin):
     pass
