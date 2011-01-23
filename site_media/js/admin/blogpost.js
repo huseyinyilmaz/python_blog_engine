@@ -7,7 +7,7 @@ $(function(){
     //_____________Object that holds dom manipulation functions____________________
     var domManipulator = {
 	errorRow : _.template($('#template_error_row').html()),
-	row : _.template($('#template_row').html()),
+	row : _.template( $('#template_row').html() ),
 	side_widget : _.template($('#template_side_widget').html()),
 	textarea:_.template('<textarea id="<%=id%>" rows="<%=rows%>" cols="<%=cols%>" name="<%=name%>" class="grid_7"><%=content%></textarea>'),
 	text_input: _.template('<input type="text" id="<%= id %>" name="<%= name %>" autocomplete="off" class="grid_7" value="<%= content %>"></input>'),
@@ -82,12 +82,42 @@ $(function(){
     }
 
     //_______________________Program Logic_____________________________
-    var Tag = Backbone.Model.extend();
+
+    var Tag = Backbone.Model.extend({
+	url:tag_url,
+	initialize:function(){
+	    logger.startLog("tag.initialize");
+	    logger.log("tag values:",this.attributes);
+	    logger.endLog();
+	},
+	toggle:function(){
+	    logger.startLog("tag.taggle");
+	    this.set({'selected':!this.get('selected')});
+	    logger.log("tag values:",this.attributes);
+	    logger.endLog();
+	}
+    });
+    var TagView = Backbone.View.extend({
+	tagName: 'li',
+	template: _.template($('#template_tag').html())
+
+    });
+    var Tags = Backbone.Collection.extend({
+	model:Tag,
+	comperator:function(tag){
+	    tag.get("name").toLowerCase();
+	}
+
+    });
+
+
+    
     var Category = Backbone.Model.extend();
-    var Tags = Backbone.Collection.extend({model:Tag});
     var Categories = Backbone.Collection.extend({model:Category});
+
     var BlogPost = Backbone.Model.extend(
 	{
+	    url:blog_url,
 	    initialize:function(){
 		logger.startLog('BlogPost.initialize');
 		this.tags = new Tags(this.get("tags"));
@@ -97,20 +127,20 @@ $(function(){
 		this.bind("change",function(model){this.onChanged(model)})
 		this.bind('error',function(model,error,options){
 		    this.errorHandler(model,error,options);
-		});    
+		});
+		
 
 		logger.endLog();
 	    },//initialize
-	    url:blog_url,
 	    savedata:function(){
 		logger.startLog("BlogPost.savedata");
 
 		this.save({},{
 		    success:function(model,result){
-			domManipulator.disableButtons(false);
 			logger.startLog("save-success-callback");
 			logger.log(result)
 			logger.log(model)
+			domManipulator.disableButtons(false);
 			if(result.result === 'ok')
 			    window.location = next_url;
 			else if(result.result === 'error'){
@@ -225,9 +255,8 @@ $(function(){
 	    className:"mainView",
 	    render:function(){
 		logger.startLog('BlogPostView.render')
-		var d = $(document.createDocumentFragment()),
-		table=$('<table></table>').appendTo(d);
-
+		var table=$('<table></table>')
+		
 		table.append(domManipulator.createErrorRow('published'));
 		table.append(domManipulator.createRow('Published:','published',domManipulator.getCheckbox('published',this.model.get('published'))));
 		table.append(domManipulator.createErrorRow('title'));

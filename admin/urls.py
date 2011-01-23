@@ -19,6 +19,9 @@ urlpatterns = patterns('',
     url(r'^blogpost/edit/(?P<id>\d+)/$',views.blogPostEdit,name='admin_blogPostEdit'),
     url(r'^blogpost/delete/(?P<id>\d+)/$',views.blogPostDelete,name='admin_blogPostDelete'),
 
+    url(r'^tag/(?P<blog_id>\d+)/$',views.tag,name='admin_tag'),
+    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)/$',views.tag,name='admin_tag'),
+                       
     # url(r'^tag/create/$',views.blogCreate,name='admin_tagCreate'),
     # url(r'^tag/edit/(?P<id>\d+)/$',views.blogEdit,name='admin_tagEdit'),
     # url(r'^tag/delete/(?P<id>\d+)/$',views.blogDelete,name='admin_tagDelete'),

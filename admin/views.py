@@ -101,6 +101,7 @@ def blogPostCreate(request,blog_id):
         'post': post,
         'blog_url':reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
+        'tag_url': reverse('admin_tag',kwargs={'blog_id':blog_id}),
         }
 
     if request.method == 'POST': # If the form has been submitted...
@@ -346,3 +347,9 @@ def blogPostMain(request,id):
                                })
 
 
+########
+# Tags #
+########
+
+def tag(request,blog_id,id=None):
+    return None

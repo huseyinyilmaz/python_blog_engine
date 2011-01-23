@@ -12,9 +12,10 @@
 <script type="text/javascript" src="/media/js/urlify.js"></script>
 
 <script type="text/javascript">
-  var data = {{ page.post_json|safe }};
-  var next_url = "{{page.next_url }}";
-  var blog_url = "{{ page.blog_url}}";
+  window.data = {{ page.post_json|safe }};
+  window.next_url = "{{page.next_url }}";
+  window.blog_url = "{{ page.blog_url}}";
+  window.tag_url = "{{page.tag_url}}";
 </script>
 
 <script type="text/template" id="template_side_widget">
@@ -54,6 +55,11 @@
       <%= widget %>
     </td>
   </tr>
+</script>
+
+<script type="text/template" id="template_tag">
+  <input type="checkbox" name="<%= name %>" <% if(selected) { %>checked="checked"<% }; %> />
+  <%= name %>
 </script>
 
 
