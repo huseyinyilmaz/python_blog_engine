@@ -20,15 +20,10 @@
 
 <script type="text/template" id="template_side_widget">
 <div class="widget_container">
-    <div class="widget_header header">
-      <%=title%>
-    </div>
-    <ul>
-    <% _.each(items, function(item){ %>
-    <li class="list">
-    <%=item%>
-    </li>
-    <%}); %>
+  <div class="widget_header header">
+    <%=title%>
+  </div>
+  <ul class="element-list">
   </ul>
 </div>
 </script>
@@ -90,9 +85,9 @@
 {% endblock body%}
 
 {% block widget_1 %}
-{% include "blog/widgets/tags.html" %}
+  <div id="tag_widget"></div>
 {% endblock %}
 
 {% block widget_2 %}
-{% include "blog/widgets/date_archive.html" %}
+  <div id="category_widget"></div>
 {% endblock %}

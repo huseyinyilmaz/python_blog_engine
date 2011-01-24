@@ -83,8 +83,8 @@ $(function(){
 
     //_______________________Program Logic_____________________________
 
-    var Tag = Backbone.Model.extend({
-	url:tag_url,
+    var WidgetModel = Backbone.Model.extend({
+	//url:tag_url, set ini initialization
 	initialize:function(){
 	    logger.startLog("tag.initialize");
 	    logger.log("tag values:",this.attributes);
@@ -97,19 +97,40 @@ $(function(){
 	    logger.endLog();
 	}
     });
-    var TagView = Backbone.View.extend({
+    var WidgetView = Backbone.View.extend({
 	tagName: 'li',
 	template: _.template($('#template_tag').html())
 
     });
-    var Tags = Backbone.Collection.extend({
-	model:Tag,
+    var WidgetCollection = Backbone.Collection.extend({
+	model:WidgetModel,
 	comperator:function(tag){
 	    tag.get("name").toLowerCase();
+	},
+	initialize:function(){
+	    logger.startLog('WidgetCollection.initialize');
+	    logger.endLog();
 	}
 
     });
-
+    var Widget = Backbone.View.extend({
+	//el : $()get in initialization
+	//url : get in initialization
+	//model_url:get in initialization
+	//title:get in initialization
+	//list : get in initialization
+	template : _.template($('#template_side_widget').html()),
+	events:{
+	},
+	initialize:function(){
+	    logger.startLog('TagWidget.initialize');
+	    logger.endLog();
+	},
+	render:function(){
+	    logger.startLog('TagWidget.render');
+	    logger.endLog();
+	}
+    });
 
     
     var Category = Backbone.Model.extend();
@@ -120,7 +141,7 @@ $(function(){
 	    url:blog_url,
 	    initialize:function(){
 		logger.startLog('BlogPost.initialize');
-		this.tags = new Tags(this.get("tags"));
+		this.tags = new WidgetCollection(this.get("tags"),{url:'admin/tags',model_url:'blablo'});
 		this.categories = new Categories(this.get("categories"));
 		this.unset("tags",{"silent":true});
 		this.unset("categories",{"silent":true});
@@ -128,7 +149,13 @@ $(function(){
 		this.bind('error',function(model,error,options){
 		    this.errorHandler(model,error,options);
 		});
-		
+
+		var tagWidget = new Widget({
+		    el:$("tag_widget"),
+		    url:'admin/bla',
+		    title:'Tags',
+		    list: this.tags
+		});
 
 		logger.endLog();
 	    },//initialize
