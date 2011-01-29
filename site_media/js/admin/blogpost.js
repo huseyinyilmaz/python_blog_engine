@@ -125,11 +125,7 @@ $(function () {
 													  logger.endLog();
 												  }
 											  });
-      var WidgetView = Backbone.View.extend({
-												tagName: 'li',
-												template: _.template($('#template_tag').html())
-												
-											});
+
       var WidgetCollection = Backbone.Collection.extend({
 															//url : get in initialization
 															//model_url:get in initialization
@@ -139,12 +135,9 @@ $(function () {
 															},
 															initialize: function (models,options) {
 																logger.startLog('WidgetCollection.initialize');
+																// set url of collection
 																this.url = options.url;
-																this.each(function(model){
-																			  model.url = options.model_url;
-																		  });
 																delete options.url;
-																delete options.model_url;
 																logger.endLog();
 															}
 															
@@ -156,14 +149,20 @@ $(function () {
 											template: _.template($('#template_side_widget').html()),
 											events: {},
 											initialize: function (options) {
-												logger.startLog('TagWidget.initialize');
-												//this.title = options.title;
-												var widgetHtml = domManipulator.side_widget({title: options.title});
+												logger.startLog('WidgetView.initialize(' + options.title + ')');
+												//render main widget elements. and add it to el
+												this.el.html(domManipulator.side_widget({title: options.title}));
+												//set el to inner element part so we can only rerender that part
+												this.el = $('.element-list',this.el);
+												this.title = options.title;
 												delete options.title;
+												this.render();
 												logger.endLog();
 											},
 											render: function () {
-												logger.startLog('TagWidget.render');
+												logger.startLog('WidgetView.render(' + this.title +')');
+												logger.log(this.collection);
+												//TODO render collection into el;
 												logger.endLog();
 											}
 										});
@@ -178,10 +177,8 @@ $(function () {
 											   url: blog_url,
 											   initialize: function () {
 												   logger.startLog('BlogPost.initialize');
-												   var tagCollection = new WidgetCollection(this.get("tags"),
-																							{url:'admin/tags',
-												  											 model_url:'blobla'});
-
+												   var tagCollection = new WidgetCollection(this.get("tags"), {url:'admin/tags'} );
+												   
 												   this.tags = new Widget({ collection : tagCollection,
 																			el: $('#tag_widget'),
 																			title:'Tags'
@@ -200,13 +197,6 @@ $(function () {
 												   this.bind('error', function (model, error, options) {
 																 this.errorHandler(model, error, options);
 															 });
-												   
-												   var tagWidget = new Widget({
-																				  el: $("tag_widget"),
-																				  url: 'admin/bla',
-																				  title: 'Tags',
-																				  list: this.tags
-																			  });
 												   
 												   logger.endLog();
 											   },

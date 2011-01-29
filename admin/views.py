@@ -123,24 +123,24 @@ def blogPostCreate(request,blog_id):
             response['errorTitle'] = "Integrity Error"
         return HttpResponse(simplejson.dumps(response),mimetype='text/html')
 
-    else:
-        post.update({'title':"",
-                     'slug' :"",
-                     'published':True,
-                     'teaser':"",
-                     'content':""})
+    #get request: render page first time
+    post.update({'title':"",
+                 'slug' :"",
+                 'published':True,
+                 'teaser':"",
+                 'content':""})
 
-        def objFactory(source):
-            result = dict()
-            result['name'] = source.name
-            result['selected'] = False
-            return result
+    def objFactory(source):
+        result = dict()
+        result['name'] = source.name
+        result['selected'] = False
+        result['id'] = source.id
+        return result
         
-        post['tags'] = map(objFactory,Tag.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
-        post['categories'] = map(objFactory,Category.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+    post['tags'] = map(objFactory,Tag.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+    post['categories'] = map(objFactory,Category.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
 
-        page['post_json'] = simplejson.dumps(post)
-
+    page['post_json'] = simplejson.dumps(post)
 
     return render_to_response('admin/blogpostpage.html',
         {
