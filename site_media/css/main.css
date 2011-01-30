@@ -66,3 +66,11 @@ a.header:hover {
 table.grid{
     background-color: #000000;
 }
+
+input.widget_input{
+	display: inline;
+	float: left;
+	position:relative;
+	width:90px;
+
+}

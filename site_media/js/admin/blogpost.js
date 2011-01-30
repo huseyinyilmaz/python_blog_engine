@@ -147,7 +147,15 @@ $(function () {
 											//title:get in initialization
 											//list : get in initialization
 											template: _.template($('#template_side_widget').html()),
-											events: {},
+											list_template: _.template($('#template_widget_list').html()),
+											add_template:_.template($('#template_widget_add').html()),
+											events: {
+												'change .widget_item': 'itemClicked',
+												'click .create_link': 'showCreateForm',
+												'click .create_cancel': 'render',
+												'click .create_ok': 'createItem'
+											},
+											
 											initialize: function (options) {
 												logger.startLog('WidgetView.initialize(' + options.title + ')');
 												//render main widget elements. and add it to el
@@ -161,10 +169,36 @@ $(function () {
 											},
 											render: function () {
 												logger.startLog('WidgetView.render(' + this.title +')');
-												logger.log(this.collection);
-												//TODO render collection into el;
+												logger.log('Render elements',this.collection.toJSON());
+												var list_html = this.list_template({list:this.collection.toJSON(),
+																					title:this.title});
+												this.el.html(list_html);
+												logger.endLog();
+											},
+
+											itemClicked:function(event){
+												logger.startLog('WidgetView.itemClicked(' + this.title + ')');
+												var item = $(event.target);
+												var model = this.collection.get(item.val());
+												var is_item_checked = new Boolean(item.attr('checked'));
+												console.log('item',item);
+												console.log('is_item_checked',is_item_checked);
+												model.set({selected:is_item_checked},{silent:true});
+												logger.endLog();
+											},
+											showCreateForm:function(event){
+												logger.startLog('WidgetView.showCreateForm(' + this.title + ')');
+												var add_html = this.add_template({error:'this is a sample error message'});
+												$('.new_item_container',this.el).html(add_html);
+												logger.endLog();
+											},
+											createItem:function(event){
+												logger.startLog('WidgetView.createItem(' + this.title + ')');
+												logger.log(event);
+												//TODO read event and try to create tag. if it is exists show error message. check if it is exist in client side and server side make sure it is a slug value
 												logger.endLog();
 											}
+											
 										});
       
       

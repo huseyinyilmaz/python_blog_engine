@@ -25,9 +25,35 @@
   </div>
   <ul class="element-list">
   </ul>
+
+
 </div>
 </script>
 
+<script type="text/template" id="template_widget_list">
+  <% _.each(list,function(item){ %>
+  <li class="list">
+	<input type="checkbox" class = "widget_item" id="<%= title  %>-<%= item.id %>" <% if(item.selected){ %>checked="checked" <%}%> value="<%= item.id %>"/> <label for="<%= title  %>-<%= item.id %>"><%= item.name  %></label>
+  </li>
+  <% }); %>
+  <li class="list new_item_container">
+	<a id="<%= title %>_new_item_link" class="create_link" href="#">Add</a>
+  </li>
+</script>
+
+<script type="text/template" id="template_widget_add">
+  <% if(error){ %>
+  <div class="ui-state-error ui-corner-all">
+	<p style="margin-top: 0px; margin-bottom: 0px;"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+	<%= error %></p>
+  </div> 
+  <% } %>
+  <input type="text" value="" class="widget_input"/>
+  <input type="button" class="create_ok" value="OK"/>
+  <br><a href="#" class="create_cancel">Cancel</a>
+</script>
+
+  
 <script type="text/template" id="template_error_row">
   <tr>
     <td colspan="2">
