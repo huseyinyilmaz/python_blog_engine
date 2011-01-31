@@ -352,4 +352,11 @@ def blogPostMain(request,id):
 ########
 
 def tag(request,blog_id,id=None):
-    return None
+
+    if request.POST:
+#        import ipdb;ipdb.set_trace()
+        raise Http404
+        tag = simplejson.loads(request.POST.keys()[0])
+        
+        return HttpResponse(simplejson.dumps(tag),mimetype='text/html')
+

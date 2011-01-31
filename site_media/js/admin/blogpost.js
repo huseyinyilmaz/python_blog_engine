@@ -138,6 +138,27 @@ $(function () {
 																// set url of collection
 																this.url = options.url;
 																delete options.url;
+																//bind events
+																this.bind('add',function(item){
+																			  logger.startLog("WidgetCollection>add event handler");
+																			  item.save(null,{
+																							success:function(model,xhr,options){
+																								logger.startLog("WidgetCollection>add>save>success");
+																								//If there is a validation errror make sure that they are coming as 404 or 500 errors
+																								//If is is success we have to send back the model object with new id and render widget from beginning
+																								logger.endLog();
+																							},
+																							error:function(model,xhr,options){
+																								logger.startLog("WidgetCollection>add>save>error");
+																								model.collection.view.showCreateForm(null,'Server error: <br>'+xhr.statusText,model.get("name"));
+																								//There was an error on server. remove new model from collection
+																								model.collection.remove(model,{silent:true});
+																								logger.endLog();
+
+																							}
+																						});
+																			  logger.endLog();
+																		  });
 																logger.endLog();
 															}
 															
@@ -158,6 +179,8 @@ $(function () {
 											
 											initialize: function (options) {
 												logger.startLog('WidgetView.initialize(' + options.title + ')');
+												//connect widget view to collection
+												this.collection.view = this;
 												//render main widget elements. and add it to el
 												this.el.html(domManipulator.side_widget({title: options.title}));
 												//set el to inner element part so we can only rerender that part
@@ -186,15 +209,34 @@ $(function () {
 												model.set({selected:is_item_checked},{silent:true});
 												logger.endLog();
 											},
-											showCreateForm:function(event){
+											showCreateForm:function(event,error,value){
 												logger.startLog('WidgetView.showCreateForm(' + this.title + ')');
-												var add_html = this.add_template({error:'this is a sample error message'});
+												var add_html = this.add_template({error : error,
+																				  value : value});
 												$('.new_item_container',this.el).html(add_html);
 												logger.endLog();
 											},
 											createItem:function(event){
 												logger.startLog('WidgetView.createItem(' + this.title + ')');
 												logger.log(event);
+												var error = null;
+												var input = $('.widget_input',this.el);
+												var value = input.val();
+												if(this.collection.detect(function(item){
+																		 return item.get('name') == value;
+																	 })){
+													error = "Duplicated value";
+												}
+
+												if(error){
+													//There was an error. Print error message
+													this.showCreateForm(event,error,value);
+												}else{
+													//There is no error. Create Value
+													input.val("");
+													this.collection.add({name : value});
+												}
+												
 												//TODO read event and try to create tag. if it is exists show error message. check if it is exist in client side and server side make sure it is a slug value
 												logger.endLog();
 											}
@@ -211,7 +253,7 @@ $(function () {
 											   url: blog_url,
 											   initialize: function () {
 												   logger.startLog('BlogPost.initialize');
-												   var tagCollection = new WidgetCollection(this.get("tags"), {url:'admin/tags'} );
+												   var tagCollection = new WidgetCollection(this.get("tags"), {url:tag_url} );
 												   
 												   this.tags = new Widget({ collection : tagCollection,
 																			el: $('#tag_widget'),
