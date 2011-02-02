@@ -7,13 +7,15 @@ from django.db import IntegrityError
 from django.utils import simplejson
 from django.http import HttpResponse
 from django.http import Http404
+from django.http import HttpResponseServerError
+
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
 from blog.models import Category
-
+from django.template.defaultfilters import slugify
 from blog.forms import BlogForm
 from blog.forms import BlogPostForm
 
@@ -354,9 +356,22 @@ def blogPostMain(request,id):
 def tag(request,blog_id,id=None):
 
     if request.POST:
-#        import ipdb;ipdb.set_trace()
-        raise Http404
         tag = simplejson.loads(request.POST.keys()[0])
-        
+        tag['name'] = slugify(tag['name'])
+        tag['selected'] = True
+        # if ther eis another tag with the same slug value raise an error
+        if Tag.objects.filter(name=tag['name']).exists():
+            return HttpResponseServerError('Duplicated Name')
+        if not tag['name']:
+            return HttpResponseServerError('Name cannot be empty')
+
+        new_tag = Tag()
+        new_tag.blog_id = blog_id
+        new_tag.name = tag['name']
+        new_tag.selected = tag['selected']
+        new_tag.save()
+
+        tag['id'] = new_tag.id
+
         return HttpResponse(simplejson.dumps(tag),mimetype='text/html')
 

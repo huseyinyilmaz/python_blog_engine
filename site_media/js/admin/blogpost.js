@@ -144,13 +144,16 @@ $(function () {
 																			  item.save(null,{
 																							success:function(model,xhr,options){
 																								logger.startLog("WidgetCollection>add>save>success");
+																								logger.log('item was successfully saved',model,xhr,options);
 																								//If there is a validation errror make sure that they are coming as 404 or 500 errors
 																								//If is is success we have to send back the model object with new id and render widget from beginning
+																								model.collection.view.render();
 																								logger.endLog();
 																							},
 																							error:function(model,xhr,options){
 																								logger.startLog("WidgetCollection>add>save>error");
-																								model.collection.view.showCreateForm(null,'Server error: <br>'+xhr.statusText,model.get("name"));
+																								logger.warn('There was an error during save process',model,xhr,options);
+																								model.collection.view.showCreateForm(null,xhr.responseText,model.get("name"));
 																								//There was an error on server. remove new model from collection
 																								model.collection.remove(model,{silent:true});
 																								logger.endLog();
@@ -174,7 +177,9 @@ $(function () {
 												'change .widget_item': 'itemClicked',
 												'click .create_link': 'showCreateForm',
 												'click .create_cancel': 'render',
-												'click .create_ok': 'createItem'
+												'click .create_ok': 'createItem',
+												'click .edit_button': 'editItem',
+												'click .delete_button': 'deleteItem'
 											},
 											
 											initialize: function (options) {
@@ -188,13 +193,29 @@ $(function () {
 												this.title = options.title;
 												delete options.title;
 												this.render();
+												//delete message
+												var widget = this;
+												this.deleteDialog = $('#messageBox-'+this.title).dialog({
+																											hide: 'blind',
+																											autoOpen: false,
+																											buttons: {
+																												"Yes": function () {
+																													widget.deleteDialog.dialog("close");
+																												},
+																												"No": function(){
+																													widget.deleteDialog.dialog("close");
+																												}
+																											}
+																										});;
+
 												logger.endLog();
+
 											},
 											render: function () {
 												logger.startLog('WidgetView.render(' + this.title +')');
 												logger.log('Render elements',this.collection.toJSON());
 												var list_html = this.list_template({list:this.collection.toJSON(),
-																					title:this.title});
+																					title:this.title.toLowerCase()});
 												this.el.html(list_html);
 												logger.endLog();
 											},
@@ -228,6 +249,9 @@ $(function () {
 													error = "Duplicated value";
 												}
 
+												if(!value){
+													error = "Name cannot be empty";
+												}
 												if(error){
 													//There was an error. Print error message
 													this.showCreateForm(event,error,value);
@@ -238,6 +262,25 @@ $(function () {
 												}
 												
 												//TODO read event and try to create tag. if it is exists show error message. check if it is exist in client side and server side make sure it is a slug value
+												logger.endLog();
+											},
+
+											deleteItem:function(event){
+												logger.startLog('WidgetView.deleteItem(' + this.title + ')');
+												var html_id = $(event.target).attr('id').split('_');
+												var id = _(html_id).last();
+												var model = this.collection.get(id);
+												logger.log('Delete item',model);
+												this.deleteDialog.dialog('open');
+												//todo fill delete dialog with text
+												logger.endLog();
+											},
+											editItem:function(event){
+												logger.startLog('WidgetView.editItem(' + this.title + ')');
+												var html_id = $(event.target).attr('id').split('_');
+												var id = _(html_id).last();
+												var model = this.collection.get(id);
+												logger.log('Edit item',model);
 												logger.endLog();
 											}
 											
@@ -295,7 +338,7 @@ $(function () {
 																		 }
 																	 }
 																	 logger.endLog();
-																	 
+p																	 
 																 },
 																 error: function (model, xhrObject) {
 																	 domManipulator.disableButtons(false);

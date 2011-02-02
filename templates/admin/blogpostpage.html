@@ -25,20 +25,33 @@
   </div>
   <ul class="element-list">
   </ul>
-
-
 </div>
+<div id="messageBox-<%= title.toLowerCase() %>" title="">
+  <p id="messageContent-<%= title.toLowerCase() %>"></p>
+</div>
+
 </script>
 
 <script type="text/template" id="template_widget_list">
   <% _.each(list,function(item){ %>
-  <li class="list">
+  <li class="<%= title %>_list_li" id="li_<%= title  %>_<%= item.id %>">
 	<input type="checkbox" class = "widget_item" id="<%= title  %>-<%= item.id %>" <% if(item.selected){ %>checked="checked" <%}%> value="<%= item.id %>"/> <label for="<%= title  %>-<%= item.id %>"><%= item.name  %></label>
+	<span class="button_container">
+	  <button type="button" id="id_<%= title %>_edit_button_<%= item.id %>" class='<%= title %>_edit_button edit_button icon_button' title="Edit <%= title %>"/>
+	  <button type="button" id="id_<%= title %>_delete_button_<%= item.id %>" class='<%= title %>_delete_button delete_button icon_button' title="Delete <%= title %>"/>
+	</span>
   </li>
   <% }); %>
   <li class="list new_item_container">
 	<a id="<%= title %>_new_item_link" class="create_link" href="#">Add</a>
   </li>
+  <script type="text/javascript">
+	$("button.<%= title %>_edit_button").button({icons: {primary: 'ui-icon-pencil'},text: false});
+	$("button.<%= title %>_delete_button").button({icons: {primary: 'ui-icon-close'},text: false});
+	$("li.<%= title %>_list_li").hover(
+	  function(event){ $("span.button_container",event.currentTarget).show(); },
+	  function(event){ $("span.button_container",event.currentTarget).hide(); }).children("span.button_container").hide();
+  </script>
 </script>
 
 <script type="text/template" id="template_widget_add">

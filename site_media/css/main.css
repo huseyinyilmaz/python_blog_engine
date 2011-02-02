@@ -74,3 +74,8 @@ input.widget_input{
 	width:90px;
 
 }
+
+button.icon_button{
+	height: 15px;
+	width: 15px;
+}
