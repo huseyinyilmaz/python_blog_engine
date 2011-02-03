@@ -138,7 +138,8 @@ $(function () {
 																// set url of collection
 																this.url = options.url;
 																delete options.url;
-																//bind events
+																//bind events-----------------------------------
+																//bind add event
 																this.bind('add',function(item){
 																			  logger.startLog("WidgetCollection>add event handler");
 																			  item.save(null,{
@@ -162,6 +163,16 @@ $(function () {
 																						});
 																			  logger.endLog();
 																		  });
+																//bind remove event ---------------------------------
+																this.bind('remove',function(model,collection,options){
+																			  logger.startLog("WidgetCollection>remove event handler");
+																			  model.destroy({
+																							 success:function(model,xhr,options){},
+																							 error:function(model,xhr,options){}
+																						 });
+																			  logger.endLog();
+																		  });
+																
 																logger.endLog();
 															}
 															
@@ -195,18 +206,9 @@ $(function () {
 												this.render();
 												//delete message
 												var widget = this;
-												this.deleteDialog = $('#messageBox-'+this.title).dialog({
-																											hide: 'blind',
-																											autoOpen: false,
-																											buttons: {
-																												"Yes": function () {
-																													widget.deleteDialog.dialog("close");
-																												},
-																												"No": function(){
-																													widget.deleteDialog.dialog("close");
-																												}
-																											}
-																										});;
+												this.deleteDialog = $('#messageBox-'+this.title.toLowerCase()).dialog({   hide: 'blind',
+																														  autoOpen: false,
+																														  title: 'Delete Item Dialog'});
 
 												logger.endLog();
 
@@ -261,26 +263,38 @@ $(function () {
 													this.collection.add({name : value});
 												}
 												
-												//TODO read event and try to create tag. if it is exists show error message. check if it is exist in client side and server side make sure it is a slug value
 												logger.endLog();
 											},
 
 											deleteItem:function(event){
 												logger.startLog('WidgetView.deleteItem(' + this.title + ')');
-												var html_id = $(event.target).attr('id').split('_');
+												var html_id = $(event.target).attr('id').split(':');
 												var id = _(html_id).last();
 												var model = this.collection.get(id);
 												logger.log('Delete item',model);
+												var deleteModel = function(){
+													model.collection.remove(model);
+													$(this).dialog("close");
+												};
+
+												this.deleteDialog.dialog( "option", "buttons", { "Yes": deleteModel,
+																								 "No": function(){
+																									 $(this).dialog("close");
+																								 }
+																							   });
+												$('#messageContent-'+this.title.toLowerCase()).html("Are you sure you want to delete '"+model.get('name')+"'");
 												this.deleteDialog.dialog('open');
 												//todo fill delete dialog with text
 												logger.endLog();
 											},
 											editItem:function(event){
 												logger.startLog('WidgetView.editItem(' + this.title + ')');
-												var html_id = $(event.target).attr('id').split('_');
+												var html_id = $(event.target).attr('id').split(':');
 												var id = _(html_id).last();
 												var model = this.collection.get(id);
 												logger.log('Edit item',model);
+												//Change item with text field and let user set its value
+												//on enter event save model
 												logger.endLog();
 											}
 											

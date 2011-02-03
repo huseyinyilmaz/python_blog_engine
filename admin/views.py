@@ -375,3 +375,5 @@ def tag(request,blog_id,id=None):
 
         return HttpResponse(simplejson.dumps(tag),mimetype='text/html')
 
+    import ipdb;ipdb.set_trace()
+    return HttpResponse('',mimetype='text/html')

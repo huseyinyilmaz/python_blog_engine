@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^blogpost/delete/(?P<id>\d+)/$',views.blogPostDelete,name='admin_blogPostDelete'),
 
     url(r'^tag/(?P<blog_id>\d+)/$',views.tag,name='admin_tag'),
+    # trailing slash problem
+    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)$',views.tag,name='admin_tag'),
     url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)/$',views.tag,name='admin_tag'),
                        
     # url(r'^tag/create/$',views.blogCreate,name='admin_tagCreate'),
