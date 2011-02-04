@@ -62,8 +62,11 @@
   </div> 
   <% } %>
   <input type="text" value="<%= value %>" class="widget_input"/>
-  <input type="button" class="create_ok" value="OK"/>
-  <br><a href="#" class="create_cancel">Cancel</a>
+  <input type="button" class="<%= action %>_ok" value="OK"/>
+  <% if(id){ %>
+  <input type="hidden" class="<%= action %>_id" value="<%= id %>"/>
+  <% } %>
+  <br><a href="#" class="<%= action %>_cancel">Cancel</a>
 </script>
 
   

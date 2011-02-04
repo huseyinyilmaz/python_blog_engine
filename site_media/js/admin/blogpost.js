@@ -167,9 +167,21 @@ $(function () {
 																this.bind('remove',function(model,collection,options){
 																			  logger.startLog("WidgetCollection>remove event handler");
 																			  model.destroy({
-																							 success:function(model,xhr,options){},
-																							 error:function(model,xhr,options){}
-																						 });
+																								success:_(function(model,response){
+																											  logger.startLog("WidgetCollection>remove>destroy>success");
+																											  this.view.render();
+																											  logger.endLog(); 
+																										  }).bind(this),
+																								error:_(function(model,xhr,options){
+																											logger.startLog("WidgetCollection>remove>destroy>error");
+																											logger.error("There was an error while deleting the object",model,xhr,options);
+																											//we could not delete model add it back to collection
+																											this.add(model);
+																											//render widget
+																											this.view.render();
+																											logger.endLog(); 
+																										}).bind(this)
+																							});
 																			  logger.endLog();
 																		  });
 																
@@ -189,6 +201,8 @@ $(function () {
 												'click .create_link': 'showCreateForm',
 												'click .create_cancel': 'render',
 												'click .create_ok': 'createItem',
+												'click .edit_cancel': 'render',
+												'click .edit_ok': 'editItemOk',
 												'click .edit_button': 'editItem',
 												'click .delete_button': 'deleteItem'
 											},
@@ -235,10 +249,13 @@ $(function () {
 											showCreateForm:function(event,error,value){
 												logger.startLog('WidgetView.showCreateForm(' + this.title + ')');
 												var add_html = this.add_template({error : error,
-																				  value : value});
+																				  value : value,
+																				  action: 'create',
+																				  id: null});
 												$('.new_item_container',this.el).html(add_html);
 												logger.endLog();
 											},
+
 											createItem:function(event){
 												logger.startLog('WidgetView.createItem(' + this.title + ')');
 												logger.log(event);
@@ -287,16 +304,77 @@ $(function () {
 												//todo fill delete dialog with text
 												logger.endLog();
 											},
-											editItem:function(event){
+											editItem:function(event,error,value,id){
 												logger.startLog('WidgetView.editItem(' + this.title + ')');
-												var html_id = $(event.target).attr('id').split(':');
-												var id = _(html_id).last();
+												if(!id){
+													var html_id = $(event.target).attr('id').split(':');
+													id = _(html_id).last();
+												}
 												var model = this.collection.get(id);
 												logger.log('Edit item',model);
+												if(_.isUndefined(value)){
+													value = model.get('name');
+												}
+												var add_html = this.add_template({error : error,
+																				  value : value,
+																				  action: 'edit',
+																				  id: id});
+												$('.new_item_container',this.el).html(add_html);
+												
 												//Change item with text field and let user set its value
 												//on enter event save model
 												logger.endLog();
+											},
+											editItemOk:function(event){
+												logger.startLog('WidgetView.editItemOk(' + this.title + ')');
+												logger.log(event);
+												var error = null;
+												var input = $('.widget_input',this.el);
+												var id = parseInt($('.edit_id',this.el).val());
+												var old_value = this.collection.get(id).get("name");
+												var value = input.val();
+
+												var same_named_item = this.collection.detect(function(item){
+																								 return item.get('name') == value;
+																							 });
+												if(same_named_item && same_named_item.id !== id){
+													error = "Duplicated value";
+												}
+												
+												if(!value){
+													error = "Name cannot be empty";
+												}
+
+
+													
+												if(error){
+													//There was an error. Print error message
+													this.editItem(event,error,value,id);
+												}else{
+													//There is no error. Create Value
+													input.val("");
+													var model = this.collection.get(id);
+													model.set({name:value});
+													model.save(null,{
+															success: function(model,xhr,options){
+																logger.startLog("editItemOk-save-success-callback");
+																model.collection.view.render();
+																logger.endLog();
+															},
+															error: function(model,xhr,options){
+																logger.startLog("editItemOk-save-error-callback");
+																model.set({name: old_value});
+																model.collection.view.render();
+																model.collection.view.editItem(null,xhr.responseText,value,id);
+																
+																logger.endLog();
+															}
+															   });
+												}
+												
+												logger.endLog();
 											}
+
 											
 										});
       
@@ -336,7 +414,7 @@ $(function () {
 											   //initialize
 											   savedata: function () {
 												   logger.startLog("BlogPost.savedata");
-												   
+												   this.set({ tags: this.tags.collection.toJSON() });
 												   this.save({}, {
 																 success: function (model, result) {
 																	 logger.startLog("save-success-callback");

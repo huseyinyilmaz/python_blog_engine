@@ -352,10 +352,9 @@ def blogPostMain(request,id):
 ########
 # Tags #
 ########
-
+@commit_on_success
 def tag(request,blog_id,id=None):
-
-    if request.POST:
+    if request.method == 'POST':
         tag = simplejson.loads(request.POST.keys()[0])
         tag['name'] = slugify(tag['name'])
         tag['selected'] = True
@@ -364,16 +363,27 @@ def tag(request,blog_id,id=None):
             return HttpResponseServerError('Duplicated Name')
         if not tag['name']:
             return HttpResponseServerError('Name cannot be empty')
-
         new_tag = Tag()
         new_tag.blog_id = blog_id
         new_tag.name = tag['name']
-        new_tag.selected = tag['selected']
         new_tag.save()
-
         tag['id'] = new_tag.id
-
         return HttpResponse(simplejson.dumps(tag),mimetype='text/html')
+    elif request.method == 'DELETE':
+        tag = get_object_or_404(Tag,id=id)
+        tag_json = {'id': tag.id,'name': tag.name,'selected': False}
+        tag.delete()
+        return HttpResponse(simplejson.dumps(tag_json),mimetype='text/html')
+    elif request.method == 'PUT':
+        tag_json  = simplejson.loads(request.raw_post_data)
+        tag_json['name'] = slugify(tag_json['name'])
+        tag = None
+        try:
+            tag = Tag.objects.get(id=tag_json['id'])
+        except Tag.DoesNotExist:
+            return HttpResponseServerError('Edited tag does not exist')
+        tag.name = tag_json['name']
+        tag.save()
+        return HttpResponse(simplejson.dumps(tag_json),mimetype='text/html')
 
-    import ipdb;ipdb.set_trace()
     return HttpResponse('',mimetype='text/html')
