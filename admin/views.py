@@ -8,7 +8,7 @@ from django.utils import simplejson
 from django.http import HttpResponse
 from django.http import Http404
 from django.http import HttpResponseServerError
-
+from django.core.exceptions import ValidationError
 from staticpages.models import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
@@ -55,6 +55,7 @@ def blogMain(request):
             setBlogDeleteLink(x,reverse('admin_blogDelete',kwargs={'id':x.id})),
             reverse('admin_blog',kwargs={'id':x.id})),
         Blog.objects.only('id','name').all().order_by('name'))
+
     
     return render_to_response('admin/blog_main.html',
                               {'page':page,
@@ -74,7 +75,7 @@ def blog(request,id):
             ]
         }
 
-    setEditLink = _makeAttrSetter('editUrl')
+    setEditLink = _makeAttrSetter('selectUrl')
     setDeleteLink = _makeAttrSetter('deleteUrl')
 
     blogPost_set = map(
@@ -96,7 +97,6 @@ def blog(request,id):
 ##############
 @commit_on_success
 def blogPostCreate(request,blog_id):
-    
     post = dict()
     page = {
         'title': "Create new blog post",
@@ -104,12 +104,15 @@ def blogPostCreate(request,blog_id):
         'blog_url':reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
         'tag_url': reverse('admin_tag',kwargs={'blog_id':blog_id}),
+        'category_url': reverse('admin_category',kwargs={'blog_id':blog_id}),
         }
 
     if request.method == 'POST': # If the form has been submitted...
 
         response = {'result':'ok'}
         blogPost = simplejson.loads(request.POST.keys()[0])
+        tags = Tag.objects.filter(blog__id=blog_id,id__in = map(lambda x: x['id'],blogPost['tags']))
+        categories = Category.objects.filter(blog__id=blog_id,id__in = map(lambda x: x['id'],blogPost['categories']))
 
         new_post = BlogPost(content=blogPost['content'],
                             teaser=blogPost['teaser'],
@@ -117,14 +120,23 @@ def blogPostCreate(request,blog_id):
                             slug=blogPost['slug'],
                             blog_id=blog_id,)
         try:
+            # we need to save the object in order to add manytomany field
             new_post.save()
         except IntegrityError as e:
             response['result'] = 'error'
             response['slug_error'] = 'There is another post with slug value "%s"'%blogPost['slug']
             response['error'] = e.args[0]
             response['errorTitle'] = "Integrity Error"
+        new_post.tags.add(*tags)
+        new_post.categories.add(*categories)
+        try:
+            new_post.save()
+        except IntegrityError as e:
+            response['result'] = 'error'
+            response['slug_error'] = 'Error while adding tags to post'
+            response['error'] = e.args[0]
+            response['errorTitle'] = "Integrity Error"
         return HttpResponse(simplejson.dumps(response),mimetype='text/html')
-
     #get request: render page first time
     post.update({'title':"",
                  'slug' :"",
@@ -151,28 +163,107 @@ def blogPostCreate(request,blog_id):
 
 @commit_on_success
 def blogPostEdit(request,id):
-    blogPost = get_object_or_404(BlogPost,pk=id)
-    blog_id = blogPost.blog.id
-    page = {
-        'title' : "Edit blogPost post",
-        'choices' : [
-            ('Blog menu',reverse('blogPostMain',kwargs={'id':blog_id})),
-            ],
-        }
+    post = dict()
+    postObj = get_object_or_404(BlogPost,id = id)
+    post['id']= postObj.id
+    post['title']= postObj.title
+    post['slug']= postObj.slug
+    post['teaser']= postObj.teaser
+    post['content']= postObj.content
     
-    if request.method == 'POST': # If the form has been submitted...
-        form = BlogPostForm(request.POST,instance=blogPost)
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            form.save()
-            return HttpResponseRedirect(reverse('blogPostMain')) # Redirect after POST
-    else:
-        form = BlogPostForm(instance=blogPost) 
+    blog_id = postObj.blog_id
+    page = {
+        'title': "Create new blog post",
+        'post': post,
+        'blog_url':reverse('admin_blogPostEdit',kwargs={'id':id}),
+        'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
+        'tag_url': reverse('admin_tag',kwargs={'blog_id':blog_id}),
+        'category_url': reverse('admin_category',kwargs={'blog_id':blog_id}),
+        }
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('blogPostEdit',kwargs={'id':id,'blog_id':blog_id}),
-        'page': page},context_instance=RequestContext(request))
+    if request.method == 'PUT': # If the form has been submitted...
+
+        response = {'result':'ok'}
+        blogPost = simplejson.loads(request.raw_post_data)
+
+        updated_tag_ids = set( map(lambda x: x['id'],blogPost['tags']) )
+        org_tag_list = zip(*postObj.tags.values_list('id').all())
+        org_tag_ids = set(org_tag_list[0]) if org_tag_list else set()
+        new_tag_ids = updated_tag_ids - org_tag_ids
+        old_tag_ids = org_tag_ids - updated_tag_ids
+                            
+        new_tags = Tag.objects.filter(blog__id=blog_id,id__in = new_tag_ids) if new_tag_ids else []
+        old_tags = Tag.objects.filter(blog__id=blog_id,id__in = old_tag_ids) if old_tag_ids else []
+
+
+        updated_category_ids = set( map(lambda x: x['id'],blogPost['categories']) )
+        org_category_list = zip(*postObj.categories.values_list('id').all())
+        org_category_ids = set(org_category_list[0]) if org_category_list else set()
+        new_category_ids = updated_category_ids - org_category_ids
+        old_category_ids = org_category_ids - updated_category_ids
+                            
+        new_categories = Category.objects.filter(blog__id=blog_id,id__in = new_category_ids) if new_category_ids else []
+        old_categories = Category.objects.filter(blog__id=blog_id,id__in = old_category_ids) if old_category_ids else []
+
+        
+
+        postObj.content = blogPost['content']
+        postObj.teaser = blogPost['teaser']
+        postObj.title = blogPost['title']
+        postObj.slug = blogPost['slug']
+
+        try:
+            # we need to save the object in order to add manytomany field
+           postObj.validate_unique()
+        except ValidationError as e:
+            response['result'] = 'error'
+            response['slug_error'] = 'There is another post with slug value "%s"'%blogPost['slug']
+            response['error'] = e.args[0]
+            response['errorTitle'] = "Integrity Error"
+
+        if new_tags:
+            postObj.tags.add(*new_tags)
+        if old_tags:
+            postObj.tags.remove(*old_tags)
+        if new_categories:
+            postObj.categories.add(*new_categories)
+        if old_categories:
+            postObj.categories.remove(*old_categories) 
+
+        try:
+            postObj.save()
+        except IntegrityError as e:
+            response['result'] = 'error'
+            response['slug_error'] = 'Error while adding tags to post'
+            response['error'] = e.args[0]
+            response['errorTitle'] = "Integrity Error"
+        return HttpResponse(simplejson.dumps(response),mimetype='text/html')
+
+    #get request: render page first time
+    # get tuple of tag and category ids
+    zipped_tags = zip(*postObj.tags.values_list('id').all())
+    tag_ids = zipped_tags[0] if zipped_tags else []
+    zipped_categories = zip(*postObj.categories.values_list('id').all())
+    category_ids = zipped_categories[0] if zipped_categories else []
+
+    def objFactoryCreator(id_list):
+        def objFactory(source):
+            result = dict()
+            result['name'] = source.name
+            result['selected'] = (source.id in id_list)
+            result['id'] = source.id
+            return result
+        return objFactory
+        
+    post['tags'] = map(objFactoryCreator(tag_ids),Tag.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+    post['categories'] = map(objFactoryCreator(category_ids),Category.objects.filter(blog__id=blog_id).extra(select={'lower_name':'lower(name)'}).order_by('lower_name'))
+
+    page['post_json'] = simplejson.dumps(post)
+
+    return render_to_response('admin/blogpostpage.html',
+        {
+        'formAction': reverse('admin_blogPostEdit',kwargs={'id':id}),
+        'page': page})
 
 @commit_on_success
 def blogPostDelete(request,id):
@@ -349,41 +440,47 @@ def blogPostMain(request,id):
                                })
 
 
-########
-# Tags #
-########
+#######################
+# Tags and Categories #
+#######################
 @commit_on_success
-def tag(request,blog_id,id=None):
+def widget(request, item_class, blogpost_connection, blog_id, id):
     if request.method == 'POST':
-        tag = simplejson.loads(request.POST.keys()[0])
-        tag['name'] = slugify(tag['name'])
-        tag['selected'] = True
+        item = simplejson.loads(request.POST.keys()[0])
+        item['name'] = slugify(item['name'])
+        item['selected'] = True
         # if ther eis another tag with the same slug value raise an error
-        if Tag.objects.filter(name=tag['name']).exists():
+        if item_class.objects.filter(name=item['name']).exists():
             return HttpResponseServerError('Duplicated Name')
-        if not tag['name']:
+        if not item['name']:
             return HttpResponseServerError('Name cannot be empty')
-        new_tag = Tag()
-        new_tag.blog_id = blog_id
-        new_tag.name = tag['name']
-        new_tag.save()
-        tag['id'] = new_tag.id
-        return HttpResponse(simplejson.dumps(tag),mimetype='text/html')
+        new_item = item_class()
+        new_item.blog_id = blog_id
+        new_item.name = item['name']
+        new_item.save()
+        item['id'] = new_item.id
+        return HttpResponse(simplejson.dumps(item),mimetype='text/html')
     elif request.method == 'DELETE':
-        tag = get_object_or_404(Tag,id=id)
-        tag_json = {'id': tag.id,'name': tag.name,'selected': False}
-        tag.delete()
-        return HttpResponse(simplejson.dumps(tag_json),mimetype='text/html')
+        item = get_object_or_404(item_class,id=id)
+        item_json = {'id': item.id,'name': item.name,'selected': False}
+        item.delete()
+        return HttpResponse(simplejson.dumps(item_json),mimetype='text/html')
     elif request.method == 'PUT':
-        tag_json  = simplejson.loads(request.raw_post_data)
-        tag_json['name'] = slugify(tag_json['name'])
-        tag = None
+        item_json  = simplejson.loads(request.raw_post_data)
+        item_json['name'] = slugify(item_json['name'])
+        item = None
         try:
-            tag = Tag.objects.get(id=tag_json['id'])
-        except Tag.DoesNotExist:
-            return HttpResponseServerError('Edited tag does not exist')
-        tag.name = tag_json['name']
-        tag.save()
-        return HttpResponse(simplejson.dumps(tag_json),mimetype='text/html')
-
+            item = item_class.objects.get(id=item_json['id'])
+        except item_class.DoesNotExist:
+            return HttpResponseServerError('Edited item does not exist')
+        item.name = item_json['name']
+        item.save()
+        return HttpResponse(simplejson.dumps(item_json),mimetype='text/html')
     return HttpResponse('',mimetype='text/html')
+
+def tag(request,blog_id,id=None):
+    return widget(request,Tag,BlogPost.tags,blog_id,id)
+
+def category(request,blog_id,id=None):
+    return widget(request,Category,BlogPost.categories,blog_id,id)
+

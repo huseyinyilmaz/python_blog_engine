@@ -21,17 +21,11 @@ urlpatterns = patterns('',
 
     url(r'^tag/(?P<blog_id>\d+)/$',views.tag,name='admin_tag'),
     # trailing slash problem
-    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)$',views.tag,name='admin_tag'),
-    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)/$',views.tag,name='admin_tag'),
-                       
-    # url(r'^tag/create/$',views.blogCreate,name='admin_tagCreate'),
-    # url(r'^tag/edit/(?P<id>\d+)/$',views.blogEdit,name='admin_tagEdit'),
-    # url(r'^tag/delete/(?P<id>\d+)/$',views.blogDelete,name='admin_tagDelete'),
-                       )
+    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)$',views.tag,name='admin_tag_update'),
+    url(r'^tag/(?P<blog_id>\d+)/(?P<id>\d+)/$',views.tag,name='admin_tag_edit_with_slash'),
 
-
-
-
-
-
-
+    url(r'^category/(?P<blog_id>\d+)/$',views.category,name='admin_category'),
+    # trailing slash problem
+    url(r'^category/(?P<blog_id>\d+)/(?P<id>\d+)$',views.category,name='admin_category_update'),
+    url(r'^category/(?P<blog_id>\d+)/(?P<id>\d+)/$',views.category,name='admin_category_edit_with_slash'),
+)

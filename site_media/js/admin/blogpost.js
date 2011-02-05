@@ -133,6 +133,11 @@ $(function () {
 															comperator: function (model) {
 																model.get("name").toLowerCase();
 															},
+															selected:function(){
+																return this.filter(function(item){
+																					   return item.get('selected');
+																				   });
+															},
 															initialize: function (models,options) {
 																logger.startLog('WidgetCollection.initialize');
 																// set url of collection
@@ -240,7 +245,7 @@ $(function () {
 												logger.startLog('WidgetView.itemClicked(' + this.title + ')');
 												var item = $(event.target);
 												var model = this.collection.get(item.val());
-												var is_item_checked = new Boolean(item.attr('checked'));
+												var is_item_checked = item.attr('checked')==='checked';
 												console.log('item',item);
 												console.log('is_item_checked',is_item_checked);
 												model.set({selected:is_item_checked},{silent:true});
@@ -301,7 +306,6 @@ $(function () {
 																							   });
 												$('#messageContent-'+this.title.toLowerCase()).html("Are you sure you want to delete '"+model.get('name')+"'");
 												this.deleteDialog.dialog('open');
-												//todo fill delete dialog with text
 												logger.endLog();
 											},
 											editItem:function(event,error,value,id){
@@ -379,11 +383,6 @@ $(function () {
 										});
       
       
-      var Category = Backbone.Model.extend();
-      var Categories = Backbone.Collection.extend({
-													  model: Category
-												  });
-      
       var BlogPost = Backbone.Model.extend({
 											   url: blog_url,
 											   initialize: function () {
@@ -394,8 +393,13 @@ $(function () {
 																			el: $('#tag_widget'),
 																			title:'Tags'
 																		  });
+												   var categoryCollection = new WidgetCollection(this.get("categories"), {url:category_url} );
 
-												   this.categories = new Categories(this.get("categories"));
+												   this.categories = new Widget({ collection : categoryCollection,
+																			el: $('#category_widget'),
+																			title:'Categories'
+																		  });
+												   
 												   this.unset("tags", {
 																  "silent": true
 															  });
@@ -414,8 +418,11 @@ $(function () {
 											   //initialize
 											   savedata: function () {
 												   logger.startLog("BlogPost.savedata");
-												   this.set({ tags: this.tags.collection.toJSON() });
-												   this.save({}, {
+//												   this.set({ tags: this.tags.collection.selected()});
+//												   this.set({ categories: this.categories.collection.selected()});
+
+												   this.save({tags: this.tags.collection.selected(),
+															  categories:  this.categories.collection.selected()}, {
 																 success: function (model, result) {
 																	 logger.startLog("save-success-callback");
 																	 logger.log(result);
@@ -430,7 +437,7 @@ $(function () {
 																		 }
 																	 }
 																	 logger.endLog();
-p																	 
+																	 
 																 },
 																 error: function (model, xhrObject) {
 																	 domManipulator.disableButtons(false);
@@ -564,8 +571,12 @@ p
 														  "content": $(getId("content")).val()
 													  };
 													  logger.log(data);
-													  this.model.set(data);
-													  this.model.savedata();
+													  //if model.set can pass validation. save data to server
+													  if(this.model.set(data)){
+														  this.model.savedata();
+													  }else{
+														  domManipulator.disableButtons(false);
+													  }
 													  logger.endLog();
 												  },
 												  onCancelPressed: function () {
