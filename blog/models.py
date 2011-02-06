@@ -3,8 +3,10 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from django.conf import settings
 from time import strftime
-date_query="""select 
+import markdown
+date_query_posgres="""select 
 date_part('month', bp.creation_date), 
 date_part('year', bp.creation_date),
 count(*)
@@ -12,7 +14,14 @@ from blog_blogpost bp
 group by date_part('month', bp.creation_date), date_part('year', bp.creation_date)
 order by date_part('year', bp.creation_date) DESC, date_part('month', bp.creation_date) DESC
 """
-
+date_query_sqlite="""select 
+django_extract('month', bp.creation_date), 
+django_extract('year', bp.creation_date),
+count(*)
+from blog_blogpost bp
+group by django_extract('month', bp.creation_date), django_extract('year', bp.creation_date)
+order by django_extract('year', bp.creation_date) DESC, django_extract('month', bp.creation_date) DESC
+"""
 class _Month:
     def __init__(self,month,year,count):
         self.year = int(year)
@@ -23,6 +32,8 @@ class _Month:
         return str(self)
     def __str__(self):
         return "%s (%d)"%(self.datetime.strftime("%B %Y"),self.count)
+
+
 
 class Blog(models.Model):
     name = models.CharField('Name of the Blog',max_length=255)
@@ -38,11 +49,11 @@ class Blog(models.Model):
     def getURL(self):
         return reverse('main',kwarkg={'blog_slug':self.slug})
 
-    def get_date_list(self):
-        cursor = connection.cursor()
-        cursor.execute(date_query)
-        resultset = map(lambda x:_Month(*x),cursor.fetchall())
-        return resultset
+    # def get_date_list(self):
+    #     cursor = connection.cursor()
+    #     cursor.execute(date_query)
+    #     resultset = map(lambda x:_Month(*x),cursor.fetchall())
+    #     return resultset
     
 class Tag(models.Model):
     name = models.SlugField(max_length=500)
@@ -65,6 +76,17 @@ class BlogPostViewManager(models.Manager):
         return self.defer('teaser_HTML')
     def tag(self,tag):
         return self.filter(tags__name=tag)
+    def date_list(self):
+        cursor = connection.cursor()
+        if settings.DATABASE_ENGINE == 'sqlite3':
+            cursor.execute(date_query_sqlite)
+        elif settings.DATABASE_ENGINE == 'postgresql_psycopg2':
+            cursor.execute(date_query_posgres)
+        else:#default value will be posgres
+            cursor.execute(date_query_posgres)
+
+        resultset = map(lambda x:_Month(*x),cursor.fetchall())
+        return resultset
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=500)
@@ -94,8 +116,10 @@ class BlogPost(models.Model):
         return self.title
         
     def save(self,*args,**kwargs):
+        md = markdown.Markdown(output_format='HTML4', extensions=['codehilite'])
         if not self.teaser:
             self.teaser = self.content
-        self.teaser_HTML = self.teaser
-        self.content_HTML = self.content
+        self.teaser_HTML = md.convert(self.teaser)
+        md.reset()
+        self.content_HTML = md.convert(self.content)
         super(BlogPost,self).save(*args,**kwargs)

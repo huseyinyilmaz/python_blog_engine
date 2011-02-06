@@ -14,7 +14,7 @@ def index(request,blog_slug):
 
     return render_to_response('blog/blogpost_index.html',
                               {'blog':blog,
-                               'date_list':blog.get_date_list(),
+                               'date_list':BlogPost.view_objects.date_list(),
                                'tag_list':tag_list,
                                'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
                                },
@@ -32,7 +32,7 @@ def post(request,blog_slug,year,month,post_slug):
 
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
-                               'date_list':blog.get_date_list(),
+                               'date_list':BlogPost.view_objects.date_list(),
                                'tag_list':tag_list,
                                'blogpost':post,
                                'post_tag_list':post_tag_list,
@@ -44,7 +44,7 @@ def month(request,blog_slug,year,month):
 
     blog = get_object_or_404(Blog,slug=blog_slug)
 
-    date_list = blog.get_date_list()
+    date_list = BlogPost.view_objects.date_list()
 
     tag_list = blog.tag_set.all()
 
@@ -63,7 +63,7 @@ def tag(request,blog_slug,tag_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
     tag = get_object_or_404(Tag,name=tag_slug)
 
-    date_list = blog.get_date_list()
+    date_list = BlogPost.view_objects.date_list()
     tag_list = blog.tag_set.all()
     blogpost_set = BlogPost.view_objects.tag(tag).all()
 

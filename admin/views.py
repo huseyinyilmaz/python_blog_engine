@@ -118,6 +118,7 @@ def blogPostCreate(request,blog_id):
                             teaser=blogPost['teaser'],
                             title=blogPost['title'],
                             slug=blogPost['slug'],
+                            published=blogPost['published'],
                             blog_id=blog_id,)
         try:
             # we need to save the object in order to add manytomany field
@@ -170,7 +171,7 @@ def blogPostEdit(request,id):
     post['slug']= postObj.slug
     post['teaser']= postObj.teaser
     post['content']= postObj.content
-    
+    post['published']= postObj.published
     blog_id = postObj.blog_id
     page = {
         'title': "Create new blog post",
@@ -211,6 +212,7 @@ def blogPostEdit(request,id):
         postObj.teaser = blogPost['teaser']
         postObj.title = blogPost['title']
         postObj.slug = blogPost['slug']
+        postObj.published = blogPost['published']
 
         try:
             # we need to save the object in order to add manytomany field
@@ -268,8 +270,9 @@ def blogPostEdit(request,id):
 @commit_on_success
 def blogPostDelete(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
+    blog_id = blogPost.blog_id
     blogPost.delete()
-    return HttpResponseRedirect(reverse('admin_blog',kwargs={'id':id}))#Redirect after process
+    return HttpResponseRedirect(reverse('admin_blog',kwargs={'id':blog_id}))#Redirect after process
 
 
 #########

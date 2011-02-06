@@ -5,7 +5,7 @@
 
 {% block body %}
 <h2>{{ blogpost.title }}</h2>
-  <p>{{ blogpost.content_HTML }}</p>
+  <p>{{ blogpost.content_HTML|safe }}</p>
 <br />
 <span class="blogpost_footer">
 Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</span> | 

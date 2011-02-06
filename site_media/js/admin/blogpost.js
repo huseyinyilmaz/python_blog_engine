@@ -245,7 +245,7 @@ $(function () {
 												logger.startLog('WidgetView.itemClicked(' + this.title + ')');
 												var item = $(event.target);
 												var model = this.collection.get(item.val());
-												var is_item_checked = item.attr('checked')==='checked';
+												var is_item_checked = item.attr('checked');
 												console.log('item',item);
 												console.log('is_item_checked',is_item_checked);
 												model.set({selected:is_item_checked},{silent:true});
@@ -418,8 +418,8 @@ $(function () {
 											   //initialize
 											   savedata: function () {
 												   logger.startLog("BlogPost.savedata");
-//												   this.set({ tags: this.tags.collection.selected()});
-//												   this.set({ categories: this.categories.collection.selected()});
+												   //this.set({ tags: this.tags.collection.selected()});
+												   //this.set({ categories: this.categories.collection.selected()});
 
 												   this.save({tags: this.tags.collection.selected(),
 															  categories:  this.categories.collection.selected()}, {
