@@ -116,10 +116,10 @@ class BlogPost(models.Model):
         return self.title
         
     def save(self,*args,**kwargs):
-        md = markdown.Markdown(output_format='HTML4', extensions=['codehilite'])
         if not self.teaser:
             self.teaser = self.content
-        self.teaser_HTML = md.convert(self.teaser)
-        md.reset()
-        self.content_HTML = md.convert(self.content)
+
+        self.teaser_HTML = markdown.markdown(self.teaser,['codehilite(force_linenos=True)'])
+        self.content_HTML = markdown.markdown(self.content,['codehilite(force_linenos=True)'])
+
         super(BlogPost,self).save(*args,**kwargs)
