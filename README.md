@@ -1,6 +1,18 @@
-#  Python Blog Engine
-This is a blog engine that uses django framework. It will use markdown for style and pygments for source code coloring.
-*  Blog site will have ability to serve static pages and unlimited blogs inside same site.
-*  Static pages and sites might have custom admin page or if it is possible I might use standard django admin page. I did not decide yet.
+Python Blog Engine
+==================
+* A Blog engine that can serve multiple blogs and static pages.
+* Uses markdown and pygments to serve images
 
-This project is still in development process and does not have a stable revision yet.
+
+Installation Notes
+------------------
+In order to use markdown, You must install following packages on your system
+1. Install ElementsTree
+'easy_install ElementTree'
+2. Install MarkDown
+'git clone git://gitorious.org/python-markdown/mainline.git markdown
+cd markdown
+sudo setup.py install'
+3. Install  Pygments
+'easy_install Pygments'
+
