@@ -14,7 +14,12 @@
                 
 <div id="header" class="container_12">
   <div id="" class="grid_12 ">
-      <div class="blog_header header">Python Blog Engine</div>
+	{% if blog %}
+	  <div class="blog_header header">{{ blog.name }}</div>
+	  <div class="blog_tagline header">{{ blog.tagline }}</div>
+  {%else%}
+	  <div class="blog_header header">Python Blog Engine</div>
+	  {% endif %}
   </div>
 </div>
 

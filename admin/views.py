@@ -17,7 +17,6 @@ from blog.models import Tag
 from blog.models import Category
 from django.template.defaultfilters import slugify
 from blog.forms import BlogForm
-from blog.forms import BlogPostForm
 
 from django.template import RequestContext
 def index(request):

@@ -18,35 +18,26 @@ class BlogForm(forms.ModelForm):
     title=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
     tagline=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'3'}))
     description=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'10'}))
+
     class Meta:
         model = Blog
 
-    def clean(self):
+    def clean_slug(self):
         if not self.cleaned_data.get('slug'):
             self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-        return self.cleaned_data
+        if Blog.objects.filter(slug = self.cleaned_data['slug']).exists():
+            raise forms.ValidationError('There is another blog with the same slug')
+        return self.cleaned_data['slug']
+
+    def clean_name(self):
+        if Blog.objects.filter(name = self.cleaned_data['name']).exists():
+            raise forms.ValidationError('There is another blog with the same name')
+        return self.cleaned_data['name']
 
     def __init__(self, *args, **kwargs):
         kwargs_new = {'error_class': BlogErrorList}
         kwargs_new.update(kwargs)
         super(BlogForm, self).__init__(*args, **kwargs_new)
-
-class BlogPostForm(forms.ModelForm):
-    published = forms.BooleanField(initial=True)
-    title=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
-    slug=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
-    content=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'10'}))
-    teaser=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7','cols':'','rows':'3'}))
-
-    class Meta:
-        model = BlogPost
-        fields = ('published','title','slug','content','teaser')
-
-    def clean_slug(self):
-        if not self.cleaned_data['slug']:
-            self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-
-        return self.cleaned_data['slug']
 
 ##################################################
 class BlogFormAdmin(forms.ModelForm):

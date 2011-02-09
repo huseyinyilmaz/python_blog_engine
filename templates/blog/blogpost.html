@@ -21,9 +21,13 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
 {% endblock body %}
 
 {% block widget_1 %}
-{% include "blog/widgets/tags.html" %}
+{% include "blog/widgets/categories.html" %}
 {% endblock %}
 
 {% block widget_2 %}
+{% include "blog/widgets/tags.html" %}
+{% endblock %}
+
+{% block widget_3 %}
 {% include "blog/widgets/date_archive.html" %}
 {% endblock %}

@@ -36,8 +36,8 @@ class _Month:
 
 
 class Blog(models.Model):
-    name = models.CharField('Name of the Blog',max_length=255)
-    slug = models.SlugField()    
+    name = models.CharField('Name of the Blog',max_length=255,unique=True)
+    slug = models.SlugField(unique = True)    
     title = models.CharField(max_length=500, blank=True)
     tagline = models.CharField(max_length=500, blank=True)
     description = models.TextField(blank=True)
@@ -49,21 +49,19 @@ class Blog(models.Model):
     def getURL(self):
         return reverse('main',kwarkg={'blog_slug':self.slug})
 
-    # def get_date_list(self):
-    #     cursor = connection.cursor()
-    #     cursor.execute(date_query)
-    #     resultset = map(lambda x:_Month(*x),cursor.fetchall())
-    #     return resultset
-    
 class Tag(models.Model):
     name = models.SlugField(max_length=500)
     blog = models.ForeignKey(Blog)
+    class Meta():
+        unique_together = (('name','blog'),)
     def __unicode__(self):
         return self.name
 
 class Category(models.Model):
     name = models.SlugField(max_length=500)
     blog = models.ForeignKey(Blog)
+    class Meta():
+        unique_together = (('name','blog'),)
     def __unicode__(self):
         return self.name
     
@@ -76,6 +74,8 @@ class BlogPostViewManager(models.Manager):
         return self.defer('teaser_HTML')
     def tag(self,tag):
         return self.filter(tags__name=tag)
+    def category(self,category):
+        return self.filter(categories__name=category)
     def date_list(self):
         cursor = connection.cursor()
         if settings.DATABASE_ENGINE == 'sqlite3':
