@@ -33,7 +33,7 @@ def post(request,blog_slug,year,month,post_slug):
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
     post_tag_list = post.tags.all()
-
+    post_category_list = post.categories.all()
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
                                'date_list':BlogPost.view_objects.date_list(),
@@ -41,6 +41,7 @@ def post(request,blog_slug,year,month,post_slug):
                                'category_list':category_list,
                                'blogpost':post,
                                'post_tag_list':post_tag_list,
+                               'post_category_list':post_category_list,
                                })
 
 def month(request,blog_slug,year,month):

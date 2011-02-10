@@ -14,8 +14,14 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
     {% for t in post_tag_list %}
       <a href="{% url blog_tag blog.slug t.name %}">{{ t.name }}</a>, 
     {% endfor %}
-  </span> 
-</span> 
+  </span> |
+  <span class="blogpost_category">
+    Categories:
+    {% for c in post_category_list %}
+      <a href="{% url blog_category blog.slug c.name %}">{{ c.name }}</a>, 
+    {% endfor %}
+  </span>
+</span>  
   <hr />
 
 {% endblock body %}
