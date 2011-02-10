@@ -5,6 +5,7 @@ from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
+from django.db.models import Q
 
 class BlogErrorList(forms.util.ErrorList):
     def as_ul(self):
@@ -23,14 +24,25 @@ class BlogForm(forms.ModelForm):
         model = Blog
 
     def clean_slug(self):
-        if not self.cleaned_data.get('slug'):
-            self.cleaned_data['slug'] = slugify(self.cleaned_data['name'])
-        if Blog.objects.filter(slug = self.cleaned_data['slug']).exists():
+        slug = self.cleaned_data['slug']
+        slug = slugify(slug if slug else self.cleaned_data['name'])
+        self.cleaned_data['slug'] = slug
+        # if another object with same slug exist and has different id show error
+        query = Q(slug = slug)
+        if self.instance.id:
+            query = query & ~Q(id=self.instance.id)
+
+        if Blog.objects.filter(query).exists():
             raise forms.ValidationError('There is another blog with the same slug')
         return self.cleaned_data['slug']
 
     def clean_name(self):
-        if Blog.objects.filter(name = self.cleaned_data['name']).exists():
+        # if another object with same slug exist and has different id show error
+        query = Q(name = self.cleaned_data['name'])
+        if self.instance.id:
+            query = query & ~Q(id=self.instance.id)
+
+        if Blog.objects.filter(query).exists():
             raise forms.ValidationError('There is another blog with the same name')
         return self.cleaned_data['name']
 
