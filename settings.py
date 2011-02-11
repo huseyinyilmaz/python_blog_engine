@@ -97,8 +97,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django.contrib.flatpages',
+#    'django.contrib.flatpages',
     'blog',
-    
+    'staticpages',
 )
 

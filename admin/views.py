@@ -23,7 +23,7 @@ def index(request):
     page = {
         'title' : "",
         'choices' : [
-            ('Flat Pages',reverse('admin_flatPageMain')),
+            ('Static Pages',reverse('admin_staticPageMain')),
             ('Blogs',reverse('admin_blogMain')),
         ]}
     return render_to_response('menu.html',{'page':page})
@@ -329,37 +329,24 @@ def blogDelete(request,id):
 
 
 
-def flatPageMain(request):
-    page = object()
-    page.title = "Static page management"
-    page.choices = [
-        ('Main admin menu',reverse('admin_index')),
-        ]
-
-    staticPage_set = map(lambda x:_addurls(x,'staticPageEdit','staticPageDelete'),StaticPage.objects.all())
-
-    return render_to_response('admin/item_list.html',
-                              {'page':page,
-                               'item_set':staticPage_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('staticPageCreate'),
-                               })
 
 
 def staticPageMain(request):
-    page = object()
-    page.title = "Static page management"
-    page.choices = [
-        ('Main admin menu',reverse('admin_index')),
-        ]
+    page = {
+        'title' : "Static page management",
+        'choices' : [
+            ('Main admin menu',reverse('admin_index')),
+            ],
+        }
 
-    staticPage_set = map(lambda x:_addurls(x,'staticPageEdit','staticPageDelete'),StaticPage.objects.all())
+    
+    staticPage_set = map(lambda x:_addurls(x,'admin_staticPageEdit','admin_staticPageDelete'),StaticPage.objects.all())
 
     return render_to_response('admin/item_list.html',
                               {'page':page,
                                'item_set':staticPage_set,
                                'item_display_label':'Name',
-                               'createUrl':reverse('staticPageCreate'),
+                               'createUrl':reverse('admin_staticPageCreate'),
                                })
 
 def staticPageCreate(request):
