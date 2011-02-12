@@ -9,8 +9,8 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.http import HttpResponseServerError
 from django.core.exceptions import ValidationError
-from staticpages.forms import StaticPageForm
-from staticpages.models import StaticPage
+from staticpage.forms import StaticPageForm
+from staticpage.models import StaticPage
 from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag

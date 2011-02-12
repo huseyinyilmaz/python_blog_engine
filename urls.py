@@ -11,7 +11,9 @@ urlpatterns = patterns(
      {'template': 'index.html','show_indexes':True}),
 
     (r'^blog/',include('blog.urls')),
-    (r'^flatpages/',include('flatpages.urls')),
+    (r'^sp/',include('staticpage.urls')),
+    
+#    (r'^flatpages/',include('flatpages.urls')),
     (r'^admin2/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin2/', include(admin.site.urls)),
     (r'^admin/',include('admin.urls')),
