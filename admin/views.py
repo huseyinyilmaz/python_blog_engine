@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.http import HttpResponseServerError
 from django.core.exceptions import ValidationError
-from staticpages.models import StaticPageForm
+from staticpages.forms import StaticPageForm
 from staticpages.models import StaticPage
 from blog.models import Blog
 from blog.models import BlogPost
@@ -38,6 +38,9 @@ def _makeAttrSetter(attr):
         return x
     return f
 
+#########
+# Blog  #
+#########
 def blogMain(request):
     page = {
         'title' : "blog management",
@@ -62,6 +65,19 @@ def blogMain(request):
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_blogCreate'),
                                })
+
+def blogListMain(request):
+    """
+    Blog list for main blog post page
+    """
+    page = object()
+    page.title = ""
+    page.choices = [
+        ('Main Menu',reverse('index')),
+        ]
+    page.choices += map(lambda x:(x.name,reverse('blogPostMain',kwargs={'id':x.id})),Blog.objects.all())
+    return render_to_response('menu.html',{'page':page})
+
 
 def blog(request,id):
     blog = Blog.objects.get(pk=id)
@@ -91,9 +107,78 @@ def blog(request,id):
                                })
 
 
+def blogCreate(request):
+    page = {
+        'title' : "Create new blog",
+        'choices' : [
+            ('Blog menu',reverse('admin_blogMain')),
+            ],
+        }
+    if request.method == 'POST': # If the form has been submitted...
+        form = BlogForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            # ...
+            form.save()
+            return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
+    else:
+        form = BlogForm() # An unbound form
+
+    return render_to_response('admin/formpage.html',
+        {'form': form,
+        'formAction': reverse('admin_blogCreate'),
+        'page': page},context_instance=RequestContext(request))
+
+def blogEdit(request,id):
+    page = {
+        'title' : "Edit blog",
+        'choices' : [
+            ('Blog menu',reverse('admin_blogMain')),
+            ],
+        }
+    blog = get_object_or_404(Blog,pk=id)
+    if request.method == 'POST': # If the form has been submitted...
+        form = BlogForm(request.POST,instance=blog)
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            form.save()
+            return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
+    else:
+        form = BlogForm(instance=blog) 
+
+    return render_to_response('admin/formpage.html',
+        {'form': form,
+        'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
+        'page': page},context_instance=RequestContext(request))
+
+def blogDelete(request,id):
+    blog = get_object_or_404(Blog,pk=id)
+    blog.delete()
+    return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
+
+
+
 ##############
 # Blog Post  #
 ##############
+
+def blogPostMain(request,id):
+    page = object()
+    page.title = "Blog Post Management"
+    page.choices = [
+        ('Main admin menu',reverse('index')),
+        ]
+
+    staticPage_set = map(lambda x:_addurls(x,'blogPostEdit','blogPostDelete'),Blog.objects.get(pk=id).blogpost_set.all())
+
+    return render_to_response('admin/item_list.html',
+                              {'page':page,
+                               'item_set':staticPage_set,
+                               'item_display_label':'Name',
+                               'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
+                               })
+
+
 @commit_on_success
 def blogPostCreate(request,blog_id):
     post = dict()
@@ -274,62 +359,9 @@ def blogPostDelete(request,id):
     return HttpResponseRedirect(reverse('admin_blog',kwargs={'id':blog_id}))#Redirect after process
 
 
-#########
-# Blog  #
-#########
-
-def blogCreate(request):
-    page = {
-        'title' : "Create new blog",
-        'choices' : [
-            ('Blog menu',reverse('admin_blogMain')),
-            ],
-        }
-    if request.method == 'POST': # If the form has been submitted...
-        form = BlogForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
-            form.save()
-            return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
-    else:
-        form = BlogForm() # An unbound form
-
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_blogCreate'),
-        'page': page},context_instance=RequestContext(request))
-
-def blogEdit(request,id):
-    page = {
-        'title' : "Edit blog",
-        'choices' : [
-            ('Blog menu',reverse('admin_blogMain')),
-            ],
-        }
-    blog = get_object_or_404(Blog,pk=id)
-    if request.method == 'POST': # If the form has been submitted...
-        form = BlogForm(request.POST,instance=blog)
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            form.save()
-            return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
-    else:
-        form = BlogForm(instance=blog) 
-
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
-        'page': page},context_instance=RequestContext(request))
-
-def blogDelete(request,id):
-    blog = get_object_or_404(Blog,pk=id)
-    blog.delete()
-    return HttpResponseRedirect(reverse('admin_blogMain')) # Redirect after POST
-
-
-
-
+################
+# Static pages #
+################
 
 def staticPageMain(request):
     page = {
@@ -349,84 +381,55 @@ def staticPageMain(request):
                                'createUrl':reverse('admin_staticPageCreate'),
                                })
 
+
 def staticPageCreate(request):
-    page = object()
-    page.title = "Create new static page"
-    page.choices = [
-        ('Static page menu',reverse('staticPageMain')),
-        ]
+    page = {
+        'title' : "Create new static",
+        'choices' : [
+            ('Static page menu',reverse('admin_staticPageMain')),
+            ],
+        }
     if request.method == 'POST': # If the form has been submitted...
         form = StaticPageForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             # ...
-            #print form.cleaned_data['slug']
             form.save()
-            return HttpResponseRedirect(reverse('staticPageMain')) # Redirect after POST
+            return HttpResponseRedirect(reverse('admin_staticPageMain')) # Redirect after POST
     else:
         form = StaticPageForm() # An unbound form
 
     return render_to_response('admin/formpage.html',
         {'form': form,
-        'formAction': reverse('staticPageCreate'),
+        'formAction': reverse('admin_staticPageCreate'),
         'page': page},context_instance=RequestContext(request))
 
-
 def staticPageEdit(request,id):
-    page = object()
-    page.title = "Edit static page"
-    page.choices = [
-        ('Static page menu',reverse('staticPageMain')),
-        ]
-    staticPage = get_object_or_404(StaticPage,pk=id)
+    page = {
+        'title' : "Edit static page",
+        'choices' : [
+            ('Static page menu',reverse('admin_staticPageMain')),
+            ],
+        }
+    staticpage = get_object_or_404(StaticPage,pk=id)
     if request.method == 'POST': # If the form has been submitted...
-        form = StaticPageForm(request.POST,instance=staticPage)
+        form = StaticPageForm(request.POST,instance=staticpage)
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             form.save()
-            return HttpResponseRedirect(reverse('staticPageMain')) # Redirect after POST
+            return HttpResponseRedirect(reverse('admin_staticPageMain')) # Redirect after POST
     else:
-        form = StaticPageForm(instance=staticPage) 
+        form = StaticPageForm(instance=staticpage) 
 
     return render_to_response('admin/formpage.html',
         {'form': form,
-        'formAction': reverse('staticPageEdit',kwargs={'id':id}),
+        'formAction': reverse('admin_staticPageEdit',kwargs={'id':id}),
         'page': page},context_instance=RequestContext(request))
 
 def staticPageDelete(request,id):
-    staticPage = get_object_or_404(StaticPage,pk=id)
-    staticPage.delete()
-    return HttpResponseRedirect(reverse('staticPageMain')) # Redirect after POST
-
-
-
-def blogListMain(request):
-    """
-    Blog list for main blog post page
-    """
-    page = object()
-    page.title = ""
-    page.choices = [
-        ('Main Menu',reverse('index')),
-        ]
-    page.choices += map(lambda x:(x.name,reverse('blogPostMain',kwargs={'id':x.id})),Blog.objects.all())
-    return render_to_response('menu.html',{'page':page})
-
-def blogPostMain(request,id):
-    page = object()
-    page.title = "Blog Post Management"
-    page.choices = [
-        ('Main admin menu',reverse('index')),
-        ]
-
-    staticPage_set = map(lambda x:_addurls(x,'blogPostEdit','blogPostDelete'),Blog.objects.get(pk=id).blogpost_set.all())
-
-    return render_to_response('admin/item_list.html',
-                              {'page':page,
-                               'item_set':staticPage_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
-                               })
+    static = get_object_or_404(StaticPage,pk=id)
+    static.delete()
+    return HttpResponseRedirect(reverse('admin_staticPageMain')) # Redirect after POST
 
 
 #######################

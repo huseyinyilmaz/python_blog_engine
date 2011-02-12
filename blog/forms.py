@@ -37,7 +37,7 @@ class BlogForm(forms.ModelForm):
         return self.cleaned_data['slug']
 
     def clean_name(self):
-        # if another object with same slug exist and has different id show error
+        # if another object with same name exist and has different id show error
         query = Q(name = self.cleaned_data['name'])
         if self.instance.id:
             query = query & ~Q(id=self.instance.id)
