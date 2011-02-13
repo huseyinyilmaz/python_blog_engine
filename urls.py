@@ -20,5 +20,5 @@ urlpatterns = patterns(
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
-    
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'},name='login'),    
     )

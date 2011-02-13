@@ -102,3 +102,4 @@ INSTALLED_APPS = (
     'staticpage',
 )
 
+LOGIN_URL = '/login/'

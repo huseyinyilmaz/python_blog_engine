@@ -17,8 +17,10 @@ from blog.models import Tag
 from blog.models import Category
 from django.template.defaultfilters import slugify
 from blog.forms import BlogForm
-
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def index(request):
     page = {
         'title' : "",
@@ -41,6 +43,7 @@ def _makeAttrSetter(attr):
 #########
 # Blog  #
 #########
+@login_required
 def blogMain(request):
     page = {
         'title' : "blog management",
@@ -66,6 +69,7 @@ def blogMain(request):
                                'createUrl':reverse('admin_blogCreate'),
                                })
 
+@login_required
 def blogListMain(request):
     """
     Blog list for main blog post page
@@ -79,6 +83,7 @@ def blogListMain(request):
     return render_to_response('menu.html',{'page':page})
 
 
+@login_required
 def blog(request,id):
     blog = Blog.objects.get(pk=id)
     page = {
@@ -107,6 +112,7 @@ def blog(request,id):
                                })
 
 
+@login_required
 def blogCreate(request):
     page = {
         'title' : "Create new blog",
@@ -129,6 +135,7 @@ def blogCreate(request):
         'formAction': reverse('admin_blogCreate'),
         'page': page},context_instance=RequestContext(request))
 
+@login_required
 def blogEdit(request,id):
     page = {
         'title' : "Edit blog",
@@ -151,6 +158,7 @@ def blogEdit(request,id):
         'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
         'page': page},context_instance=RequestContext(request))
 
+@login_required
 def blogDelete(request,id):
     blog = get_object_or_404(Blog,pk=id)
     blog.delete()
@@ -162,6 +170,7 @@ def blogDelete(request,id):
 # Blog Post  #
 ##############
 
+@login_required
 def blogPostMain(request,id):
     page = object()
     page.title = "Blog Post Management"
@@ -179,6 +188,7 @@ def blogPostMain(request,id):
                                })
 
 
+@login_required
 @commit_on_success
 def blogPostCreate(request,blog_id):
     post = dict()
@@ -246,6 +256,7 @@ def blogPostCreate(request,blog_id):
         'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
         'page': page})
 
+@login_required
 @commit_on_success
 def blogPostEdit(request,id):
     post = dict()
@@ -351,6 +362,7 @@ def blogPostEdit(request,id):
         'formAction': reverse('admin_blogPostEdit',kwargs={'id':id}),
         'page': page})
 
+@login_required
 @commit_on_success
 def blogPostDelete(request,id):
     blogPost = get_object_or_404(BlogPost,pk=id)
@@ -363,6 +375,7 @@ def blogPostDelete(request,id):
 # Static pages #
 ################
 
+@login_required
 def staticPageMain(request):
     page = {
         'title' : "Static page management",
@@ -382,6 +395,8 @@ def staticPageMain(request):
                                })
 
 
+@login_required
+@commit_on_success
 def staticPageCreate(request):
     page = {
         'title' : "Create new static",
@@ -404,6 +419,8 @@ def staticPageCreate(request):
         'formAction': reverse('admin_staticPageCreate'),
         'page': page},context_instance=RequestContext(request))
 
+@login_required
+@commit_on_success
 def staticPageEdit(request,id):
     page = {
         'title' : "Edit static page",
@@ -426,6 +443,8 @@ def staticPageEdit(request,id):
         'formAction': reverse('admin_staticPageEdit',kwargs={'id':id}),
         'page': page},context_instance=RequestContext(request))
 
+@login_required
+@commit_on_success
 def staticPageDelete(request,id):
     static = get_object_or_404(StaticPage,pk=id)
     static.delete()
@@ -435,6 +454,7 @@ def staticPageDelete(request,id):
 #######################
 # Tags and Categories #
 #######################
+@login_required
 @commit_on_success
 def widget(request, item_class, blogpost_connection, blog_id, id):
     if request.method == 'POST':
