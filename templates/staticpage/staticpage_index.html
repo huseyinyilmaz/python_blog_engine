@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>{{staticpage.title}}</title>
+{% endblock %}
+
+{% block content %}
+{{staticpage.content_HTML|safe}}
+{% endblock content %}

@@ -11,7 +11,7 @@
     {% endblock %}
 </head>
 <body>
-                
+{% block banner %}                
 <div id="header" class="container_12">
   <div id="" class="grid_12 ">
 	{% if blog %}
@@ -19,14 +19,14 @@
 	  <div class="blog_header header">{{ blog.name }}</div>
 	  <div class="blog_tagline header">{{ blog.tagline }}</div>
 	  </a>
-  {%else%}
+	{%else%}
 	  <div class="blog_header header">Python Blog Engine</div>
-	  {% endif %}
+	{% endif %}
   </div>
 </div>
-
+{% endblock banner %}
 <div id="content" class="container_12">
-
+{% block content %}
 <div id="" class="grid_9 ">
   <div id="" class="grid_9 ">
     <h3>{{ page.title }}</h3>
@@ -35,7 +35,6 @@
       {% block body %}
       {% endblock %}
   </div>
-  
 </div>
 
 <div id="right_sidebar" class="grid_3 ">
@@ -45,6 +44,7 @@
   <div class="grid_3">{% block widget_3 %}{% endblock widget_3 %}</div>
 {% endblock right_sidebar %}
 </div>
+{% endblock content %}  
 
 </div>
 
