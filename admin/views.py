@@ -194,7 +194,7 @@ def blogPostCreate(request,blog_id):
     if request.method == 'POST': # If the form has been submitted...
 
         response = {'result':'ok'}
-        blogPost = simplejson.loads(request.POST.keys()[0])
+        blogPost = simplejson.loads(request.raw_post_data )
         tags = Tag.objects.filter(blog__id=blog_id,id__in = map(lambda x: x['id'],blogPost['tags']))
         categories = Category.objects.filter(blog__id=blog_id,id__in = map(lambda x: x['id'],blogPost['categories']))
 
