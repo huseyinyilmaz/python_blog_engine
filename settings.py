@@ -103,3 +103,4 @@ INSTALLED_APPS = (
 )
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/admin/'

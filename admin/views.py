@@ -28,7 +28,7 @@ def index(request):
             ('Static Pages',reverse('admin_staticPageMain')),
             ('Blogs',reverse('admin_blogMain')),
         ]}
-    return render_to_response('menu.html',{'page':page})
+    return render_to_response('menu.html',{'page':page,'user':request.user},)
 
 def _addurls(item,editHandler,deleteHandler):
     item.editUrl,item.deleteUrl = reverse(editHandler,kwargs={'id':item.id}),reverse(deleteHandler,kwargs={'id':item.id})
@@ -67,6 +67,7 @@ def blogMain(request):
                                'item_set':staticPage_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_blogCreate'),
+                               'user':request.user,
                                })
 
 @login_required
@@ -80,7 +81,7 @@ def blogListMain(request):
         ('Main Menu',reverse('index')),
         ]
     page.choices += map(lambda x:(x.name,reverse('blogPostMain',kwargs={'id':x.id})),Blog.objects.all())
-    return render_to_response('menu.html',{'page':page})
+    return render_to_response('menu.html',{'page':page,'user':request.user})
 
 
 @login_required
@@ -109,6 +110,7 @@ def blog(request,id):
                                'item_set':blogPost_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_blogPostCreate', kwargs={'blog_id':id}),
+                               'user':request.user,
                                })
 
 
@@ -185,6 +187,7 @@ def blogPostMain(request,id):
                                'item_set':staticPage_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
+                               'user':request.user,
                                })
 
 
@@ -213,7 +216,8 @@ def blogPostCreate(request,blog_id):
                             title=blogPost['title'],
                             slug=blogPost['slug'],
                             published=blogPost['published'],
-                            blog_id=blog_id,)
+                            blog_id=blog_id,
+                            )
         try:
             # we need to save the object in order to add manytomany field
             new_post.save()
@@ -254,7 +258,9 @@ def blogPostCreate(request,blog_id):
     return render_to_response('admin/blogpostpage.html',
         {
         'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
-        'page': page})
+        'page': page,
+        'user':request.user,
+})
 
 @login_required
 @commit_on_success
@@ -360,7 +366,9 @@ def blogPostEdit(request,id):
     return render_to_response('admin/blogpostpage.html',
         {
         'formAction': reverse('admin_blogPostEdit',kwargs={'id':id}),
-        'page': page})
+        'page': page,
+        'user':request.user,
+        })
 
 @login_required
 @commit_on_success
@@ -392,8 +400,8 @@ def staticPageMain(request):
                                'item_set':staticPage_set,
                                'item_display_label':'Name',
                                'createUrl':reverse('admin_staticPageCreate'),
+                               'user':request.user,
                                })
-
 
 @login_required
 @commit_on_success
@@ -417,7 +425,8 @@ def staticPageCreate(request):
     return render_to_response('admin/formpage.html',
         {'form': form,
         'formAction': reverse('admin_staticPageCreate'),
-        'page': page},context_instance=RequestContext(request))
+        'page': page,
+         },context_instance=RequestContext(request))
 
 @login_required
 @commit_on_success
@@ -441,7 +450,7 @@ def staticPageEdit(request,id):
     return render_to_response('admin/formpage.html',
         {'form': form,
         'formAction': reverse('admin_staticPageEdit',kwargs={'id':id}),
-        'page': page},context_instance=RequestContext(request))
+        'page': page,},context_instance=RequestContext(request))
 
 @login_required
 @commit_on_success
