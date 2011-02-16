@@ -7,12 +7,17 @@
 {% block body %}
 <lu>
 {% for item in page.choices %}
-<li class="list"><a href="{{ item.1 }}" class="item">{{ item.0 }}</a></li>
+  <li class="list">
+	<button class="item" value="{{ item.1 }}">{{ item.0 }}</button>
+  </li>
 {% endfor %}
 </lu>
 <script type="text/javascript">
 $(function(){
-    $('a.item').button();
+    $('button.item').button().click(
+		function(e){
+			window.location = $(this).val();
+		});
 });
 </script>
 {% endblock body %}

@@ -2,12 +2,16 @@
 
 {% block head %}
 <link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
+<script type="text/javascript">
+var delete_message = 'Are you sure you want to delete blog post';
+var createUrl = "{{ createUrl }}";
+</script>
 {% endblock head%}
 
 {% block body %}
 <lu>
 {% for item in page.choices %}
-<li class="list"><a href="{{ item.1 }}" class="item">{{ item.0 }}</a></li>
+  <li class="list"><button class="item" value="{{ item.1 }}">{{ item.0 }}</button></li>
 {% endfor %}
 </lu>
 <br />
@@ -32,61 +36,7 @@
 <input type="button" id="grid_button_select" value="Select"/>
 <input type="button" id="grid_button_delete" value="Delete"/>
 
-<script type="text/javascript">
-$(function(){
-    //holds a jquery object
-    var selectedRow = null;
-    //initialize grid rows
-    $("tr.grid_row").click(
-        function(){
-    	    if(selectedRow != null){
-    		selectedRow.removeClass("ui-state-highlight");
-	    }else{
-		$("#grid_button_select").button('option','disabled',false);
-		$("#grid_button_delete").button('option','disabled',false);
-	    }
-    	    selectedRow = $(this);
-    	    selectedRow.addClass("ui-state-highlight");
-    	}//onclick handler
-    ).hover(
-    	function(){
-    	    if(!selectedRow || selectedRow.get()[0] !== this ){
-    		$(this).addClass("ui-state-hover").removeClass("ui-widget-content");
-    	    };
-    	},function(){
-    	    $(this).removeClass("ui-state-hover").addClass("ui-widget-content");
-    	});//click
-    //initialize buttons
-    $("#grid_button_create").button().click(function(){window.location="{{ createUrl }}"});
-    $("#grid_button_select").button({disabled:true}).click(function(){
-	window.location = selectedRow.children("input.selectUrl").val()
-    });
-    $("#grid_button_delete").button({disabled:true}).click(function(){
-	$("#deleteDialog").html("Are you sure you want to delete blog post '" + selectedRow.children("td:eq(1)").html() + "' ?");
-	$("#deleteDialog").dialog('open');
-    });
-    $(".item").button();//list items
-
-    //initialize delete confirmation dialog
-    $("#deleteDialog").dialog({
-	resizable: false,
-	height:200,
-	width: 600,
-	modal: true,
-	autoOpen: false,
-	buttons: {
-	    'Delete': function() {
-		window.location = selectedRow.children("input.deleteUrl").val();
-	    },
-	    'Cancel': function() {
-		$(this).dialog('close');
-	    }
-	}
-    });
-
-});
-
-</script>
+<script type="text/javascript" src="/site_media/js/admin/blog_main.js"></script>
 <!-- Delete confirmation dialog -->
 <div id="deleteDialog" title="Delete Confirmation Dialog"></div>
 {% endblock body%}
