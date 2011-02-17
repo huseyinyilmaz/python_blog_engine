@@ -630,9 +630,6 @@ $(function () {
 													  this.onChangeField(event, 'published');
 													  logger.endLog();
 												  }
-												  
-						  
-												  
 											  });
       var blogPost = new BlogPost(data);
       logger.log('Blog post was created from json data');
@@ -650,9 +647,12 @@ $(function () {
       $('#cancelButton').click(function () {
 								   blogPostView.onCancelPressed();
 			       });
-      $('#' + domManipulator.getId('title')).keyup(_.throttle(function (event) {
-								  document.getElementById(domManipulator.getId("slug")).value = URLify(this.value, 200);
-															  }, 100));
+      $('#' + domManipulator.getId('title')).keyup(_.throttle(
+													   function (event) {
+														   var val = URLify(this.value, 200);
+														   document.getElementById(domManipulator.getId("slug")).value = val;
+														   blogPost.set({slug:val});
+													   }, 100));
       //print scope leaks
       if (scopeleaks.leaks().toString()) {
           logger.log("Global Names = " + scopeleaks.leaks().toString());
