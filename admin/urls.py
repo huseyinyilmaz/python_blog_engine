@@ -3,7 +3,6 @@ import views
 urlpatterns = patterns('',
     url(r'^$',views.index,name='admin_index'),
     url(r'^blogs/$',views.blogMain,name='admin_blogMain'),
-    url(r'^bloglist/$',views.blogListMain,name='admin_blogListMain'),
     url(r'^staticpage/$',views.staticPageMain,name='admin_staticPageMain'),
 
     url(r'^blog/(?P<id>\d+)/$',views.blog,name='admin_blog'),

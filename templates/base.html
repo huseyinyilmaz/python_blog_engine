@@ -38,8 +38,9 @@
     <h3>{{ page.title }}</h3>
   </div>
   <div id="" class="grid_9 ">
-      {% block body %}
-      {% endblock %}
+	<p>{% if page.description %}{{page.description|safe}}{% endif %}</p>
+	{% block body %}
+  {% endblock %}
   </div>
 </div>
 

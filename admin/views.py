@@ -20,6 +20,10 @@ from blog.forms import BlogForm
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
+MAIN_DESCRIPTION = "<p>Welcome to admin utility for Python Blog Engine. With This utility, you can Create/Editblogs and blogposts. Blogs will be available in '/blog/blog_slug/' url.(replace blog_slug value with slug of your blog).</p><p>Static pages are backed by database. so you can create new static pages simply by adding one from admin menu. They are available in '/sp/staticpage_slug/'</p>"
+BLOG_MAIN_DESCRIPTION = "<ul><li>Press create button to create a new blog</li><li>Select a blog and press delete button to delete it.</li><li>Select a blog and press select button to goto blog menu. You can edit blog or do blog post operations from blog menu.</li></ul>"
+BLOG_DESCRIPTION = "<ul><li>Press edit blog button to edit current blog</li><li>Press create button to create a new blog post</li><li>Select a blog post and press delete button to delete it</li><li>Select a blog post and pres edit button to edit it</li></ul>"
+STATIC_PAGES_DESCRIPTION = "<ul><li>Press create button to create a new static page</li><li>Select a static page and press delete button to delete it</li><li>Select a static page and pres edit button to edit it</li></ul>"
 @login_required
 def index(request):
     page = {
@@ -27,7 +31,9 @@ def index(request):
         'choices' : [
             ('Static Pages',reverse('admin_staticPageMain')),
             ('Blogs',reverse('admin_blogMain')),
-        ]}
+            ],
+        'description':MAIN_DESCRIPTION,
+        }
     return render_to_response('menu.html',{'page':page,'user':request.user},)
 
 def _addurls(item,editHandler,deleteHandler):
@@ -49,7 +55,8 @@ def blogMain(request):
         'title' : "blog management",
         'choices' : [
             ('Main admin menu',reverse('admin_index')),
-            ]
+            ],
+        'description':BLOG_MAIN_DESCRIPTION,
         }
     
     setBlogLink = _makeAttrSetter('selectUrl')
@@ -71,20 +78,6 @@ def blogMain(request):
                                })
 
 @login_required
-def blogListMain(request):
-    """
-    Blog list for main blog post page
-    """
-    page = object()
-    page.title = ""
-    page.choices = [
-        ('Main Menu',reverse('index')),
-        ]
-    page.choices += map(lambda x:(x.name,reverse('blogPostMain',kwargs={'id':x.id})),Blog.objects.all())
-    return render_to_response('menu.html',{'page':page,'user':request.user})
-
-
-@login_required
 def blog(request,id):
     blog = Blog.objects.get(pk=id)
     page = {
@@ -93,7 +86,8 @@ def blog(request,id):
         'choices' : [
             ('Main blog menu',reverse('admin_blogMain')),
             ('Edit blog',reverse('admin_blogEdit',kwargs={'id':id})),
-            ]
+            ],
+        'description':BLOG_DESCRIPTION,
         }
 
     setEditLink = _makeAttrSetter('selectUrl')
@@ -390,6 +384,7 @@ def staticPageMain(request):
         'choices' : [
             ('Main admin menu',reverse('admin_index')),
             ],
+        'description':STATIC_PAGES_DESCRIPTION,
         }
 
     
