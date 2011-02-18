@@ -23,7 +23,7 @@
 	  <div class="blog_header header">Python Blog Engine</div>
 	{% endif %}
   </div>
-{% if user %}
+{% if user and user.is_authenticated %}
   <div class="grid_12" align="right">
   {{ user.email }} - <a href="/logout/">logout</a>
   </div>
