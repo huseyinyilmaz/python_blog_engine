@@ -105,8 +105,8 @@ class BlogPost(models.Model):
     creation_date = models.DateTimeField('Creation date', auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
     
-    view_objects = BlogPostViewManager()
     objects = models.Manager()
+    view_objects = BlogPostViewManager()
 
     class Meta():
         unique_together = (("slug", "blog"),)
