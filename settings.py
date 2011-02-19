@@ -71,8 +71,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -97,10 +95,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-#    'django.contrib.flatpages',
     'blog',
     'staticpage',
-)
+    'menu',
+    )
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/'

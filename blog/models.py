@@ -29,7 +29,7 @@ class _Month:
         self.count = int(count)
         self.datetime= datetime(self.year,self.month,1)
     def __unicode__(self):
-        return str(self)
+        return unicode(str(self))
     def __str__(self):
         return "%s (%d)"%(self.datetime.strftime("%B %Y"),self.count)
 
@@ -54,7 +54,7 @@ class Tag(models.Model):
     blog = models.ForeignKey(Blog)
     class Meta():
         unique_together = (('name','blog'),)
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Category(models.Model):

@@ -7,8 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    ('^$', 'django.views.generic.simple.direct_to_template',
-     {'template': 'index.html','show_indexes':True}),
+    url(r'^$', 'staticpage.views.index',{'slug':'main'},name='index' ),
 
     (r'^blog/',include('blog.urls')),
     (r'^sp/',include('staticpage.urls')),

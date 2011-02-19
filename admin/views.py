@@ -34,7 +34,7 @@ def index(request):
             ],
         'description':MAIN_DESCRIPTION,
         }
-    return render_to_response('menu.html',{'page':page,'user':request.user},)
+    return render_to_response('list.html',{'page':page,'user':request.user},)
 
 def _addurls(item,editHandler,deleteHandler):
     item.editUrl,item.deleteUrl = reverse(editHandler,kwargs={'id':item.id}),reverse(deleteHandler,kwargs={'id':item.id})

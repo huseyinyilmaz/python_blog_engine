@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block body %}
+<lu>
+{% for item in page.choices %}
+  <li class="list">
+	<button class="item" value="{{ item.1 }}">{{ item.0 }}</button>
+  </li>
+{% endfor %}
+</lu>
+<script type="text/javascript">
+$(function(){
+    $('button.item').button().click(
+		function(e){
+			window.location = $(this).val();
+		});
+});
+</script>
+{% endblock body %}
+

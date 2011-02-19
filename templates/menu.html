@@ -1,24 +1,14 @@
-{% extends "base.html" %}
-
-{% block head %}
-<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
-{% endblock %}
-
-{% block body %}
-<lu>
-{% for item in page.choices %}
-  <li class="list">
-	<button class="item" value="{{ item.1 }}">{{ item.0 }}</button>
-  </li>
-{% endfor %}
-</lu>
-<script type="text/javascript">
-$(function(){
-    $('button.item').button().click(
-		function(e){
-			window.location = $(this).val();
-		});
-});
-</script>
-{% endblock body %}
-
+{% if menu %}
+<div class="grid_12" align="center">
+  {% for item in menu %}
+	{% if path == item.url %}
+	  {{ item.display }}
+	{% else%}
+	<a href="{{item.url}}" {% if item.extra_attribute %} class="{{ item.extra_attribute }}" {% endif %}>{{ item.display }}</a>
+	{% endif %}
+	{% if not forloop.last %}
+	- 
+	{% endif %}
+  {% endfor %}
+</div>
+{% endif %}

@@ -5,8 +5,9 @@ from models import Blog
 from models import BlogPost
 from models import Tag
 from models import Category
-
+from menu.models import get_menu_items
 import logging
+
 logger = logging.getLogger(__name__)
 
 def index(request,blog_slug):
@@ -20,6 +21,8 @@ def index(request,blog_slug):
                                'tag_list':tag_list,
                                'category_list':category_list,
                                'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
+                               'menu': get_menu_items(),
+                               'path': request.path,
                                },
                               )
 
@@ -42,6 +45,8 @@ def post(request,blog_slug,year,month,post_slug):
                                'blogpost':post,
                                'post_tag_list':post_tag_list,
                                'post_category_list':post_category_list,
+                               'menu': get_menu_items(),
+                               'path': request.path,
                                })
 
 def month(request,blog_slug,year,month):
@@ -63,6 +68,8 @@ def month(request,blog_slug,year,month):
                                'month':month,
                                'year':year,
                                'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog,creation_date__year=year, creation_date__month=month),
+                               'menu': get_menu_items(),
+                               'path': request.path,
                                },
                               )
 
@@ -84,6 +91,8 @@ def tag(request,blog_slug,tag_slug):
                                'tag':tag,
                                'category_list':category_list,
                                'blogpost_set':blogpost_set,
+                               'menu': get_menu_items(),
+                               'path': request.path,
                                },
                               )
 
@@ -106,6 +115,8 @@ def category(request,blog_slug,category_slug):
                                'category':category,
                                'category_list':category_list,
                                'blogpost_set':blogpost_set,
+                               'menu': get_menu_items(),
+                               'path': request.path,
                                },
                               )
 
