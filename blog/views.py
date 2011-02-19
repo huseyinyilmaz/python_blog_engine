@@ -17,7 +17,7 @@ def index(request,blog_slug):
 
     return render_to_response('blog/blogpost_index.html',
                               {'blog':blog,
-                               'date_list':BlogPost.view_objects.date_list(),
+                               'date_list':BlogPost.view_objects.date_list(blog.id),
                                'tag_list':tag_list,
                                'category_list':category_list,
                                'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
@@ -39,7 +39,7 @@ def post(request,blog_slug,year,month,post_slug):
     post_category_list = post.categories.all()
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
-                               'date_list':BlogPost.view_objects.date_list(),
+                               'date_list':BlogPost.view_objects.date_list(blog.id),
                                'tag_list':tag_list,
                                'category_list':category_list,
                                'blogpost':post,
@@ -55,7 +55,7 @@ def month(request,blog_slug,year,month):
 
     blog = get_object_or_404(Blog,slug=blog_slug)
 
-    date_list = BlogPost.view_objects.date_list()
+    date_list = BlogPost.view_objects.date_list(blog.id)
 
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
@@ -78,7 +78,7 @@ def tag(request,blog_slug,tag_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
     tag = get_object_or_404(Tag,name=tag_slug)
 
-    date_list = BlogPost.view_objects.date_list()
+    date_list = BlogPost.view_objects.date_list(blog.id)
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
     blogpost_set = BlogPost.view_objects.tag(tag).all()
@@ -102,7 +102,7 @@ def category(request,blog_slug,category_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
     category = get_object_or_404(Category,name=category_slug)
 
-    date_list = BlogPost.view_objects.date_list()
+    date_list = BlogPost.view_objects.date_list(blog.id)
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
 

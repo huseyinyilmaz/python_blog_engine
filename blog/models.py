@@ -11,6 +11,7 @@ date_part('month', bp.creation_date),
 date_part('year', bp.creation_date),
 count(*)
 from blog_blogpost bp
+where bp.blog_id = %d
 group by date_part('month', bp.creation_date), date_part('year', bp.creation_date)
 order by date_part('year', bp.creation_date) DESC, date_part('month', bp.creation_date) DESC
 """
@@ -19,6 +20,7 @@ django_extract('month', bp.creation_date),
 django_extract('year', bp.creation_date),
 count(*)
 from blog_blogpost bp
+where bp.blog_id = %d
 group by django_extract('month', bp.creation_date), django_extract('year', bp.creation_date)
 order by django_extract('year', bp.creation_date) DESC, django_extract('month', bp.creation_date) DESC
 """
@@ -76,12 +78,12 @@ class BlogPostViewManager(models.Manager):
         return self.filter(tags__name=tag)
     def category(self,category):
         return self.filter(categories__name=category)
-    def date_list(self):
+    def date_list(self,blog_id):
         cursor = connection.cursor()
         if settings.DATABASE_ENGINE == 'sqlite3':
-            cursor.execute(date_query_sqlite)
+            cursor.execute(date_query_sqlite%blog_id)
         elif settings.DATABASE_ENGINE == 'postgresql_psycopg2':
-            cursor.execute(date_query_posgres)
+            cursor.execute(date_query_posgres%blog_id)
         else:#default value will be posgres
             cursor.execute(date_query_posgres)
 
