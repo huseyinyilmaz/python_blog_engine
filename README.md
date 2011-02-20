@@ -15,13 +15,13 @@ Installation Notes
 In order to use markdown, You must install following packages on your system
 
 1. Install ElementsTree
-			easy_install ElementTree'
+			easy_install ElementTree
 
 2. Install MarkDown
 			git clone git://gitorious.org/python-markdown/mainline.git markdown
 			cd markdown
 			sudo setup.py install
-
+			#You can also use easy_install to install markdown
 3. Install  Pygments
    			easy_install Pygments
 
