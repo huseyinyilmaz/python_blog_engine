@@ -10,9 +10,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+#posgres vlaues
 #DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 #DATABASE_NAME = 'pbe'             # Or path to database file if using sqlite3.
+
+#sqlite values
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+
 DATABASE_NAME = 'pbe.db'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'postgres'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'postgres'         # Not used with sqlite3.
@@ -64,16 +68,11 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 )
-
-INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'python_blog_engine.urls'
 
@@ -85,10 +84,6 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-
-    'debug_toolbar',
-    'django_extensions',
-
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -99,6 +94,11 @@ INSTALLED_APPS = (
     'staticpage',
     'menu',
     )
+
+if DEBUG:
+    INSTALLED_APPS = ('debug_toolbar','django_extensions',)+INSTALLED_APPS
+    MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',)+MIDDLEWARE_CLASSES
+    INTERNAL_IPS = ('127.0.0.1',)
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/'
