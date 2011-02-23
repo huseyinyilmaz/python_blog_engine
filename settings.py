@@ -95,6 +95,20 @@ INSTALLED_APPS = (
     'menu',
     )
 
+
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+
+
+
+
 if DEBUG:
     INSTALLED_APPS = ('debug_toolbar','django_extensions',)+INSTALLED_APPS
     MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',)+MIDDLEWARE_CLASSES

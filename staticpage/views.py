@@ -2,7 +2,9 @@ from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from staticpage.models import StaticPage
 from menu.models import get_menu_items
+from django.views.decorators.cache import cache_page
 
+@cache_page
 def index(request,slug):
     staticpage = get_object_or_404(StaticPage,slug=slug)
 

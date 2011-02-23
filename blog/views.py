@@ -7,9 +7,11 @@ from models import Tag
 from models import Category
 from menu.models import get_menu_items
 import logging
+from django.views.decorators.cache import cache_page
 
 logger = logging.getLogger(__name__)
 
+@cache_page
 def index(request,blog_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
     tag_list = blog.tag_set.all()
@@ -26,6 +28,7 @@ def index(request,blog_slug):
                                },
                               )
 
+@cache_page
 def post(request,blog_slug,year,month,post_slug):
     blog = get_object_or_404(Blog,slug=blog_slug)
     try:
@@ -49,6 +52,7 @@ def post(request,blog_slug,year,month,post_slug):
                                'path': request.path,
                                })
 
+@cache_page
 def month(request,blog_slug,year,month):
     year = int(year)
     month = int(month)
@@ -73,6 +77,7 @@ def month(request,blog_slug,year,month):
                                },
                               )
 
+@cache_page
 def tag(request,blog_slug,tag_slug):
 
     blog = get_object_or_404(Blog,slug=blog_slug)
@@ -96,7 +101,7 @@ def tag(request,blog_slug,tag_slug):
                                },
                               )
 
-
+@cache_page
 def category(request,blog_slug,category_slug):
 
     blog = get_object_or_404(Blog,slug=blog_slug)
