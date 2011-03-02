@@ -37,10 +37,15 @@ li.list{
     text-indent: 0px;
 }
 
-span.blogpost_footer{
+span.blogpost_footer,div.smaller{
 	font-size: 80%;
 }
-span.blogpost_date{
+
+div.smaller,div.footer{
+	text-align: center;
+}
+
+span.blogpost_date,div.footer{
     font-style:italic;
 	font-size: 80%;
 }

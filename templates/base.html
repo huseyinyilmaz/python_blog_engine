@@ -4,7 +4,10 @@
     <link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/site_media/css/g960.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/site_media/css/pygments_style.css" type="text/css" media="screen" />
+{% if blog %}
+	<link rel="alternate" type="application/rss+xml" title={{blog.title}} href="{%url blog_rss blog.slug%}" />
 
+{% endif %}
     {% include "jquery.html" %}
     <title>{{ page.title }}</title>
     {% block head %}
@@ -57,8 +60,14 @@
 
 <div id="footer" class="container_12">
 <div id="" class="grid_12 ">
+{% if blog %}
+<div class="smaller">
+  <a href="{% url blog_rss blog.slug %}">RSS</a> - 
+  <a href="{% url blog_atom blog.slug %}">Atom</a>
+</div>
+{% endif %}
 <hr>
-  Powered by <a href="https://github.com/huseyinyilmaz/python_blog_engine">Python Blog Engine</a>
+  <div class="footer">Powered by <a href="https://github.com/huseyinyilmaz/python_blog_engine">Python Blog Engine</a>
 </div>
 </div>
 

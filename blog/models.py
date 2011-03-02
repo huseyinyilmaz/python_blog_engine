@@ -48,8 +48,9 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.name
-    def getURL(self):
-        return reverse('main',kwarkg={'blog_slug':self.slug})
+
+    def get_absolute_url(self):
+        return reverse('blog_index',kwargs={'blog_slug':self.slug})
 
 class Tag(models.Model):
     name = models.SlugField(max_length=500)
@@ -111,8 +112,9 @@ class BlogPost(models.Model):
     class Meta():
         unique_together = (("slug", "blog"),)
 
-    def getURL(self):
-        return reverse('post',kwarkg={'blog_slug':self.blog.slug,'post_slug':self.slug})
+    def get_absolute_url(self):
+        dt = self.creation_date
+        return reverse('blog_post',kwargs={'blog_slug':self.blog.slug,'post_slug':self.slug})
         
     def __str__(self):
         return self.title
