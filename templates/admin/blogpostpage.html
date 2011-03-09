@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/media/js/urlify.js"></script>
 
 <script type="text/javascript">
-  window.data = {{ page.post_json|safe }};
+  window.data =JSON.parse('{{ page.post_json|escapejs }}');
   window.next_url = "{{page.next_url }}";
   window.blog_url = "{{ page.blog_url}}";
   window.tag_url = "{{page.tag_url}}";
