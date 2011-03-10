@@ -109,3 +109,4 @@ if DEBUG:
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/'
+TITLE = 'Python Blog Engine'

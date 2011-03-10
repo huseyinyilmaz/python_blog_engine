@@ -11,6 +11,7 @@ from django.views.decorators.cache import cache_page
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.feedgenerator import Rss201rev2Feed
+from django.conf import settings
 logger = logging.getLogger(__name__)
 
 @cache_page
@@ -139,7 +140,7 @@ class BlogPostRSSFeed(Feed):
         return get_object_or_404(Blog,slug=blog_slug)
     
     def title(self,obj):
-        return obj.title
+        return "%s - %s"%(settings.TITLE,obj.title)
     
     def description(self,obj):
         return obj.description
