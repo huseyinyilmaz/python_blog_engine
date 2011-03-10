@@ -66,12 +66,10 @@ a.header {
     color: #333333;
     text-decoration: none;
     font-weight:bold;
-    font-size:20px;
+    font-size:28px;
 }
 a.header:hover {
     color: #0066CC;
-    font-weight:bold;
-    font-size:20px;
 }
 
 table.grid{
