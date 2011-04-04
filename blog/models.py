@@ -12,6 +12,7 @@ date_part('year', bp.creation_date),
 count(*)
 from blog_blogpost bp
 where bp.blog_id = %d
+and bp.published=TRUE
 group by date_part('month', bp.creation_date), date_part('year', bp.creation_date)
 order by date_part('year', bp.creation_date) DESC, date_part('month', bp.creation_date) DESC
 """
@@ -21,6 +22,7 @@ django_extract('year', bp.creation_date),
 count(*)
 from blog_blogpost bp
 where bp.blog_id = %d
+and bp.published != 0
 group by django_extract('month', bp.creation_date), django_extract('year', bp.creation_date)
 order by django_extract('year', bp.creation_date) DESC, django_extract('month', bp.creation_date) DESC
 """
@@ -71,14 +73,16 @@ class Category(models.Model):
 class BlogPostViewManager(models.Manager):
     def get_query_set(self):
         return super(BlogPostViewManager,self).get_query_set().defer('content','teaser').order_by('-creation_date')
+    def published(self):
+        return self.filter(published = True)
     def with_teaser(self):
-        return self.defer('content_HTML')
+        return self.published().defer('content_HTML')
     def with_content(self):
-        return self.defer('teaser_HTML')
+        return self.published().defer('teaser_HTML')
     def tag(self,tag):
-        return self.filter(tags__name=tag)
+        return self.published().filter(tags__name=tag)
     def category(self,category):
-        return self.filter(categories__name=category)
+        return self.published().filter(categories__name=category)
     def date_list(self,blog_id):
         cursor = connection.cursor()
         if settings.DATABASE_ENGINE == 'sqlite3':
@@ -113,7 +117,6 @@ class BlogPost(models.Model):
         unique_together = (("slug", "blog"),)
 
     def get_absolute_url(self):
-        dt = self.creation_date
         return reverse('blog_post',kwargs={'blog_slug':self.blog.slug,'post_slug':self.slug})
         
     def __str__(self):

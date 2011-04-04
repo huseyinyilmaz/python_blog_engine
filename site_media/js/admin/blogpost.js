@@ -26,7 +26,7 @@ $(function () {
           side_widget: _.template($('#template_side_widget').html()),
           textarea: _.template('<textarea id="<%=id%>" rows="<%=rows%>" cols="<%=cols%>" name="<%=name%>" class="grid_7"><%=content%></textarea>'),
           text_input: _.template('<input type="text" id="<%= id %>" name="<%= name %>" autocomplete="off" class="grid_7" value="<%= content %>"></input>'),
-          checkbox: _.template('<input type="checkbox" id="<%= id %>" name="<%= name %> <% if(isChecked){%>checked="checked"<%}%>"'),
+          checkbox: _.template('<input type="checkbox" id="<%= id %>" name="<%= name %>" <% if(isChecked){%>checked="checked"<%}%>></input>'),
           createErrorRow: function (name) {
               var error_id = this.getErrorId(name),
               tr = $(this.errorRow({

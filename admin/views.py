@@ -223,6 +223,7 @@ def blogPostCreate(request,blog_id):
         new_post.tags.add(*tags)
         new_post.categories.add(*categories)
         try:
+            #this one saves many to many relationship
             new_post.save()
         except IntegrityError as e:
             response['result'] = 'error'
