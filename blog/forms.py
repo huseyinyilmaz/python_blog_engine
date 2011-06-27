@@ -1,6 +1,9 @@
 from django import forms
+
 from models import Blog
 from models import BlogPost
+from models import Comment
+
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
@@ -79,3 +82,8 @@ class BlogPostFormAdmin(forms.ModelForm):
         super(BlogPostFormAdmin,self).clean()
         return self.cleaned_data
 ####################################################
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+    

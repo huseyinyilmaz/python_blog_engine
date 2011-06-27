@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.conf import settings
 from time import strftime
+import hashlib
 import markdown
 date_query_posgres="""select 
 date_part('month', bp.creation_date), 
@@ -69,7 +70,7 @@ class Category(models.Model):
         unique_together = (('name','blog'),)
     def __unicode__(self):
         return self.name
-    
+
 class BlogPostViewManager(models.Manager):
     def get_query_set(self):
         return super(BlogPostViewManager,self).get_query_set().defer('content','teaser').order_by('-creation_date')
@@ -109,6 +110,9 @@ class BlogPost(models.Model):
     blog = models.ForeignKey(Blog)
     creation_date = models.DateTimeField('Creation date', auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
+
+    comments_closed = models.BooleanField(default=False)
+    max_comment_count = models.IntegerField(default=-1) # if it is -1 do not check maximum comment count
     
     objects = models.Manager()
     view_objects = BlogPostViewManager()
@@ -130,3 +134,24 @@ class BlogPost(models.Model):
         self.content_HTML = markdown.markdown(self.content,['codehilite(force_linenos=True)'])
 
         super(BlogPost,self).save(*args,**kwargs)
+
+
+class Comment(models.Model):
+    verified = models.BooleanField(default=False)
+    blogpost = models.ForeignKey(BlogPost)
+
+    name = models.CharField(max_length=500)
+    email = models.EmailField()
+    emailHash = models.CharField(max_length=500)#used for gravatar
+    website = models.URLField(blank=True,null=True)
+    value = models.TextField(blank=True)
+
+    creation_date = models.DateTimeField('Creation date', auto_now_add=True)
+    last_modified = models.DateTimeField('Last modification date', auto_now=True)
+
+    def __str__(self):
+        return "(%s) created at %s"%(self.name,str(self.creation_date))
+
+    def save(self,*args,**kwargs):
+        self.emailHash = hashlib.md5(self.email).hexdigest()
+        super(Comment,self).save(*args,**kwargs)

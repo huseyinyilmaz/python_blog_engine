@@ -3,6 +3,7 @@ import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+CACHE = not DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -71,7 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
 )
 
 ROOT_URLCONF = 'python_blog_engine.urls'
@@ -93,17 +94,21 @@ INSTALLED_APPS = (
     'blog',
     'staticpage',
     'menu',
+    'comment'
     )
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
+if CACHE:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+            }
+        }
 
 if DEBUG:
-    INSTALLED_APPS = ('debug_toolbar','django_extensions',)+INSTALLED_APPS
+    INSTALLED_APPS = ('django_extensions',)+INSTALLED_APPS
+
+if DEBUG and False:
+    PROFILE_DEBUG = DEBUG #used in debug toolbar
     MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',)+MIDDLEWARE_CLASSES
     INTERNAL_IPS = ('127.0.0.1',)
 

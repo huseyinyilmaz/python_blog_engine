@@ -11,7 +11,7 @@ urlpatterns = patterns(
 
     (r'^blog/',include('blog.urls')),
     (r'^sp/',include('staticpage.urls')),
-    
+    (r'^c/',include('comment.urls')),
     (r'^admin2/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin2/', include(admin.site.urls)),
     (r'^admin/',include('admin.urls')),

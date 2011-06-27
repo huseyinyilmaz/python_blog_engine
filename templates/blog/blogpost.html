@@ -22,7 +22,17 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
     {% endfor %}
   </span>
 </span>  
-  <hr />
+
+<hr />
+
+{% for comment in post_comment_list %}
+{{ comment.value }}
+<br />
+{% endfor %}
+
+
+
+<hr />
 
 {% endblock body %}
 

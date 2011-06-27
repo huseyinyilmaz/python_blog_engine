@@ -5,6 +5,7 @@ from models import Blog
 from models import BlogPost
 from models import Tag
 from models import Category
+from models import Comment
 from menu.models import get_menu_items
 import logging
 from django.views.decorators.cache import cache_page
@@ -38,11 +39,32 @@ def post(request,blog_slug,post_slug):
         post = BlogPost.view_objects.with_content().get(blog=blog,slug=post_slug)
     except BlogPost.DoesNotExist:
         raise Http404("Blog post does not exist.")
-    
+
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
     post_tag_list = post.tags.all()
     post_category_list = post.categories.all()
+
+    
+    if request.method == 'POST':
+        data = request.POST
+        email = data.get('email')
+
+        # if email is exist make it lowercase
+        if email:
+            email = email.lower()
+
+        blogPost = get_object_or_404(BlogPost,id=id)
+        comment = Comment()
+        comment.name = data.get('name')
+        comment.email = email
+        comment.website = data.get('website')
+        comment.blogpost = blogPost
+        comment.value = data.get('value')
+        comment.save()
+        
+
+    post_comment_list = post.comment_set.all()
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
                                'date_list':BlogPost.view_objects.date_list(blog.id),
@@ -51,6 +73,7 @@ def post(request,blog_slug,post_slug):
                                'blogpost':post,
                                'post_tag_list':post_tag_list,
                                'post_category_list':post_category_list,
+                               'post_comment_list':post_comment_list,
                                'menu': get_menu_items(),
                                'path': request.path,
                                })
