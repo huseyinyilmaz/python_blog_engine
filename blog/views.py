@@ -1,11 +1,15 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
+
 from django.http import Http404
+from django.http import HttpResponse
+
 from models import Blog
 from models import BlogPost
 from models import Tag
 from models import Category
 from models import Comment
+
 from menu.models import get_menu_items
 import logging
 from django.views.decorators.cache import cache_page
@@ -13,6 +17,7 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.conf import settings
+
 logger = logging.getLogger(__name__)
 
 @cache_page
@@ -44,27 +49,8 @@ def post(request,blog_slug,post_slug):
     category_list = blog.category_set.all()
     post_tag_list = post.tags.all()
     post_category_list = post.categories.all()
-
-    
-    if request.method == 'POST':
-        data = request.POST
-        email = data.get('email')
-
-        # if email is exist make it lowercase
-        if email:
-            email = email.lower()
-
-        blogPost = get_object_or_404(BlogPost,id=id)
-        comment = Comment()
-        comment.name = data.get('name')
-        comment.email = email
-        comment.website = data.get('website')
-        comment.blogpost = blogPost
-        comment.value = data.get('value')
-        comment.save()
-        
-
     post_comment_list = post.comment_set.all()
+
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
                                'date_list':BlogPost.view_objects.date_list(blog.id),
@@ -77,6 +63,30 @@ def post(request,blog_slug,post_slug):
                                'menu': get_menu_items(),
                                'path': request.path,
                                })
+
+
+def comment(request,id):
+    if request.method == 'POST':
+        data = request.POST
+        email = data.get('email')
+
+        # if email is exist make it lowercase
+        if email:
+            email = email.lower()
+
+        blogPost = get_object_or_404(BlogPost,pk=id)
+
+        comment = Comment()
+        comment.name = data.get('name')
+        comment.email = email
+        comment.website = data.get('website')
+        comment.blogpost = blogPost
+        comment.value = data.get('value')
+        comment.save()
+
+        return HttpResponse('{result:true}')
+    
+    return Http404()
 
 @cache_page
 def month(request,blog_slug,year,month):

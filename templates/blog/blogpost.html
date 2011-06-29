@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block head %}
+    <script type="text/javascript" src="/site_media/js/blog/blog.js"></script>
+    <script type="text/javascript" src="/site_media/js/logger.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -29,9 +31,7 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
 {{ comment.value }}
 <br />
 {% endfor %}
-
-
-
+{% include 'blog/comment_form.html' %}
 <hr />
 
 {% endblock body %}

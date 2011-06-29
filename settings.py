@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 CACHE = not DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Huseyin Yilmaz', 'admin@yilmazhuseyin.com'),
 )
 
 MANAGERS = ADMINS
@@ -94,7 +94,6 @@ INSTALLED_APPS = (
     'blog',
     'staticpage',
     'menu',
-    'comment'
     )
 if CACHE:
     CACHES = {

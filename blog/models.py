@@ -112,7 +112,7 @@ class BlogPost(models.Model):
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
 
     comments_closed = models.BooleanField(default=False)
-    max_comment_count = models.IntegerField(default=-1) # if it is -1 do not check maximum comment count
+    max_comment_count = models.IntegerField(default=100) # if it is -1 do not check maximum comment count
     
     objects = models.Manager()
     view_objects = BlogPostViewManager()

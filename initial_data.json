@@ -1,899 +1,672 @@
 [
-  {
-    "pk": 9, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "blog", 
-      "name": "blog", 
-      "app_label": "blog"
+    {
+        "fields": {
+            "domain": "example.com", 
+            "name": "example.com"
+        }, 
+        "model": "sites.site", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "creation_date": "2011-02-18 15:10:14", 
+            "description": "Some sample posts to show blog engine.", 
+            "last_modified": "2011-02-18 15:10:14", 
+            "name": "Samples", 
+            "slug": "samples", 
+            "tagline": "Some sample posts..", 
+            "title": "Sample posts"
+        }, 
+        "model": "blog.blog", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "creation_date": "2011-02-19 11:48:19", 
+            "description": "Various Informaion about python blog engine", 
+            "last_modified": "2011-02-19 11:48:19", 
+            "name": "Python Blog Engine Blog", 
+            "slug": "pbe", 
+            "tagline": "Various Informaion about python blog engine", 
+            "title": "Information"
+        }, 
+        "model": "blog.blog", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "blog": 1, 
+            "name": "sample"
+        }, 
+        "model": "blog.tag", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "blog": 1, 
+            "name": "markdown"
+        }, 
+        "model": "blog.tag", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "blog": 1, 
+            "name": "lorem-ipsum"
+        }, 
+        "model": "blog.tag", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "introduction"
+        }, 
+        "model": "blog.tag", 
+        "pk": 4
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "blog"
+        }, 
+        "model": "blog.tag", 
+        "pk": 5
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "blogpost"
+        }, 
+        "model": "blog.tag", 
+        "pk": 6
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "static-pages"
+        }, 
+        "model": "blog.tag", 
+        "pk": 7
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "admin-panel"
+        }, 
+        "model": "blog.tag", 
+        "pk": 8
+    }, 
+    {
+        "fields": {
+            "blog": 1, 
+            "name": "sample"
+        }, 
+        "model": "blog.category", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "introduction"
+        }, 
+        "model": "blog.category", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "name": "admin-interface"
+        }, 
+        "model": "blog.category", 
+        "pk": 4
+    }, 
+    {
+        "fields": {
+            "blog": 1, 
+            "categories": [
+                1
+            ], 
+            "comments_closed": false, 
+            "content": "This is first line\n\ncode sample\n-----------\n\n        if item in listItem:\n            print item\n        class a(Manager):\n            def deneme(param1):\n                return param1\n\nimage sample\n------------\n![funny image](http://goo.gl/rYVoC)\n\nlist sample\n-----------\n* Huseyin\n* Yilmaz\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,`printf()` totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n\n\nHere is hack this site programming mission 1\n\n    from PIL import Image\n    #morse alphabet for conversation\n    letters = [('A',\".-\"), ('B',\"-...\"), ('C',\"-.-.\"), ('D',\"-..\"), ('E',\".\"),\n               ('F',\"..-.\"), ('G',\"--.\"), ('H',\"....\"), ('I',\"..\"), ('J',\".---\"),\n               ('K',\"-.-\"), ('L',\".-..\"), ('M',\"--\"), ('N',\"-.\"), ('O',\"---\"),\n               ('P',\".--.\"), ('Q',\"--.-\"), ('R',\".-.\"), ('S',\"...\"), ('T',\"-\"),\n               ('U',\"..-\"), ('V',\"...-\"), ('W',\".--\"), ('X',\"-..-\"),('Y',\"-.--\"),\n               ('Z',\"--..\"), ('1',\".----\"), ('2',\"..---\"), ('3',\"...--\"), ('4',\"....-\"),\n               ('5',\".....\"), ('6',\"-....\"), ('7',\"--...\"), ('8',\"---..\"), ('9',\"----.\"),\n               ('0',\"-----\")]\n\n    if __name__=='__main__':\n        #image has to be in a.png file\n        #read image\n        f = open('a.png')\n        im = Image.open(f)\n        pixels = im.load()\n        width,height = im.size\n        #put pixels in an arrray\n        all_pixel = []\n        for y in range(height):\n            for x in range(width):\n                all_pixel.append(pixels[x,y])\n        #convert pixels to characters\n        last_index = 0\n        result_morse = []\n        for i,p in enumerate(all_pixel):\n            if p == 1:\n                result_morse.append(i-last_index)\n                last_index = i\n        #create result string from result list\n        st = ''\n        for i in result_morse:\n            st = st+chr(i)\n        #sepearte morse characters and create a mores character list\n        morse_list = st.split(' ')\n        #decode morse code\n        result = \"\"\n        for morse_letter in morse_list:\n            for letter in letters:\n                if morse_letter == letter[1]:\n                    result = result + letter[0]\n                    break\n            else:\n                #if we cant convert morse code, print the code\n                if morse_letter:\n                    print \"problem letter = %s\"%morse_letter\n        print result\n        #copy result to clipboard\n        import pygtk\n        pygtk.require('2.0')\n        import gtk\n        # get the clipboard\n        clipboard = gtk.clipboard_get()\n        # set the clipboard text data\n        clipboard.set_text(result)\n        # make our data available to other applications\n        clipboard.store()", 
+            "content_HTML": "<p>This is first line</p>\n<h2>code sample</h2>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2\n3\n4\n5</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre>    <span class=\"k\">if</span> <span class=\"n\">item</span> <span class=\"n\">in</span> <span class=\"n\">listItem:</span>\n        <span class=\"k\">print</span> <span class=\"n\">item</span>\n    <span class=\"n\">class</span> <span class=\"n\">a</span><span class=\"p\">(</span><span class=\"n\">Manager</span><span class=\"p\">):</span>\n        <span class=\"n\">def</span> <span class=\"n\">deneme</span><span class=\"p\">(</span><span class=\"n\">param1</span><span class=\"p\">):</span>\n            <span class=\"k\">return</span> <span class=\"n\">param1</span>\n</pre></div>\n</td></tr></table>\n\n<h2>image sample</h2>\n<p><img alt=\"funny image\" src=\"http://goo.gl/rYVoC\" /></p>\n<h2>list sample</h2>\n<ul>\n<li>Huseyin</li>\n<li>Yilmaz</li>\n</ul>\n<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,<code>printf()</code> totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>\n<p>Here is hack this site programming mission 1</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre> 1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"n\">from</span> <span class=\"n\">PIL</span> <span class=\"nb\">import</span> <span class=\"n\">Image</span>\n<span class=\"c1\">#morse alphabet for conversation</span>\n<span class=\"n\">letters</span> <span class=\"o\">=</span> <span class=\"p\">[(</span><span class=\"s\">&#39;A&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;B&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;C&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;D&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;E&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;F&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;G&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;H&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;I&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;J&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.---&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;K&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;L&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;M&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;N&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;O&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;---&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;P&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.--.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;Q&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;R&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;S&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;T&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;U&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;V&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;W&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;X&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-..-&quot;</span><span class=\"p\">),(</span><span class=\"s\">&#39;Y&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.--&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;Z&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;1&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.----&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;2&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..---&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;3&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;4&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;....-&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;5&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;6&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;7&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;8&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;---..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;9&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;----.&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;0&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-----&quot;</span><span class=\"p\">)]</span>\n\n<span class=\"k\">if</span> <span class=\"n\">__name__</span><span class=\"o\">==</span><span class=\"s\">&#39;__main__&#39;</span><span class=\"p\">:</span>\n    <span class=\"c1\">#image has to be in a.png file</span>\n    <span class=\"c1\">#read image</span>\n    <span class=\"n\">f</span> <span class=\"o\">=</span> <span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"s\">&#39;a.png&#39;</span><span class=\"p\">)</span>\n    <span class=\"n\">im</span> <span class=\"o\">=</span> <span class=\"n\">Image</span><span class=\"o\">.</span><span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">)</span>\n    <span class=\"n\">pixels</span> <span class=\"o\">=</span> <span class=\"n\">im</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n    <span class=\"n\">width</span><span class=\"p\">,</span><span class=\"n\">height</span> <span class=\"o\">=</span> <span class=\"n\">im</span><span class=\"o\">.</span><span class=\"n\">size</span>\n    <span class=\"c1\">#put pixels in an arrray</span>\n    <span class=\"n\">all_pixel</span> <span class=\"o\">=</span> <span class=\"o\">[]</span>\n    <span class=\"k\">for</span> <span class=\"n\">y</span> <span class=\"n\">in</span> <span class=\"n\">range</span><span class=\"p\">(</span><span class=\"n\">height</span><span class=\"p\">):</span>\n        <span class=\"k\">for</span> <span class=\"n\">x</span> <span class=\"n\">in</span> <span class=\"n\">range</span><span class=\"p\">(</span><span class=\"n\">width</span><span class=\"p\">):</span>\n            <span class=\"n\">all_pixel</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">pixels</span><span class=\"p\">[</span><span class=\"n\">x</span><span class=\"p\">,</span><span class=\"n\">y</span><span class=\"p\">])</span>\n    <span class=\"c1\">#convert pixels to characters</span>\n    <span class=\"n\">last_index</span> <span class=\"o\">=</span> <span class=\"mi\">0</span>\n    <span class=\"n\">result_morse</span> <span class=\"o\">=</span> <span class=\"o\">[]</span>\n    <span class=\"k\">for</span> <span class=\"n\">i</span><span class=\"p\">,</span><span class=\"n\">p</span> <span class=\"n\">in</span> <span class=\"n\">enumerate</span><span class=\"p\">(</span><span class=\"n\">all_pixel</span><span class=\"p\">):</span>\n        <span class=\"k\">if</span> <span class=\"n\">p</span> <span class=\"o\">==</span> <span class=\"mi\">1</span><span class=\"p\">:</span>\n            <span class=\"n\">result_morse</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"o\">-</span><span class=\"n\">last_index</span><span class=\"p\">)</span>\n            <span class=\"n\">last_index</span> <span class=\"o\">=</span> <span class=\"n\">i</span>\n    <span class=\"c1\">#create result string from result list</span>\n    <span class=\"n\">st</span> <span class=\"o\">=</span> <span class=\"s\">&#39;&#39;</span>\n    <span class=\"k\">for</span> <span class=\"n\">i</span> <span class=\"n\">in</span> <span class=\"n\">result_morse:</span>\n        <span class=\"n\">st</span> <span class=\"o\">=</span> <span class=\"n\">st</span><span class=\"o\">+</span><span class=\"nb\">chr</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">)</span>\n    <span class=\"c1\">#sepearte morse characters and create a mores character list</span>\n    <span class=\"n\">morse_list</span> <span class=\"o\">=</span> <span class=\"n\">st</span><span class=\"o\">.</span><span class=\"nb\">split</span><span class=\"p\">(</span><span class=\"s\">&#39; &#39;</span><span class=\"p\">)</span>\n    <span class=\"c1\">#decode morse code</span>\n    <span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"s\">&quot;&quot;</span>\n    <span class=\"k\">for</span> <span class=\"n\">morse_letter</span> <span class=\"n\">in</span> <span class=\"n\">morse_list:</span>\n        <span class=\"k\">for</span> <span class=\"n\">letter</span> <span class=\"n\">in</span> <span class=\"n\">letters:</span>\n            <span class=\"k\">if</span> <span class=\"n\">morse_letter</span> <span class=\"o\">==</span> <span class=\"n\">letter</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span>\n                <span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">result</span> <span class=\"o\">+</span> <span class=\"n\">letter</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">]</span>\n                <span class=\"n\">break</span>\n        <span class=\"k\">else</span><span class=\"p\">:</span>\n            <span class=\"c1\">#if we cant convert morse code, print the code</span>\n            <span class=\"k\">if</span> <span class=\"n\">morse_letter:</span>\n                <span class=\"k\">print</span> <span class=\"s\">&quot;problem letter = %s&quot;</span><span class=\"nv\">%morse_letter</span>\n    <span class=\"k\">print</span> <span class=\"n\">result</span>\n    <span class=\"c1\">#copy result to clipboard</span>\n    <span class=\"nb\">import</span> <span class=\"n\">pygtk</span>\n    <span class=\"n\">pygtk</span><span class=\"o\">.</span><span class=\"nb\">require</span><span class=\"p\">(</span><span class=\"s\">&#39;2.0&#39;</span><span class=\"p\">)</span>\n    <span class=\"nb\">import</span> <span class=\"n\">gtk</span>\n    <span class=\"c1\"># get the clipboard</span>\n    <span class=\"n\">clipboard</span> <span class=\"o\">=</span> <span class=\"n\">gtk</span><span class=\"o\">.</span><span class=\"n\">clipboard_get</span><span class=\"p\">()</span>\n    <span class=\"c1\"># set the clipboard text data</span>\n    <span class=\"n\">clipboard</span><span class=\"o\">.</span><span class=\"n\">set_text</span><span class=\"p\">(</span><span class=\"n\">result</span><span class=\"p\">)</span>\n    <span class=\"c1\"># make our data available to other applications</span>\n    <span class=\"n\">clipboard</span><span class=\"o\">.</span><span class=\"n\">store</span><span class=\"p\">()</span>\n</pre></div>\n</td></tr></table>", 
+            "creation_date": "2011-02-18 15:11:25", 
+            "last_modified": "2011-06-28 03:04:07", 
+            "max_comment_count": 100, 
+            "published": true, 
+            "slug": "lorem-ipsum", 
+            "tags": [
+                1, 
+                2, 
+                3
+            ], 
+            "teaser": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+            "teaser_HTML": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>", 
+            "title": "lorem ipsum"
+        }, 
+        "model": "blog.blogpost", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "categories": [
+                3
+            ], 
+            "comments_closed": false, 
+            "content": "Welcome to Python Blog Engine.\n\n* This project facilitates a base structure for a blog/personal website. Python blog engine can serve multiple blogs, static pages that stored on database. \n* It is easy to use and very light weight web application. You can do changes you desire just changing the code if your really need to.\n* Python blog engine uses markdown for its posts. So after your design phase is done you wont have to deal with html any more.\n* You can serve multiple blogs with one installation.\n* With static pages you can serve static pages without chancing the installation. Static pages are stored on database.\n* With internal menu structure you can change application menu from admin interface.\n\nif you need further questions just contact me on [github](https://github.com/huseyinyilmaz)\n", 
+            "content_HTML": "<p>Welcome to Python Blog Engine.</p>\n<ul>\n<li>This project facilitates a base structure for a blog/personal website. Python blog engine can serve multiple blogs, static pages that stored on database. </li>\n<li>It is easy to use and very light weight web application. You can do changes you desire just changing the code if your really need to.</li>\n<li>Python blog engine uses markdown for its posts. So after your design phase is done you wont have to deal with html any more.</li>\n<li>You can serve multiple blogs with one installation.</li>\n<li>With static pages you can serve static pages without chancing the installation. Static pages are stored on database.</li>\n<li>With internal menu structure you can change application menu from admin interface.</li>\n</ul>\n<p>if you need further questions just contact me on <a href=\"https://github.com/huseyinyilmaz\">github</a></p>", 
+            "creation_date": "2011-02-19 15:51:15", 
+            "last_modified": "2011-06-28 03:04:07", 
+            "max_comment_count": 100, 
+            "published": true, 
+            "slug": "introduction-python-blog-engine", 
+            "tags": [
+                4, 
+                5, 
+                6, 
+                7
+            ], 
+            "teaser": "General introduction to Python Blog Engine", 
+            "teaser_HTML": "<p>General introduction to Python Blog Engine</p>", 
+            "title": "Introduction to python blog engine"
+        }, 
+        "model": "blog.blogpost", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "blog": 2, 
+            "categories": [], 
+            "comments_closed": false, 
+            "content": "Python Blog Engine uses two different sets of admin panels.\n\n* One of them is default django admin panel this panel can be reach through [/admin2/](/admin2/) . You only need this panel for managing users and managing main menu.\n\nPBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is\n\n    username:admin\n    pasword:admin\n\nSo after the installation, just go to main django admin page and change your superuser password.\n\nMain application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.\n\nDjango admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately\n\n* Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh [/admin/](/admin/). With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.\n", 
+            "content_HTML": "<p>Python Blog Engine uses two different sets of admin panels.</p>\n<ul>\n<li>One of them is default django admin panel this panel can be reach through <a href=\"/admin2/\">/admin2/</a> . You only need this panel for managing users and managing main menu.</li>\n</ul>\n<p>PBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"err\">username:admin</span>\n<span class=\"err\">pasword:admin</span>\n</pre></div>\n</td></tr></table>\n\n<p>So after the installation, just go to main django admin page and change your superuser password.</p>\n<p>Main application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.</p>\n<p>Django admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately</p>\n<ul>\n<li>Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh <a href=\"/admin/\">/admin/</a>. With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.</li>\n</ul>", 
+            "creation_date": "2011-02-19 16:15:25", 
+            "last_modified": "2011-06-28 03:04:07", 
+            "max_comment_count": 100, 
+            "published": true, 
+            "slug": "admin-panel", 
+            "tags": [
+                8
+            ], 
+            "teaser": "Python Blog Engine uses two different sets of admin panels.\n\n* One of them is default django admin panel this panel can be reach through [/admin2/](/admin2/) . You only need this panel for managing users and managing main menu.\n\nPBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is\n\n    username:admin\n    pasword:admin\n\nSo after the installation, just go to main django admin page and change your superuser password.\n\nMain application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.\n\nDjango admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately\n\n* Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh [/admin/](/admin/). With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.\n", 
+            "teaser_HTML": "<p>Python Blog Engine uses two different sets of admin panels.</p>\n<ul>\n<li>One of them is default django admin panel this panel can be reach through <a href=\"/admin2/\">/admin2/</a> . You only need this panel for managing users and managing main menu.</li>\n</ul>\n<p>PBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"err\">username:admin</span>\n<span class=\"err\">pasword:admin</span>\n</pre></div>\n</td></tr></table>\n\n<p>So after the installation, just go to main django admin page and change your superuser password.</p>\n<p>Main application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.</p>\n<p>Django admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately</p>\n<ul>\n<li>Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh <a href=\"/admin/\">/admin/</a>. With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.</li>\n</ul>", 
+            "title": "admin panel"
+        }, 
+        "model": "blog.blogpost", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "content_HTML": "<p>Welcome to Python Blog Engine:</p>\r\n<p>This is a personal project for my own blog. It is written on django framework.If you want to improve the project, you are highly encouraged to do so. If you send your imporovements to our github page I will be happy to add your changes to project. And if you want to collaborate please contact me from github.</p>\r\n<p>Git hub page: <a href=\"https://github.com/huseyinyilmaz/python_blog_engine\">https://github.com/huseyinyilmaz/python_blog_engine</a></p>\r\n<p>For more information I added a sample blog and an information blog to installation. Just click to PDB Blog link above to get more information.</p>", 
+            "creation_date": "2011-02-19 11:19:40", 
+            "description": "main", 
+            "keywords": "python blog engine", 
+            "last_modified": "2011-02-19 15:10:04", 
+            "name": "main", 
+            "slug": "main", 
+            "title": "python blog engine"
+        }, 
+        "model": "staticpage.staticpage", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "display": "Home", 
+            "extra_property": "", 
+            "is_active": true, 
+            "name": "Main", 
+            "order": 1, 
+            "url": "/sp/main/"
+        }, 
+        "model": "menu.menuitem", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "display": "Sample Blog", 
+            "extra_property": "asd", 
+            "is_active": true, 
+            "name": "Sample blog", 
+            "order": 2, 
+            "url": "/blog/samples/"
+        }, 
+        "model": "menu.menuitem", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "display": "PBE Blog", 
+            "extra_property": "", 
+            "is_active": true, 
+            "name": "pbe menuitem", 
+            "order": 3, 
+            "url": "/blog/pbe/"
+        }, 
+        "model": "menu.menuitem", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "codename": "add_logentry", 
+            "content_type": 8, 
+            "name": "Can add log entry"
+        }, 
+        "model": "auth.permission", 
+        "pk": 22
+    }, 
+    {
+        "fields": {
+            "codename": "change_logentry", 
+            "content_type": 8, 
+            "name": "Can change log entry"
+        }, 
+        "model": "auth.permission", 
+        "pk": 23
+    }, 
+    {
+        "fields": {
+            "codename": "delete_logentry", 
+            "content_type": 8, 
+            "name": "Can delete log entry"
+        }, 
+        "model": "auth.permission", 
+        "pk": 24
+    }, 
+    {
+        "fields": {
+            "codename": "add_group", 
+            "content_type": 2, 
+            "name": "Can add group"
+        }, 
+        "model": "auth.permission", 
+        "pk": 4
+    }, 
+    {
+        "fields": {
+            "codename": "change_group", 
+            "content_type": 2, 
+            "name": "Can change group"
+        }, 
+        "model": "auth.permission", 
+        "pk": 5
+    }, 
+    {
+        "fields": {
+            "codename": "delete_group", 
+            "content_type": 2, 
+            "name": "Can delete group"
+        }, 
+        "model": "auth.permission", 
+        "pk": 6
+    }, 
+    {
+        "fields": {
+            "codename": "add_message", 
+            "content_type": 4, 
+            "name": "Can add message"
+        }, 
+        "model": "auth.permission", 
+        "pk": 10
+    }, 
+    {
+        "fields": {
+            "codename": "change_message", 
+            "content_type": 4, 
+            "name": "Can change message"
+        }, 
+        "model": "auth.permission", 
+        "pk": 11
+    }, 
+    {
+        "fields": {
+            "codename": "delete_message", 
+            "content_type": 4, 
+            "name": "Can delete message"
+        }, 
+        "model": "auth.permission", 
+        "pk": 12
+    }, 
+    {
+        "fields": {
+            "codename": "add_permission", 
+            "content_type": 1, 
+            "name": "Can add permission"
+        }, 
+        "model": "auth.permission", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "codename": "change_permission", 
+            "content_type": 1, 
+            "name": "Can change permission"
+        }, 
+        "model": "auth.permission", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "codename": "delete_permission", 
+            "content_type": 1, 
+            "name": "Can delete permission"
+        }, 
+        "model": "auth.permission", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "codename": "add_user", 
+            "content_type": 3, 
+            "name": "Can add user"
+        }, 
+        "model": "auth.permission", 
+        "pk": 7
+    }, 
+    {
+        "fields": {
+            "codename": "change_user", 
+            "content_type": 3, 
+            "name": "Can change user"
+        }, 
+        "model": "auth.permission", 
+        "pk": 8
+    }, 
+    {
+        "fields": {
+            "codename": "delete_user", 
+            "content_type": 3, 
+            "name": "Can delete user"
+        }, 
+        "model": "auth.permission", 
+        "pk": 9
+    }, 
+    {
+        "fields": {
+            "codename": "add_blog", 
+            "content_type": 9, 
+            "name": "Can add blog"
+        }, 
+        "model": "auth.permission", 
+        "pk": 25
+    }, 
+    {
+        "fields": {
+            "codename": "change_blog", 
+            "content_type": 9, 
+            "name": "Can change blog"
+        }, 
+        "model": "auth.permission", 
+        "pk": 26
+    }, 
+    {
+        "fields": {
+            "codename": "delete_blog", 
+            "content_type": 9, 
+            "name": "Can delete blog"
+        }, 
+        "model": "auth.permission", 
+        "pk": 27
+    }, 
+    {
+        "fields": {
+            "codename": "add_blogpost", 
+            "content_type": 12, 
+            "name": "Can add blog post"
+        }, 
+        "model": "auth.permission", 
+        "pk": 34
+    }, 
+    {
+        "fields": {
+            "codename": "change_blogpost", 
+            "content_type": 12, 
+            "name": "Can change blog post"
+        }, 
+        "model": "auth.permission", 
+        "pk": 35
+    }, 
+    {
+        "fields": {
+            "codename": "delete_blogpost", 
+            "content_type": 12, 
+            "name": "Can delete blog post"
+        }, 
+        "model": "auth.permission", 
+        "pk": 36
+    }, 
+    {
+        "fields": {
+            "codename": "add_category", 
+            "content_type": 11, 
+            "name": "Can add category"
+        }, 
+        "model": "auth.permission", 
+        "pk": 31
+    }, 
+    {
+        "fields": {
+            "codename": "change_category", 
+            "content_type": 11, 
+            "name": "Can change category"
+        }, 
+        "model": "auth.permission", 
+        "pk": 32
+    }, 
+    {
+        "fields": {
+            "codename": "delete_category", 
+            "content_type": 11, 
+            "name": "Can delete category"
+        }, 
+        "model": "auth.permission", 
+        "pk": 33
+    }, 
+    {
+        "fields": {
+            "codename": "add_comment", 
+            "content_type": 15, 
+            "name": "Can add comment"
+        }, 
+        "model": "auth.permission", 
+        "pk": 43
+    }, 
+    {
+        "fields": {
+            "codename": "change_comment", 
+            "content_type": 15, 
+            "name": "Can change comment"
+        }, 
+        "model": "auth.permission", 
+        "pk": 44
+    }, 
+    {
+        "fields": {
+            "codename": "delete_comment", 
+            "content_type": 15, 
+            "name": "Can delete comment"
+        }, 
+        "model": "auth.permission", 
+        "pk": 45
+    }, 
+    {
+        "fields": {
+            "codename": "add_tag", 
+            "content_type": 10, 
+            "name": "Can add tag"
+        }, 
+        "model": "auth.permission", 
+        "pk": 28
+    }, 
+    {
+        "fields": {
+            "codename": "change_tag", 
+            "content_type": 10, 
+            "name": "Can change tag"
+        }, 
+        "model": "auth.permission", 
+        "pk": 29
+    }, 
+    {
+        "fields": {
+            "codename": "delete_tag", 
+            "content_type": 10, 
+            "name": "Can delete tag"
+        }, 
+        "model": "auth.permission", 
+        "pk": 30
+    }, 
+    {
+        "fields": {
+            "codename": "add_contenttype", 
+            "content_type": 5, 
+            "name": "Can add content type"
+        }, 
+        "model": "auth.permission", 
+        "pk": 13
+    }, 
+    {
+        "fields": {
+            "codename": "change_contenttype", 
+            "content_type": 5, 
+            "name": "Can change content type"
+        }, 
+        "model": "auth.permission", 
+        "pk": 14
+    }, 
+    {
+        "fields": {
+            "codename": "delete_contenttype", 
+            "content_type": 5, 
+            "name": "Can delete content type"
+        }, 
+        "model": "auth.permission", 
+        "pk": 15
+    }, 
+    {
+        "fields": {
+            "codename": "add_menuitem", 
+            "content_type": 14, 
+            "name": "Can add menu item"
+        }, 
+        "model": "auth.permission", 
+        "pk": 40
+    }, 
+    {
+        "fields": {
+            "codename": "change_menuitem", 
+            "content_type": 14, 
+            "name": "Can change menu item"
+        }, 
+        "model": "auth.permission", 
+        "pk": 41
+    }, 
+    {
+        "fields": {
+            "codename": "delete_menuitem", 
+            "content_type": 14, 
+            "name": "Can delete menu item"
+        }, 
+        "model": "auth.permission", 
+        "pk": 42
+    }, 
+    {
+        "fields": {
+            "codename": "add_session", 
+            "content_type": 6, 
+            "name": "Can add session"
+        }, 
+        "model": "auth.permission", 
+        "pk": 16
+    }, 
+    {
+        "fields": {
+            "codename": "change_session", 
+            "content_type": 6, 
+            "name": "Can change session"
+        }, 
+        "model": "auth.permission", 
+        "pk": 17
+    }, 
+    {
+        "fields": {
+            "codename": "delete_session", 
+            "content_type": 6, 
+            "name": "Can delete session"
+        }, 
+        "model": "auth.permission", 
+        "pk": 18
+    }, 
+    {
+        "fields": {
+            "codename": "add_site", 
+            "content_type": 7, 
+            "name": "Can add site"
+        }, 
+        "model": "auth.permission", 
+        "pk": 19
+    }, 
+    {
+        "fields": {
+            "codename": "change_site", 
+            "content_type": 7, 
+            "name": "Can change site"
+        }, 
+        "model": "auth.permission", 
+        "pk": 20
+    }, 
+    {
+        "fields": {
+            "codename": "delete_site", 
+            "content_type": 7, 
+            "name": "Can delete site"
+        }, 
+        "model": "auth.permission", 
+        "pk": 21
+    }, 
+    {
+        "fields": {
+            "codename": "add_staticpage", 
+            "content_type": 13, 
+            "name": "Can add static page"
+        }, 
+        "model": "auth.permission", 
+        "pk": 37
+    }, 
+    {
+        "fields": {
+            "codename": "change_staticpage", 
+            "content_type": 13, 
+            "name": "Can change static page"
+        }, 
+        "model": "auth.permission", 
+        "pk": 38
+    }, 
+    {
+        "fields": {
+            "codename": "delete_staticpage", 
+            "content_type": 13, 
+            "name": "Can delete static page"
+        }, 
+        "model": "auth.permission", 
+        "pk": 39
+    }, 
+    {
+        "fields": {
+            "date_joined": "2011-02-18 15:04:33", 
+            "email": "yilmazhuseyin@gmail.com", 
+            "first_name": "", 
+            "groups": [], 
+            "is_active": true, 
+            "is_staff": true, 
+            "is_superuser": true, 
+            "last_login": "2011-02-18 15:08:45", 
+            "last_name": "", 
+            "password": "sha1$203c2$f64871416de1faa5d42fb2b2eabd9a0c344f02f1", 
+            "user_permissions": [], 
+            "username": "admin"
+        }, 
+        "model": "auth.user", 
+        "pk": 1
     }
-  }, 
-  {
-    "pk": 12, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "blogpost", 
-      "name": "blog post", 
-      "app_label": "blog"
-    }
-  }, 
-  {
-    "pk": 11, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "category", 
-      "name": "category", 
-      "app_label": "blog"
-    }
-  }, 
-  {
-    "pk": 5, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "contenttype", 
-      "name": "content type", 
-      "app_label": "contenttypes"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "group", 
-      "name": "group", 
-      "app_label": "auth"
-    }
-  }, 
-  {
-    "pk": 8, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "logentry", 
-      "name": "log entry", 
-      "app_label": "admin"
-    }
-  }, 
-  {
-    "pk": 14, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "menuitem", 
-      "name": "menu item", 
-      "app_label": "menu"
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "message", 
-      "name": "message", 
-      "app_label": "auth"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "permission", 
-      "name": "permission", 
-      "app_label": "auth"
-    }
-  }, 
-  {
-    "pk": 6, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "session", 
-      "name": "session", 
-      "app_label": "sessions"
-    }
-  }, 
-  {
-    "pk": 7, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "site", 
-      "name": "site", 
-      "app_label": "sites"
-    }
-  }, 
-  {
-    "pk": 13, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "staticpage", 
-      "name": "static page", 
-      "app_label": "staticpage"
-    }
-  }, 
-  {
-    "pk": 10, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "tag", 
-      "name": "tag", 
-      "app_label": "blog"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "contenttypes.contenttype", 
-    "fields": {
-      "model": "user", 
-      "name": "user", 
-      "app_label": "auth"
-    }
-  }, 
-  {
-    "pk": "234e02533197d4d7f4042b43136ca3de", 
-    "model": "sessions.session", 
-    "fields": {
-      "expire_date": "2011-03-04 15:08:46", 
-      "session_data": "gAJ9cQEoVRJfYXV0aF91c2VyX2JhY2tlbmRxAlUpZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5k\ncy5Nb2RlbEJhY2tlbmRxA1UNX2F1dGhfdXNlcl9pZHEESwF1LjhhZjM5YjQ4ZjJjMzI5NzAwMmEw\nNmMxNTAxOTAyOTQx\n"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "sites.site", 
-    "fields": {
-      "domain": "example.com", 
-      "name": "example.com"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "blog.blog", 
-    "fields": {
-      "description": "Some sample posts to show blog engine.", 
-      "title": "Sample posts", 
-      "tagline": "Some sample posts..", 
-      "creation_date": "2011-02-18 15:10:14", 
-      "last_modified": "2011-02-18 15:10:14", 
-      "slug": "samples", 
-      "name": "Samples"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "blog.blog", 
-    "fields": {
-      "description": "Various Informaion about python blog engine", 
-      "title": "Information", 
-      "tagline": "Various Informaion about python blog engine", 
-      "creation_date": "2011-02-19 11:48:19", 
-      "last_modified": "2011-02-19 11:48:19", 
-      "slug": "pbe", 
-      "name": "Python Blog Engine Blog"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 1, 
-      "name": "sample"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 1, 
-      "name": "markdown"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 1, 
-      "name": "lorem-ipsum"
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 2, 
-      "name": "introduction"
-    }
-  }, 
-  {
-    "pk": 5, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 2, 
-      "name": "blog"
-    }
-  }, 
-  {
-    "pk": 6, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 2, 
-      "name": "blogpost"
-    }
-  }, 
-  {
-    "pk": 7, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 2, 
-      "name": "static-pages"
-    }
-  }, 
-  {
-    "pk": 8, 
-    "model": "blog.tag", 
-    "fields": {
-      "blog": 2, 
-      "name": "admin-panel"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "blog.category", 
-    "fields": {
-      "blog": 1, 
-      "name": "sample"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "blog.category", 
-    "fields": {
-      "blog": 2, 
-      "name": "introduction"
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "blog.category", 
-    "fields": {
-      "blog": 2, 
-      "name": "admin-interface"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "blog.blogpost", 
-    "fields": {
-      "blog": 1, 
-      "title": "lorem ipsum", 
-      "tags": [
-        1, 
-        2, 
-        3
-      ], 
-      "content_HTML": "<p>This is first line</p>\n<h2>code sample</h2>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2\n3\n4\n5</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre>    <span class=\"k\">if</span> <span class=\"n\">item</span> <span class=\"n\">in</span> <span class=\"n\">listItem:</span>\n        <span class=\"k\">print</span> <span class=\"n\">item</span>\n    <span class=\"n\">class</span> <span class=\"n\">a</span><span class=\"p\">(</span><span class=\"n\">Manager</span><span class=\"p\">):</span>\n        <span class=\"n\">def</span> <span class=\"n\">deneme</span><span class=\"p\">(</span><span class=\"n\">param1</span><span class=\"p\">):</span>\n            <span class=\"k\">return</span> <span class=\"n\">param1</span>\n</pre></div>\n</td></tr></table>\n\n<h2>image sample</h2>\n<p><img alt=\"funny image\" src=\"http://goo.gl/rYVoC\" /></p>\n<h2>list sample</h2>\n<ul>\n<li>Huseyin</li>\n<li>Yilmaz</li>\n</ul>\n<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,<code>printf()</code> totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>\n<p>Here is hack this site programming mission 1</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre> 1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"n\">from</span> <span class=\"n\">PIL</span> <span class=\"nb\">import</span> <span class=\"n\">Image</span>\n<span class=\"c1\">#morse alphabet for conversation</span>\n<span class=\"n\">letters</span> <span class=\"o\">=</span> <span class=\"p\">[(</span><span class=\"s\">&#39;A&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;B&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;C&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;D&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;E&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;F&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;G&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;H&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;I&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;J&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.---&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;K&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;L&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;M&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;N&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;O&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;---&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;P&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.--.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;Q&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--.-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;R&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.-.&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;S&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;T&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;U&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;V&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...-&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;W&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;X&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-..-&quot;</span><span class=\"p\">),(</span><span class=\"s\">&#39;Y&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-.--&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;Z&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;1&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.----&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;2&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;..---&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;3&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;...--&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;4&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;....-&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;5&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;.....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;6&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-....&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;7&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;--...&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;8&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;---..&quot;</span><span class=\"p\">),</span> <span class=\"p\">(</span><span class=\"s\">&#39;9&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;----.&quot;</span><span class=\"p\">),</span>\n           <span class=\"p\">(</span><span class=\"s\">&#39;0&#39;</span><span class=\"p\">,</span><span class=\"s\">&quot;-----&quot;</span><span class=\"p\">)]</span>\n\n<span class=\"k\">if</span> <span class=\"n\">__name__</span><span class=\"o\">==</span><span class=\"s\">&#39;__main__&#39;</span><span class=\"p\">:</span>\n    <span class=\"c1\">#image has to be in a.png file</span>\n    <span class=\"c1\">#read image</span>\n    <span class=\"n\">f</span> <span class=\"o\">=</span> <span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"s\">&#39;a.png&#39;</span><span class=\"p\">)</span>\n    <span class=\"n\">im</span> <span class=\"o\">=</span> <span class=\"n\">Image</span><span class=\"o\">.</span><span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">)</span>\n    <span class=\"n\">pixels</span> <span class=\"o\">=</span> <span class=\"n\">im</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n    <span class=\"n\">width</span><span class=\"p\">,</span><span class=\"n\">height</span> <span class=\"o\">=</span> <span class=\"n\">im</span><span class=\"o\">.</span><span class=\"n\">size</span>\n    <span class=\"c1\">#put pixels in an arrray</span>\n    <span class=\"n\">all_pixel</span> <span class=\"o\">=</span> <span class=\"o\">[]</span>\n    <span class=\"k\">for</span> <span class=\"n\">y</span> <span class=\"n\">in</span> <span class=\"n\">range</span><span class=\"p\">(</span><span class=\"n\">height</span><span class=\"p\">):</span>\n        <span class=\"k\">for</span> <span class=\"n\">x</span> <span class=\"n\">in</span> <span class=\"n\">range</span><span class=\"p\">(</span><span class=\"n\">width</span><span class=\"p\">):</span>\n            <span class=\"n\">all_pixel</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">pixels</span><span class=\"p\">[</span><span class=\"n\">x</span><span class=\"p\">,</span><span class=\"n\">y</span><span class=\"p\">])</span>\n    <span class=\"c1\">#convert pixels to characters</span>\n    <span class=\"n\">last_index</span> <span class=\"o\">=</span> <span class=\"mi\">0</span>\n    <span class=\"n\">result_morse</span> <span class=\"o\">=</span> <span class=\"o\">[]</span>\n    <span class=\"k\">for</span> <span class=\"n\">i</span><span class=\"p\">,</span><span class=\"n\">p</span> <span class=\"n\">in</span> <span class=\"n\">enumerate</span><span class=\"p\">(</span><span class=\"n\">all_pixel</span><span class=\"p\">):</span>\n        <span class=\"k\">if</span> <span class=\"n\">p</span> <span class=\"o\">==</span> <span class=\"mi\">1</span><span class=\"p\">:</span>\n            <span class=\"n\">result_morse</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"o\">-</span><span class=\"n\">last_index</span><span class=\"p\">)</span>\n            <span class=\"n\">last_index</span> <span class=\"o\">=</span> <span class=\"n\">i</span>\n    <span class=\"c1\">#create result string from result list</span>\n    <span class=\"n\">st</span> <span class=\"o\">=</span> <span class=\"s\">&#39;&#39;</span>\n    <span class=\"k\">for</span> <span class=\"n\">i</span> <span class=\"n\">in</span> <span class=\"n\">result_morse:</span>\n        <span class=\"n\">st</span> <span class=\"o\">=</span> <span class=\"n\">st</span><span class=\"o\">+</span><span class=\"nb\">chr</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">)</span>\n    <span class=\"c1\">#sepearte morse characters and create a mores character list</span>\n    <span class=\"n\">morse_list</span> <span class=\"o\">=</span> <span class=\"n\">st</span><span class=\"o\">.</span><span class=\"nb\">split</span><span class=\"p\">(</span><span class=\"s\">&#39; &#39;</span><span class=\"p\">)</span>\n    <span class=\"c1\">#decode morse code</span>\n    <span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"s\">&quot;&quot;</span>\n    <span class=\"k\">for</span> <span class=\"n\">morse_letter</span> <span class=\"n\">in</span> <span class=\"n\">morse_list:</span>\n        <span class=\"k\">for</span> <span class=\"n\">letter</span> <span class=\"n\">in</span> <span class=\"n\">letters:</span>\n            <span class=\"k\">if</span> <span class=\"n\">morse_letter</span> <span class=\"o\">==</span> <span class=\"n\">letter</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span>\n                <span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">result</span> <span class=\"o\">+</span> <span class=\"n\">letter</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">]</span>\n                <span class=\"n\">break</span>\n        <span class=\"k\">else</span><span class=\"p\">:</span>\n            <span class=\"c1\">#if we cant convert morse code, print the code</span>\n            <span class=\"k\">if</span> <span class=\"n\">morse_letter:</span>\n                <span class=\"k\">print</span> <span class=\"s\">&quot;problem letter = %s&quot;</span><span class=\"nv\">%morse_letter</span>\n    <span class=\"k\">print</span> <span class=\"n\">result</span>\n    <span class=\"c1\">#copy result to clipboard</span>\n    <span class=\"nb\">import</span> <span class=\"n\">pygtk</span>\n    <span class=\"n\">pygtk</span><span class=\"o\">.</span><span class=\"nb\">require</span><span class=\"p\">(</span><span class=\"s\">&#39;2.0&#39;</span><span class=\"p\">)</span>\n    <span class=\"nb\">import</span> <span class=\"n\">gtk</span>\n    <span class=\"c1\"># get the clipboard</span>\n    <span class=\"n\">clipboard</span> <span class=\"o\">=</span> <span class=\"n\">gtk</span><span class=\"o\">.</span><span class=\"n\">clipboard_get</span><span class=\"p\">()</span>\n    <span class=\"c1\"># set the clipboard text data</span>\n    <span class=\"n\">clipboard</span><span class=\"o\">.</span><span class=\"n\">set_text</span><span class=\"p\">(</span><span class=\"n\">result</span><span class=\"p\">)</span>\n    <span class=\"c1\"># make our data available to other applications</span>\n    <span class=\"n\">clipboard</span><span class=\"o\">.</span><span class=\"n\">store</span><span class=\"p\">()</span>\n</pre></div>\n</td></tr></table>", 
-      "content": "This is first line\n\ncode sample\n-----------\n\n        if item in listItem:\n            print item\n        class a(Manager):\n            def deneme(param1):\n                return param1\n\nimage sample\n------------\n![funny image](http://goo.gl/rYVoC)\n\nlist sample\n-----------\n* Huseyin\n* Yilmaz\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,`printf()` totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n\n\nHere is hack this site programming mission 1\n\n    from PIL import Image\n    #morse alphabet for conversation\n    letters = [('A',\".-\"), ('B',\"-...\"), ('C',\"-.-.\"), ('D',\"-..\"), ('E',\".\"),\n               ('F',\"..-.\"), ('G',\"--.\"), ('H',\"....\"), ('I',\"..\"), ('J',\".---\"),\n               ('K',\"-.-\"), ('L',\".-..\"), ('M',\"--\"), ('N',\"-.\"), ('O',\"---\"),\n               ('P',\".--.\"), ('Q',\"--.-\"), ('R',\".-.\"), ('S',\"...\"), ('T',\"-\"),\n               ('U',\"..-\"), ('V',\"...-\"), ('W',\".--\"), ('X',\"-..-\"),('Y',\"-.--\"),\n               ('Z',\"--..\"), ('1',\".----\"), ('2',\"..---\"), ('3',\"...--\"), ('4',\"....-\"),\n               ('5',\".....\"), ('6',\"-....\"), ('7',\"--...\"), ('8',\"---..\"), ('9',\"----.\"),\n               ('0',\"-----\")]\n\n    if __name__=='__main__':\n        #image has to be in a.png file\n        #read image\n        f = open('a.png')\n        im = Image.open(f)\n        pixels = im.load()\n        width,height = im.size\n        #put pixels in an arrray\n        all_pixel = []\n        for y in range(height):\n            for x in range(width):\n                all_pixel.append(pixels[x,y])\n        #convert pixels to characters\n        last_index = 0\n        result_morse = []\n        for i,p in enumerate(all_pixel):\n            if p == 1:\n                result_morse.append(i-last_index)\n                last_index = i\n        #create result string from result list\n        st = ''\n        for i in result_morse:\n            st = st+chr(i)\n        #sepearte morse characters and create a mores character list\n        morse_list = st.split(' ')\n        #decode morse code\n        result = \"\"\n        for morse_letter in morse_list:\n            for letter in letters:\n                if morse_letter == letter[1]:\n                    result = result + letter[0]\n                    break\n            else:\n                #if we cant convert morse code, print the code\n                if morse_letter:\n                    print \"problem letter = %s\"%morse_letter\n        print result\n        #copy result to clipboard\n        import pygtk\n        pygtk.require('2.0')\n        import gtk\n        # get the clipboard\n        clipboard = gtk.clipboard_get()\n        # set the clipboard text data\n        clipboard.set_text(result)\n        # make our data available to other applications\n        clipboard.store()", 
-      "teaser": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
-      "last_modified": "2011-02-19 15:13:56", 
-      "published": true, 
-      "creation_date": "2011-02-18 15:11:25", 
-      "slug": "lorem-ipsum", 
-      "categories": [
-        1
-      ], 
-      "teaser_HTML": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "blog.blogpost", 
-    "fields": {
-      "blog": 2, 
-      "title": "Introduction to python blog engine", 
-      "tags": [
-        4, 
-        5, 
-        6, 
-        7
-      ], 
-      "content_HTML": "<p>Welcome to Python Blog Engine.</p>\n<ul>\n<li>This project facilitates a base structure for a blog/personal website. Python blog engine can serve multiple blogs, static pages that stored on database. </li>\n<li>It is easy to use and very light weight web application. You can do changes you desire just changing the code if your really need to.</li>\n<li>Python blog engine uses markdown for its posts. So after your design phase is done you wont have to deal with html any more.</li>\n<li>You can serve multiple blogs with one installation.</li>\n<li>With static pages you can serve static pages without chancing the installation. Static pages are stored on database.</li>\n<li>With internal menu structure you can change application menu from admin interface.</li>\n</ul>\n<p>if you need further questions just contact me on <a href=\"https://github.com/huseyinyilmaz\">github</a></p>", 
-      "content": "Welcome to Python Blog Engine.\n\n* This project facilitates a base structure for a blog/personal website. Python blog engine can serve multiple blogs, static pages that stored on database. \n* It is easy to use and very light weight web application. You can do changes you desire just changing the code if your really need to.\n* Python blog engine uses markdown for its posts. So after your design phase is done you wont have to deal with html any more.\n* You can serve multiple blogs with one installation.\n* With static pages you can serve static pages without chancing the installation. Static pages are stored on database.\n* With internal menu structure you can change application menu from admin interface.\n\nif you need further questions just contact me on [github](https://github.com/huseyinyilmaz)\n", 
-      "teaser": "General introduction to Python Blog Engine", 
-      "last_modified": "2011-02-19 16:10:13", 
-      "published": true, 
-      "creation_date": "2011-02-19 15:51:15", 
-      "slug": "introduction-python-blog-engine", 
-      "categories": [
-        3
-      ], 
-      "teaser_HTML": "<p>General introduction to Python Blog Engine</p>"
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "blog.blogpost", 
-    "fields": {
-      "blog": 2, 
-      "title": "admin panel", 
-      "tags": [
-        8
-      ], 
-      "content_HTML": "<p>Python Blog Engine uses two different sets of admin panels.</p>\n<ul>\n<li>One of them is default django admin panel this panel can be reach through <a href=\"/admin2/\">/admin2/</a> . You only need this panel for managing users and managing main menu.</li>\n</ul>\n<p>PBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"err\">username:admin</span>\n<span class=\"err\">pasword:admin</span>\n</pre></div>\n</td></tr></table>\n\n<p>So after the installation, just go to main django admin page and change your superuser password.</p>\n<p>Main application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.</p>\n<p>Django admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately</p>\n<ul>\n<li>Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh <a href=\"/admin/\">/admin/</a>. With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.</li>\n</ul>", 
-      "content": "Python Blog Engine uses two different sets of admin panels.\n\n* One of them is default django admin panel this panel can be reach through [/admin2/](/admin2/) . You only need this panel for managing users and managing main menu.\n\nPBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is\n\n    username:admin\n    pasword:admin\n\nSo after the installation, just go to main django admin page and change your superuser password.\n\nMain application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.\n\nDjango admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately\n\n* Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh [/admin/](/admin/). With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.\n", 
-      "teaser": "Python Blog Engine uses two different sets of admin panels.\n\n* One of them is default django admin panel this panel can be reach through [/admin2/](/admin2/) . You only need this panel for managing users and managing main menu.\n\nPBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is\n\n    username:admin\n    pasword:admin\n\nSo after the installation, just go to main django admin page and change your superuser password.\n\nMain application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.\n\nDjango admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately\n\n* Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh [/admin/](/admin/). With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.\n", 
-      "last_modified": "2011-02-19 16:35:27", 
-      "published": true, 
-      "creation_date": "2011-02-19 16:15:25", 
-      "slug": "admin-panel", 
-      "categories": [], 
-      "teaser_HTML": "<p>Python Blog Engine uses two different sets of admin panels.</p>\n<ul>\n<li>One of them is default django admin panel this panel can be reach through <a href=\"/admin2/\">/admin2/</a> . You only need this panel for managing users and managing main menu.</li>\n</ul>\n<p>PBE is using users to authenticate to admin interface. So you can create as much users as you need to authenticate. Beware that we don't check if users has any special permissions. any existing user on the system can authanticate to admin interfaces.\nDefault User for admin interface is</p>\n<table class=\"codehilitetable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"codehilite\"><pre><span class=\"err\">username:admin</span>\n<span class=\"err\">pasword:admin</span>\n</pre></div>\n</td></tr></table>\n\n<p>So after the installation, just go to main django admin page and change your superuser password.</p>\n<p>Main application menu is also managed by default django admin panel. Go to MenuItems and manage your site menu.</p>\n<p>Django admin panel is available because I didnot implement a back end interface for menu and users, After those are implemented I will remove djanto admin interface complately</p>\n<ul>\n<li>Another admin utility is PBE admin page (The one that you will mostly use). It can be reach throgh <a href=\"/admin/\">/admin/</a>. With this utility you can manage your blogs,blogposts and static pages. Usage is pretty easy even though design is not the best one out there. I also added some instructions to every page. So if you stuck just read the instructions. To open this admin utility you must authenticate.</li>\n</ul>"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "staticpage.staticpage", 
-    "fields": {
-      "description": "main", 
-      "title": "python blog engine", 
-      "slug": "main", 
-      "last_modified": "2011-02-19 15:10:04", 
-      "keywords": "python blog engine", 
-      "creation_date": "2011-02-19 11:19:40", 
-      "content_HTML": "<p>Welcome to Python Blog Engine:</p>\r\n<p>This is a personal project for my own blog. It is written on django framework.If you want to improve the project, you are highly encouraged to do so. If you send your imporovements to our github page I will be happy to add your changes to project. And if you want to collaborate please contact me from github.</p>\r\n<p>Git hub page: <a href=\"https://github.com/huseyinyilmaz/python_blog_engine\">https://github.com/huseyinyilmaz/python_blog_engine</a></p>\r\n<p>For more information I added a sample blog and an information blog to installation. Just click to PDB Blog link above to get more information.</p>", 
-      "name": "main"
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "menu.menuitem", 
-    "fields": {
-      "name": "Main", 
-      "url": "/sp/main/", 
-      "is_active": true, 
-      "display": "Home", 
-      "extra_property": "", 
-      "order": 1
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "menu.menuitem", 
-    "fields": {
-      "name": "Sample blog", 
-      "url": "/blog/samples/", 
-      "is_active": true, 
-      "display": "Sample Blog", 
-      "extra_property": "asd", 
-      "order": 2
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "menu.menuitem", 
-    "fields": {
-      "name": "pbe menuitem", 
-      "url": "/blog/pbe/", 
-      "is_active": true, 
-      "display": "PBE Blog", 
-      "extra_property": "", 
-      "order": 3
-    }
-  }, 
-  {
-    "pk": 22, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_logentry", 
-      "name": "Can add log entry", 
-      "content_type": [
-        "admin", 
-        "logentry"
-      ]
-    }
-  }, 
-  {
-    "pk": 23, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_logentry", 
-      "name": "Can change log entry", 
-      "content_type": [
-        "admin", 
-        "logentry"
-      ]
-    }
-  }, 
-  {
-    "pk": 24, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_logentry", 
-      "name": "Can delete log entry", 
-      "content_type": [
-        "admin", 
-        "logentry"
-      ]
-    }
-  }, 
-  {
-    "pk": 4, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_group", 
-      "name": "Can add group", 
-      "content_type": [
-        "auth", 
-        "group"
-      ]
-    }
-  }, 
-  {
-    "pk": 5, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_group", 
-      "name": "Can change group", 
-      "content_type": [
-        "auth", 
-        "group"
-      ]
-    }
-  }, 
-  {
-    "pk": 6, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_group", 
-      "name": "Can delete group", 
-      "content_type": [
-        "auth", 
-        "group"
-      ]
-    }
-  }, 
-  {
-    "pk": 10, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_message", 
-      "name": "Can add message", 
-      "content_type": [
-        "auth", 
-        "message"
-      ]
-    }
-  }, 
-  {
-    "pk": 11, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_message", 
-      "name": "Can change message", 
-      "content_type": [
-        "auth", 
-        "message"
-      ]
-    }
-  }, 
-  {
-    "pk": 12, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_message", 
-      "name": "Can delete message", 
-      "content_type": [
-        "auth", 
-        "message"
-      ]
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_permission", 
-      "name": "Can add permission", 
-      "content_type": [
-        "auth", 
-        "permission"
-      ]
-    }
-  }, 
-  {
-    "pk": 2, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_permission", 
-      "name": "Can change permission", 
-      "content_type": [
-        "auth", 
-        "permission"
-      ]
-    }
-  }, 
-  {
-    "pk": 3, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_permission", 
-      "name": "Can delete permission", 
-      "content_type": [
-        "auth", 
-        "permission"
-      ]
-    }
-  }, 
-  {
-    "pk": 7, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_user", 
-      "name": "Can add user", 
-      "content_type": [
-        "auth", 
-        "user"
-      ]
-    }
-  }, 
-  {
-    "pk": 8, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_user", 
-      "name": "Can change user", 
-      "content_type": [
-        "auth", 
-        "user"
-      ]
-    }
-  }, 
-  {
-    "pk": 9, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_user", 
-      "name": "Can delete user", 
-      "content_type": [
-        "auth", 
-        "user"
-      ]
-    }
-  }, 
-  {
-    "pk": 25, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_blog", 
-      "name": "Can add blog", 
-      "content_type": [
-        "blog", 
-        "blog"
-      ]
-    }
-  }, 
-  {
-    "pk": 26, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_blog", 
-      "name": "Can change blog", 
-      "content_type": [
-        "blog", 
-        "blog"
-      ]
-    }
-  }, 
-  {
-    "pk": 27, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_blog", 
-      "name": "Can delete blog", 
-      "content_type": [
-        "blog", 
-        "blog"
-      ]
-    }
-  }, 
-  {
-    "pk": 34, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_blogpost", 
-      "name": "Can add blog post", 
-      "content_type": [
-        "blog", 
-        "blogpost"
-      ]
-    }
-  }, 
-  {
-    "pk": 35, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_blogpost", 
-      "name": "Can change blog post", 
-      "content_type": [
-        "blog", 
-        "blogpost"
-      ]
-    }
-  }, 
-  {
-    "pk": 36, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_blogpost", 
-      "name": "Can delete blog post", 
-      "content_type": [
-        "blog", 
-        "blogpost"
-      ]
-    }
-  }, 
-  {
-    "pk": 31, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_category", 
-      "name": "Can add category", 
-      "content_type": [
-        "blog", 
-        "category"
-      ]
-    }
-  }, 
-  {
-    "pk": 32, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_category", 
-      "name": "Can change category", 
-      "content_type": [
-        "blog", 
-        "category"
-      ]
-    }
-  }, 
-  {
-    "pk": 33, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_category", 
-      "name": "Can delete category", 
-      "content_type": [
-        "blog", 
-        "category"
-      ]
-    }
-  }, 
-  {
-    "pk": 28, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_tag", 
-      "name": "Can add tag", 
-      "content_type": [
-        "blog", 
-        "tag"
-      ]
-    }
-  }, 
-  {
-    "pk": 29, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_tag", 
-      "name": "Can change tag", 
-      "content_type": [
-        "blog", 
-        "tag"
-      ]
-    }
-  }, 
-  {
-    "pk": 30, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_tag", 
-      "name": "Can delete tag", 
-      "content_type": [
-        "blog", 
-        "tag"
-      ]
-    }
-  }, 
-  {
-    "pk": 13, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_contenttype", 
-      "name": "Can add content type", 
-      "content_type": [
-        "contenttypes", 
-        "contenttype"
-      ]
-    }
-  }, 
-  {
-    "pk": 14, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_contenttype", 
-      "name": "Can change content type", 
-      "content_type": [
-        "contenttypes", 
-        "contenttype"
-      ]
-    }
-  }, 
-  {
-    "pk": 15, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_contenttype", 
-      "name": "Can delete content type", 
-      "content_type": [
-        "contenttypes", 
-        "contenttype"
-      ]
-    }
-  }, 
-  {
-    "pk": 40, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_menuitem", 
-      "name": "Can add menu item", 
-      "content_type": [
-        "menu", 
-        "menuitem"
-      ]
-    }
-  }, 
-  {
-    "pk": 41, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_menuitem", 
-      "name": "Can change menu item", 
-      "content_type": [
-        "menu", 
-        "menuitem"
-      ]
-    }
-  }, 
-  {
-    "pk": 42, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_menuitem", 
-      "name": "Can delete menu item", 
-      "content_type": [
-        "menu", 
-        "menuitem"
-      ]
-    }
-  }, 
-  {
-    "pk": 16, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_session", 
-      "name": "Can add session", 
-      "content_type": [
-        "sessions", 
-        "session"
-      ]
-    }
-  }, 
-  {
-    "pk": 17, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_session", 
-      "name": "Can change session", 
-      "content_type": [
-        "sessions", 
-        "session"
-      ]
-    }
-  }, 
-  {
-    "pk": 18, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_session", 
-      "name": "Can delete session", 
-      "content_type": [
-        "sessions", 
-        "session"
-      ]
-    }
-  }, 
-  {
-    "pk": 19, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_site", 
-      "name": "Can add site", 
-      "content_type": [
-        "sites", 
-        "site"
-      ]
-    }
-  }, 
-  {
-    "pk": 20, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_site", 
-      "name": "Can change site", 
-      "content_type": [
-        "sites", 
-        "site"
-      ]
-    }
-  }, 
-  {
-    "pk": 21, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_site", 
-      "name": "Can delete site", 
-      "content_type": [
-        "sites", 
-        "site"
-      ]
-    }
-  }, 
-  {
-    "pk": 37, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "add_staticpage", 
-      "name": "Can add static page", 
-      "content_type": [
-        "staticpage", 
-        "staticpage"
-      ]
-    }
-  }, 
-  {
-    "pk": 38, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "change_staticpage", 
-      "name": "Can change static page", 
-      "content_type": [
-        "staticpage", 
-        "staticpage"
-      ]
-    }
-  }, 
-  {
-    "pk": 39, 
-    "model": "auth.permission", 
-    "fields": {
-      "codename": "delete_staticpage", 
-      "name": "Can delete static page", 
-      "content_type": [
-        "staticpage", 
-        "staticpage"
-      ]
-    }
-  }, 
-  {
-    "pk": 1, 
-    "model": "auth.user", 
-    "fields": {
-      "username": "admin", 
-      "first_name": "", 
-      "last_name": "", 
-      "is_active": true, 
-      "is_superuser": true, 
-      "is_staff": true, 
-      "last_login": "2011-02-18 15:08:45", 
-      "groups": [], 
-      "user_permissions": [], 
-      "password": "sha1$203c2$f64871416de1faa5d42fb2b2eabd9a0c344f02f1", 
-      "email": "yilmazhuseyin@gmail.com", 
-      "date_joined": "2011-02-18 15:04:33"
-    }
-  }
 ]
