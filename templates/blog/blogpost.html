@@ -28,7 +28,17 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
 <hr />
 
 {% for comment in post_comment_list %}
-{{ comment.value }}
+<div class="comment_body">
+  <div class="comment_title">
+    {% if comment.website %}
+    <span class="comment_title_header">Author:</span><a class="light" href="{{comment.website}}">{{ comment.name }}</a>. <span class="comment_title_header">Posted on:</span> <span class="comment_date">{{ comment.creation_date|date:"r" }}</span>
+    {% else %}
+    {{comment.name}}
+    {% endif %}
+  </div>
+  <div class="comment_message">{{comment.value}}</div>
+</div>
+
 <br />
 {% endfor %}
 {% include 'blog/comment_form.html' %}

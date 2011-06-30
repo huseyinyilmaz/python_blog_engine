@@ -154,4 +154,5 @@ class Comment(models.Model):
 
     def save(self,*args,**kwargs):
         self.emailHash = hashlib.md5(self.email).hexdigest()
+        
         super(Comment,self).save(*args,**kwargs)

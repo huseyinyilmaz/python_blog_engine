@@ -3,16 +3,15 @@
 logger.enableLog = true;
 var comment_form_url = "{% url blog_post_comment blogpost.id %}";
 </script>
+<!--highlight secion: this is used to give client side error messages -->
+<div class="ui-widget" id="highlightDiv"> 
+  <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> 
+    <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+    <strong id="highlightTitle">Comment posted : </strong> <span id="highlightMessage"> Your comment is waiting for review.</span></p> 
+  </div> 
+</div> 
 
 <form method="POST" action="" id="commentForm">
-<p><label for="nameField">Name</label>  <input id="nameField" type="TEXT" name="name" value="" /></p>
-<p><label for="emailField">E-mail</label>  <input id="emailField" type="TEXT" name="email" value="" /></p>
-<p><label for="websiteField">Web site</label>  <input id="websiteField" type="TEXT" name="website" value="" /></p>
-<p>
-  <label for="postValueField">Post Value</label>
-<br/>
-<textarea id="postValueField" cols="80" rows="5"></textarea>
-</p>
+<span id="formContainer"><table>{{ form }}</table></span>
 </form>
-
 <input type="BUTTON" name="submit" value="Submit" id="commentSubmit" />

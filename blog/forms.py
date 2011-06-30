@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 from django.db.models import Q
 
-class BlogErrorList(forms.util.ErrorList):
+class DefaultErrorList(forms.util.ErrorList):
     def as_ul(self):
         if not self: return u''
         return mark_safe(u'<div ><ul class="ui-state-error ui-corner-all">%s</ul></div>'
@@ -50,7 +50,7 @@ class BlogForm(forms.ModelForm):
         return self.cleaned_data['name']
 
     def __init__(self, *args, **kwargs):
-        kwargs_new = {'error_class': BlogErrorList}
+        kwargs_new = {'error_class': DefaultErrorList}
         kwargs_new.update(kwargs)
         super(BlogForm, self).__init__(*args, **kwargs_new)
 
@@ -66,7 +66,6 @@ class BlogPostFormAdmin(forms.ModelForm):
         fields = ('published','blog','title','slug','content','teaser','tags')
         
     def clean(self):
-        
         if self.instance.id:
             try:
                 self.changed_data.index('blog')
@@ -84,6 +83,17 @@ class BlogPostFormAdmin(forms.ModelForm):
 ####################################################
 
 class CommentForm(forms.ModelForm):
+    name=forms.CharField(widget=forms.TextInput(attrs={'class':'grid_7'}))
+    email=forms.EmailField(widget=forms.TextInput(attrs={'class':'grid_7'}))
+    website=forms.URLField(widget=forms.TextInput(attrs={'class':'grid_7'}),required=False)
+    value=forms.CharField(widget=forms.Textarea(attrs={'class':'grid_7'}),label='Comment')
+    
     class Meta:
         model = Comment
-    
+        fields = ('name','email','website','value')
+
+    def __init__(self, *args, **kwargs):
+        kwargs_new = {'error_class': DefaultErrorList}
+        kwargs_new.update(kwargs)
+        super(CommentForm, self).__init__(*args, **kwargs_new)
+        

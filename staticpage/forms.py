@@ -25,7 +25,7 @@ class StaticPageForm(forms.ModelForm):
 
     def clean_slug(self):
         slug = self.cleaned_data['slug']
-        slug = slugify(slug if slug else self.cleaned_data['name'])
+        slug = slugify(slug if slug else self.cleaned_data.get('name'))
         self.cleaned_data['slug'] = slug
         # if another object with same slug exist and has different id show error
         query = Q(slug = slug)
@@ -38,13 +38,13 @@ class StaticPageForm(forms.ModelForm):
 
     def clean_name(self):
         # if another object with same name exist and has different id show error
-        query = Q(name = self.cleaned_data['name'])
+        query = Q(name = self.cleaned_data.get('name'))
         if self.instance.id:
             query = query & ~Q(id=self.instance.id)
 
         if StaticPage.objects.filter(query).exists():
             raise forms.ValidationError('There is another static with the same name')
-        return self.cleaned_data['name']
+        return self.cleaned_data.get('name')
 
     def __init__(self, *args, **kwargs):
         kwargs_new = {'error_class': StaticPageErrorList}

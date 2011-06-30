@@ -10,6 +10,8 @@ from models import Tag
 from models import Category
 from models import Comment
 
+from forms import CommentForm
+from django.utils import simplejson
 from menu.models import get_menu_items
 import logging
 from django.views.decorators.cache import cache_page
@@ -50,7 +52,7 @@ def post(request,blog_slug,post_slug):
     post_tag_list = post.tags.all()
     post_category_list = post.categories.all()
     post_comment_list = post.comment_set.all()
-
+    comment_form = CommentForm()
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
                                'date_list':BlogPost.view_objects.date_list(blog.id),
@@ -62,30 +64,22 @@ def post(request,blog_slug,post_slug):
                                'post_comment_list':post_comment_list,
                                'menu': get_menu_items(),
                                'path': request.path,
+                               'form':comment_form,
                                })
 
 
 def comment(request,id):
     if request.method == 'POST':
-        data = request.POST
-        email = data.get('email')
-
-        # if email is exist make it lowercase
-        if email:
-            email = email.lower()
-
-        blogPost = get_object_or_404(BlogPost,pk=id)
-
-        comment = Comment()
-        comment.name = data.get('name')
-        comment.email = email
-        comment.website = data.get('website')
-        comment.blogpost = blogPost
-        comment.value = data.get('value')
-        comment.save()
-
-        return HttpResponse('{result:true}')
-    
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.blogpost_id = id
+            comment.save()
+            response = {'success':True}
+        else:
+            response = {'success':False,
+                        'form':str(form)}
+        return HttpResponse(simplejson.dumps(response))
     return Http404()
 
 @cache_page

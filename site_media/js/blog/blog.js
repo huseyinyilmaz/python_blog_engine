@@ -20,21 +20,30 @@ $(function(){
       logger.startLog("onLoad");
       var form = $('#commentForm');
       var submitButton = $('#commentSubmit');
-      var postValueField = $('#postValueField');
-      
-      submitButton.click(function(){
-			     logger.startLog('submitButton.click');
-			     var obj = form.serializeObject();
-			     var json = JSON.stringify(obj);
-			     obj.value = postValueField.val();
-			     logger.log(obj);
-			     logger.log(json);
-			     $.post(comment_form_url, obj,
-				    function(data) {
-					alert("Data Loaded: " + data);
-				    });
+      var formContainer = $('#formContainer');
+      var highlightDiv = $('#highlightDiv');
+      var highlightTitle = $('#highlightTitle');
+      var highlightMessage = $('#highlightMessage');
+      highlightDiv.hide();
+      //initilize buttons
+      submitButton.button().click(function(){
+				      logger.startLog('submitButton.click');
+				      var obj = form.serializeObject();
+				      logger.log(obj);
+				      $.post(comment_form_url, obj,
+					     function(data) {
+						 logger.startLog("submit button callback");
+						 if(data.success){
+						     logger.log("Comment successfully completed");
+						     highlightDiv.slideDown("fast");
+						 }else{
+						     logger.log("Comment have an error");
+						     formContainer.html("<table>" + data.form + "</table>");
+						 };
+						 logger.endLog();
+					     },'json');
 			     
-			     logger.endLog();
-			 });
+				      logger.endLog();
+				  });
       logger.endLog();
   });
