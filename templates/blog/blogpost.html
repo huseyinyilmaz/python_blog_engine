@@ -30,8 +30,9 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
 <div class="comment_body">
     <img class="comment_img" src="http://www.gravatar.com/avatar/{{ comment.emailHash}}?d=mm" />
     <div class="comment_title">
+      <span class="comment_title_header">Author:</span> 
       {% if comment.website %}
-      <span class="comment_title_header">Author:</span> <a class="light" href="{{comment.website}}">{{ comment.name }}</a>
+      <a class="light" href="{{comment.website}}">{{ comment.name }}</a>
       {% else %}
       {{comment.name}}
       {% endif %}
