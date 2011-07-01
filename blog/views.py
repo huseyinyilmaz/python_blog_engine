@@ -52,6 +52,8 @@ def post(request,blog_slug,post_slug):
     post_tag_list = post.tags.all()
     post_category_list = post.categories.all()
     post_comment_list = post.comment_set.all()
+
+    comments_closed = not post.comments_closed and len(post_comment_list)>post.max_comment_count
     comment_form = CommentForm()
     return render_to_response('blog/blogpost.html',
                               {'blog':blog,
@@ -65,6 +67,7 @@ def post(request,blog_slug,post_slug):
                                'menu': get_menu_items(),
                                'path': request.path,
                                'form':comment_form,
+                               'comments_closed':comments_closed,
                                })
 
 

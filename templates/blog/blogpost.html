@@ -43,7 +43,11 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
 
 <br />
 {% endfor %}
+{% if not comments_closed %}
 {% include 'blog/comment_form.html' %}
+{% else %}
+New comment entry is closed for this post
+{% endif %}
 <hr />
 
 {% endblock body %}
