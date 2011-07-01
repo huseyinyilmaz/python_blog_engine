@@ -24,7 +24,10 @@ $(function(){
       var highlightDiv = $('#highlightDiv');
       var highlightTitle = $('#highlightTitle');
       var highlightMessage = $('#highlightMessage');
+      var originalForm_html = formContainer.html();
+      
       highlightDiv.hide();
+
       //initilize buttons
       submitButton.button().click(function(){
 				      logger.startLog('submitButton.click');
@@ -36,6 +39,7 @@ $(function(){
 						 if(data.success){
 						     logger.log("Comment successfully completed");
 						     highlightDiv.slideDown("fast");
+						     formContainer.html(originalForm_html);
 						 }else{
 						     logger.log("Comment have an error");
 						     formContainer.html("<table>" + data.form + "</table>");

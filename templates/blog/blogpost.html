@@ -24,18 +24,19 @@ Date:  <span class="blogpost_date">{{ blogpost.creation_date|date:"j F Y" }}</sp
     {% endfor %}
   </span>
 </span>  
-
 <hr />
-
+<span class="comment_header">Comments</span>
 {% for comment in post_comment_list %}
 <div class="comment_body">
-  <div class="comment_title">
-    {% if comment.website %}
-    <span class="comment_title_header">Author:</span><a class="light" href="{{comment.website}}">{{ comment.name }}</a>. <span class="comment_title_header">Posted on:</span> <span class="comment_date">{{ comment.creation_date|date:"r" }}</span>
-    {% else %}
-    {{comment.name}}
-    {% endif %}
-  </div>
+    <img class="comment_img" src="http://www.gravatar.com/avatar/{{ comment.emailHash}}?d=mm" />
+    <div class="comment_title">
+      {% if comment.website %}
+      <span class="comment_title_header">Author:</span> <a class="light" href="{{comment.website}}">{{ comment.name }}</a>
+      {% else %}
+      {{comment.name}}
+      {% endif %}
+      . <span class="comment_title_header">Posted on:</span> <span class="comment_date">{{ comment.creation_date|date:"r" }}</span>
+    </div>
   <div class="comment_message">{{comment.value}}</div>
 </div>
 

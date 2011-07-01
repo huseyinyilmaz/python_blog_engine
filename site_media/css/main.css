@@ -41,6 +41,11 @@ span.blogpost_footer,div.smaller{
     font-size: 80%;
 }
 
+span.comment_header{
+    font-size:25px;
+    font-weight:bold;
+}
+
 span.comment_title_header{
     font-size: 80%;
     font-weight:bold;
@@ -58,7 +63,7 @@ span.blogpost_date,div.footer,span.comment_date,{
 div.comment_title{
     background-color:#5581C0;
     color:#FFFFFF;
-    
+    display:inline-block;
 }
 
 div.comment_message{
@@ -68,7 +73,12 @@ div.comment_message{
 div.comment_body{
     margin: 10px;
 }
-span.blogpost_tag{
+
+img.comment_img{
+display:inline-block;
+}
+
+ospan.blogpost_tag{
     text-align:right;
 }
 
