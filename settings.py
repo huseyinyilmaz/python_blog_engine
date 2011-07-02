@@ -114,3 +114,6 @@ if DEBUG and False:
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/'
 TITLE = 'Python Blog Engine'
+
+#COMMUNICATION_EMAIL = 'admin@yilmazhuseyin.com'
+COMMUNICATION_EMAIL = 'root@localhost.com'

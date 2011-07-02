@@ -3,6 +3,7 @@ from django.contrib import admin
 from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
+from blog.models import Comment
 
 from blog.forms import BlogFormAdmin
 from blog.forms import BlogPostFormAdmin
@@ -40,6 +41,12 @@ class BlogPostAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     pass
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name','email','blogpost','creation_date','verified')
+    date_hierarchy = 'creation_date'
+
+
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(BlogPost, BlogPostAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(Comment, CommentAdmin)

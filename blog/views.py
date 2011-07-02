@@ -20,6 +20,9 @@ from django.utils.feedgenerator import Atom1Feed
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.conf import settings
 
+
+from django.core.mail import send_mail
+
 logger = logging.getLogger(__name__)
 
 @cache_page
@@ -51,7 +54,7 @@ def post(request,blog_slug,post_slug):
     category_list = blog.category_set.all()
     post_tag_list = post.tags.all()
     post_category_list = post.categories.all()
-    post_comment_list = post.comment_set.all()
+    post_comment_list = post.comment_set.filter(verified=True)
 
     comments_closed = not post.comments_closed and len(post_comment_list)>post.max_comment_count
     comment_form = CommentForm()
@@ -79,6 +82,7 @@ def comment(request,id):
             comment.blogpost_id = id
             comment.save()
             response = {'success':True}
+            send_mail('New Comment has been entered', 'blogpost_id:%s\nmessage:\n%s'%(id,comment.value), settings.COMMUNICATION_EMAIL,map(lambda x:x[1],settings.ADMINS), fail_silently=False)
         else:
             response = {'success':False,
                         'form':str(form)}
