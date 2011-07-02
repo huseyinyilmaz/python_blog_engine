@@ -1,8 +1,8 @@
 /*global $, logger, _, Backbone, blog_url, window, next_url, data, URLify, scopeleaks*/
 $(function () {
       //enable logger
-      logger.enableLog = true;
-      logger.showTiming = true;
+      //logger.enableLog = true;
+      //logger.showTiming = true;
       
       logger.startLog('JQuery initializer');
       
@@ -493,7 +493,12 @@ $(function () {
                                                        this.validator.slug = false;
                                                    }
                                                    validateField('content', 'content');
-                                                   
+                                                   validateField('max_comment_count');
+						   if(attrs.max_comment_count&&!errors.max_comment_count && !this.numberRegEx.test(attrs.max_comment_count)){
+						       errors.max_comment_count = "Maximum comment count value must be an integer";
+						       hasErrors = true;
+						       this.validator.max_comment_count = false;
+						   }
                                                    //current isValid value is true but old one was false
                                                    if (!isValid && this.validator.isValid()) {
                                                        hideError();
@@ -502,25 +507,26 @@ $(function () {
                                                    return hasErrors?errors:undefined;
                                                },
                                                
-                                                                                           errorHandler: function (model, error, options) {
-                                                                                               logger.startLog("BlogPost.errorHandler");
-                                                                                               
-                                                                                               showError('Validation Error:', 'Please fix following errors.');
-                                                                                               
-                                                                                               var fieldError = function (name) {
-                                                                                                   if (error[name]) {
-                                                                                                       showFieldError(name, '', error[name]);
-                                                                                                   }
-                                                                                               };
-                                                                                               fieldError('title');
-                                                                                               fieldError('slug');
-                                                                                               fieldError('teaser');
-                                                                                               fieldError('content');
-                                                                                               fieldError('published');
-                                                                                               
-                                                                                               
-                                                                                               logger.endLog();
-                                                                                           },
+                                               errorHandler: function (model, error, options) {
+                                                   logger.startLog("BlogPost.errorHandler");
+                                                   
+                                                   showError('Validation Error:', 'Please fix following errors.');
+                                                   
+                                                   var fieldError = function (name) {
+                                                       if (error[name]) {
+                                                           showFieldError(name, '', error[name]);
+                                                       }
+                                                   };
+                                                   fieldError('title');
+                                                   fieldError('slug');
+                                                   fieldError('teaser');
+                                                   fieldError('content');
+                                                   fieldError('published');
+                                                   fieldError('comments_closed');
+						   fieldError('max_comment_count');
+                                                   
+                                                   logger.endLog();
+                                               },
                                                
                                                validator: {
                                                    title: true,
@@ -528,11 +534,14 @@ $(function () {
                                                    teaser: true,
                                                    content: true,
                                                    published: true,
+						   comments_closed: true,
+						   max_comment_count: true,
                                                    isValid: function () {
-                                                       return this.title && this.slug && this.teaser && this.content && this.published;
+                                                       return this.title && this.slug && this.teaser && this.content && this.published && this.comments_closed && this.max_comment_count;
                                                    }
                                                },
-                                               slugRegEx: new RegExp("^[a-zA-Z-_0-9]+$")
+                                               slugRegEx: new RegExp("^[a-zA-Z-_0-9]+$"),
+					       numberRegEx: new RegExp("^[0-9]*$")
                                            });
       
       var BlogPostView = Backbone.View.extend({
@@ -552,7 +561,10 @@ $(function () {
                                                       table.append(domManipulator.createRow('Teaser:', 'teaser', domManipulator.getTextarea('teaser', this.model.get('teaser'), 5)));
                                                       table.append(domManipulator.createErrorRow('content'));
                                                       table.append(domManipulator.createRow('Content:', 'content', domManipulator.getTextarea('content', this.model.get('content'), 15)));
-                                                      
+                                                      table.append(domManipulator.createErrorRow('comments_closed'));
+                                                      table.append(domManipulator.createRow('Comments Closed:', 'comments_closed', domManipulator.getCheckbox('comments_closed', this.model.get('comments_closed'))));
+                                                      table.append(domManipulator.createErrorRow('max_comment_count'));
+                                                      table.append(domManipulator.createRow('Maximum comment count:', 'max_comment_count', domManipulator.getTextInput('max_comment_count', this.model.get('max_comment_count'))));
                                                       $(this.el).append(table);
                                                       logger.endLog();
                                                       return this;
@@ -568,7 +580,9 @@ $(function () {
                                                           "title": $(getId("title")).val(),
                                                           "slug": $(getId("slug")).val(),
                                                           "teaser": $(getId("teaser")).val(),
-                                                          "content": $(getId("content")).val()
+                                                          "content": $(getId("content")).val(),
+							  "comments_closed": $(getId("comments_closed")).attr('checked'),
+							  "max_comment_count": $(getId("max_comment_count")).val()
                                                       };
                                                       logger.log(data);
                                                       //if model.set can pass validation. save data to server
@@ -591,11 +605,13 @@ $(function () {
                                                                e['change #' + domManipulator.getId('teaser')] = 'onTeaserChanged';
                                                                e['change #' + domManipulator.getId('content')] = 'onContentChanged';
                                                                e['change #' + domManipulator.getId('published')] = 'onPublishedChanged';
+                                                               e['change #' + domManipulator.getId('comments_closed')] = 'onCommentsClosedChanged';
+                                                               e['change #' + domManipulator.getId('max_comment_count')] = 'onMaxCommentCountChanged';
                                                                
                                                                return e;
                                                            }()),
                                                   onChangeField: function (event, name) {
-                                                      logger.startLog('blogPostView.onTitleChanged');
+                                                      logger.startLog('blogPostView.onChangeField');
                                                       this.model.set((function () {
                                                                           var obj = {};
                                                                           obj[name] = event.target.value;
@@ -628,6 +644,16 @@ $(function () {
                                                   onPublishedChanged: function (event) {
                                                       logger.startLog('blogPostView.onPublishedChanged');
                                                       this.onChangeField(event, 'published');
+                                                      logger.endLog();
+                                                  },
+                                                  onCommentsClosedChanged: function (event) {
+                                                      logger.startLog('blogPostView.onCommentsClosedChanged');
+                                                      this.onChangeField(event, 'comments_closed');
+                                                      logger.endLog();
+                                                  },
+                                                  onMaxCommentCountChanged: function (event) {
+                                                      logger.startLog('blogPostView.onMaxCommentCountChanged');
+                                                      this.onChangeField(event, 'max_comment_count');
                                                       logger.endLog();
                                                   }
                                               });

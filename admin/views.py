@@ -210,6 +210,8 @@ def blogPostCreate(request,blog_id):
                             title=blogPost['title'],
                             slug=blogPost['slug'],
                             published=blogPost['published'],
+                            comments_closed=blogPost['comments_closed'],
+                            max_comment_count=blogPost['max_comment_count'],
                             blog_id=blog_id,
                             )
         try:
@@ -236,7 +238,9 @@ def blogPostCreate(request,blog_id):
                  'slug' :"",
                  'published':True,
                  'teaser':"",
-                 'content':""})
+                 'content':"",
+                 'comments_closed':False,
+                 'max_comment_count':100})
 
     def objFactory(source):
         result = dict()
@@ -268,9 +272,11 @@ def blogPostEdit(request,id):
     post['teaser']= postObj.teaser
     post['content']= postObj.content
     post['published']= postObj.published
+    post['comments_closed']=postObj.comments_closed
+    post['max_comment_count']=postObj.max_comment_count
     blog_id = postObj.blog_id
     page = {
-        'title': "Create new blog post",
+        'title': "Edit blog post",
         'post': post,
         'blog_url':reverse('admin_blogPostEdit',kwargs={'id':id}),
         'next_url': reverse('admin_blog',kwargs={'id':blog_id}),
@@ -309,6 +315,8 @@ def blogPostEdit(request,id):
         postObj.title = blogPost['title']
         postObj.slug = blogPost['slug']
         postObj.published = blogPost['published']
+        postObj.comments_closed = blogPost['comments_closed']
+        postObj.max_comment_count = blogPost['max_comment_count']
 
         try:
             # we need to save the object in order to add manytomany field
