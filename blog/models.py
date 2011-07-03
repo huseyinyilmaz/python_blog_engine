@@ -138,6 +138,8 @@ class BlogPost(models.Model):
 
 class Comment(models.Model):
     verified = models.BooleanField(default=False)
+    ignored = models.BooleanField(default=False)
+
     blogpost = models.ForeignKey(BlogPost)
 
     name = models.CharField(max_length=500)
@@ -149,6 +151,8 @@ class Comment(models.Model):
     creation_date = models.DateTimeField('Creation date', auto_now_add=True)
     last_modified = models.DateTimeField('Last modification date', auto_now=True)
 
+    client_ip = models.IPAddressField(blank=True,null=True)
+    
     def __str__(self):
         return "(%s) created at %s"%(self.name,str(self.creation_date))
 

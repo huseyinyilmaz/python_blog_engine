@@ -4,7 +4,9 @@ urlpatterns = patterns('',
     url(r'^$',views.index,name='admin_index'),
     url(r'^blogs/$',views.blogMain,name='admin_blogMain'),
     url(r'^staticpage/$',views.staticPageMain,name='admin_staticPageMain'),
+    url(r'^comments/unverified/$',views.unverifiedComments,name='admin_unverifiedComments'),
 
+                       
     url(r'^blog/(?P<id>\d+)/$',views.blog,name='admin_blog'),
     url(r'^blog/create/$',views.blogCreate,name='admin_blogCreate'),
     url(r'^blog/edit/(?P<id>\d+)/$',views.blogEdit,name='admin_blogEdit'),

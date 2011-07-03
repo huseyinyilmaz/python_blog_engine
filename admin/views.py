@@ -6,7 +6,6 @@ from django.db.transaction import commit_on_success
 from django.db import IntegrityError
 from django.utils import simplejson
 from django.http import HttpResponse
-from django.http import Http404
 from django.http import HttpResponseServerError
 from django.core.exceptions import ValidationError
 from staticpage.forms import StaticPageForm
@@ -15,6 +14,7 @@ from blog.models import Blog
 from blog.models import BlogPost
 from blog.models import Tag
 from blog.models import Category
+from  blog.models import Comment
 from django.template.defaultfilters import slugify
 from blog.forms import BlogForm
 from django.template import RequestContext
@@ -26,11 +26,13 @@ BLOG_DESCRIPTION = "<ul><li>Press edit blog button to edit current blog</li><li>
 STATIC_PAGES_DESCRIPTION = "<ul><li>Press create button to create a new static page</li><li>Select a static page and press delete button to delete it</li><li>Select a static page and pres edit button to edit it</li></ul>"
 @login_required
 def index(request):
+    comment_count = Comment.objects.filter(verified=False,ignored=False).count()
     page = {
         'title' : "",
         'choices' : [
             ('Static Pages',reverse('admin_staticPageMain')),
             ('Blogs',reverse('admin_blogMain')),
+            ('Unverified Comments (%d)'%comment_count,reverse('admin_unverifiedComments')),
             ],
         'description':MAIN_DESCRIPTION,
         }
@@ -508,4 +510,35 @@ def tag(request,blog_id,id=None):
 
 def category(request,blog_id,id=None):
     return widget(request,Category,BlogPost.categories,blog_id,id)
+
+############
+# Comments #
+############
+@login_required
+@commit_on_success
+def unverifiedComments(request):
+    if request.method == "POST":
+        result = {'success':True}
+        try:
+            comment = Comment.objects.get(id=request.POST.get("id"))
+        except Comment.DoesNotExist:
+            result['success']=False
+            result['message']="No comments with given id found"
+
+        if result['success']:
+            if request.POST.get('action')=="verify":
+                comment.verified = True
+            elif request.POST.get('action')=="ignore":
+                comment.ignored = True
+            comment.save()
+        return HttpResponse(simplejson.dumps(result))
+    else:
+        page = {
+            'title' : "Verify Comments",
+            }
+        comment_list = Comment.objects.select_related('blogpost').filter(verified=False,ignored=False)
+        return render_to_response('admin/unverifiedcomments.html',
+                                  {'page': page,
+                                   'comment_list':comment_list},
+                                  context_instance=RequestContext(request))
 

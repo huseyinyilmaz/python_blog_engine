@@ -8,7 +8,7 @@ from models import Blog
 from models import BlogPost
 from models import Tag
 from models import Category
-from models import Comment
+
 
 from forms import CommentForm
 from django.utils import simplejson
@@ -22,6 +22,7 @@ from django.conf import settings
 
 
 from django.core.mail import send_mail
+from django.db.transaction import commit_on_success
 
 logger = logging.getLogger(__name__)
 
@@ -74,12 +75,14 @@ def post(request,blog_slug,post_slug):
                                })
 
 
+@commit_on_success
 def comment(request,id):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.blogpost_id = id
+            comment.client_ip = request.META.get('REMOTE_ADDR')
             comment.save()
             response = {'success':True}
             send_mail('New Comment has been entered', 'blogpost_id:%s\nmessage:\n%s'%(id,comment.value), settings.COMMUNICATION_EMAIL,map(lambda x:x[1],settings.ADMINS), fail_silently=False)

@@ -1,0 +1,13 @@
+<div class="comment_body">
+    <img class="comment_img" src="http://www.gravatar.com/avatar/{{ comment.emailHash}}?d=mm" />
+    <div class="comment_title">
+      <span class="comment_title_header">Author:</span> 
+      {% if comment.website %}
+      <a class="light" href="{{comment.website}}">{{ comment.name }}</a>
+      {% else %}
+      {{comment.name}}
+      {% endif %}
+      . <span class="comment_title_header">Posted on:</span> <span class="comment_date">{{ comment.creation_date|date:"r" }}</span>
+    </div>
+  <div class="comment_message">{{comment.value}}</div>
+</div>

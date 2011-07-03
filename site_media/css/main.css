@@ -36,7 +36,10 @@ li.list{
     list-style: none;
     text-indent: 0px;
 }
-
+.bordered{
+    border-style:solid;
+    border-width:1px;
+}
 span.blogpost_footer,div.smaller{
     font-size: 80%;
 }

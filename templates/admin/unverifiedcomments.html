@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block head %}
+ <script type="text/javascript">
+   $(function(){
+       function post_data(action,id){
+	   var obj = {'action':action,
+		      'id':id};
+	   $.post("", obj,
+		  function(data) {
+		      if(data.success){
+			  $('#maincommentdiv_'+id).remove()
+		      }else{
+			  alert(data.message);
+		      };
+		  },'json');
+	   
+       };
+       {% for comment in comment_list %}
+       // Verify function for comment with id {{comment.id}}
+       $('#verify_{{comment.id}}').button().click(function(){
+	   post_data('verify',{{comment.id}});
+       });
+       // Ignore function for comment with id {{comment.id}}
+       $('#ignore_{{comment.id}}').button().click(function(){
+	   post_data('ignore',{{comment.id}});
+       });
+       {% endfor %}
+   });
+   </script>
+{% endblock head%}
+{% block body %}
+
+{% for comment in comment_list %}
+<div class="bordered" id="maincommentdiv_{{comment.id}}">
+  <p>BlogPost Title: {{comment.blogpost.title}}</p>
+  <input type="BUTTON" value="Verify" id="verify_{{comment.id}}"/>
+  <input type="BUTTON" value="Ignore" id="ignore_{{comment.id}}"/>
+  <hr/>
+  {%include "blog/comment_body.html"%}
+
+</div>
+{% endfor %}
+{% endblock body %}
