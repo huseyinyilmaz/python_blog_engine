@@ -1,22 +1,25 @@
-{% extends "base.html" %}
+{% extends "layout/one_column.html" %}
 
-{% block head %}
-<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
+{% block extra_head %}
 <script type="text/javascript">
 var delete_message = 'Are you sure you want to delete blog post';
 var createUrl = "{{ createUrl }}";
 </script>
-{% endblock head%}
+{% endblock extra_head%}
+{% block onload %}
+$('.button').button();
+{% endblock onload %}
 
-{% block body %}
+{% block content %}
+<div class="w960 container pl10">
 <lu>
 {% for item in page.choices %}
-  <li class="list"><button class="item" value="{{ item.1 }}">{{ item.0 }}</button></li>
+  <li class="nobullet p5"><button class="button" value="{{ item.1 }}">{{ item.0 }}</button></li>
 {% endfor %}
 </lu>
 <br />
 
-<table class="grid" id="grid">
+<table id="grid">
 <tr class="ui-widget-header">
   <th>Id</th>
   <th>{{ item_display_label }}</th>
@@ -30,14 +33,13 @@ var createUrl = "{{ createUrl }}";
   </tr>
 {% endfor %}
 </table>
-  
-</table>
 <input type="button" id="grid_button_create" value="Create"/>
 <input type="button" id="grid_button_select" value="Select"/>
 <input type="button" id="grid_button_delete" value="Delete"/>
 
-<script type="text/javascript" src="/site_media/js/admin/blog_main.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/admin/blog_main.js"></script>
 <!-- Delete confirmation dialog -->
 <div id="deleteDialog" title="Delete Confirmation Dialog"></div>
-{% endblock body%}
+</div>
+{% endblock content %}
 

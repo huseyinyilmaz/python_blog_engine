@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 TEST_BANK = True
 
 ADMINS = (
-    ('Huseyin Yilmaz', 'admin@promosfer.com'),
+    ('Huseyin Yilmaz', 'admin@yilmazhuseyin.com'),
 )
 
 MANAGERS = ADMINS
@@ -194,10 +194,7 @@ LOGGING = {
 }
 
 
-AUTH_PROFILE_MODULE = 'accounts.Profile'
 
-# django-registration
-ACCOUNT_ACTIVATION_DAYS = 60
 
 DEFAULT_FROM_EMAIL='pbe <contact@localhost>' # emaillerin atildigi adres
 
@@ -210,11 +207,8 @@ TITLE = 'Python Blog Engine'
 USE_LOCAL = True
 
 
-AUTHENTICATION_BACKENDS = (
-    'accounts.backends.AuthenticationBackend',
-)
 
-SERVER_EMAIL = "server@promosfer.com"
+SERVER_EMAIL = "server@yilmazhuseyin.com"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',

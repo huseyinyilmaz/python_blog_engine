@@ -1,10 +1,14 @@
-{% extends "base.html" %}
+{% extends "layout/one_column.html" %}
 
-{% block head %}
-<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
-{% endblock head%}
+{% block extra_head %}
+{% endblock extra_head%}
 
-{% block body %}
+{% block onload %}
+$('.button').button();
+{% endblock onload %}
+
+{% block content %}
+<div class="w960 container">
 <lu>
 {% for item in page.choices %}
   <li class="list">
@@ -18,8 +22,9 @@
 <table>
 {{ form.as_table }}
 </table>
-<input type="submit" value="Submit" />
+<input type="submit" value="Submit" class="button"/>
 </form>
+</div>
 
 <script type="text/javascript">
 $(function(){
@@ -30,5 +35,5 @@ $(function(){
 });
 </script>
 
-{% endblock body%}
+{% endblock content %}
 

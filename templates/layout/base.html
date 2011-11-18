@@ -21,7 +21,14 @@
 
     {% include 'layout/includes.html' %}
     {% block extra_head %}{% endblock %}
-
+    <script type="text/javascript">
+    $(function(){
+    {% block onload%}{%endblock%}
+    });
+    </script>
+    {% if blog %}
+    <link rel="alternate" type="application/rss+xml" title={{blog.title}} href="{%url blog_rss blog.slug%}" />
+    {% endif %}
     {% include 'layout/analytics.html' %}
     
   </head>
@@ -36,10 +43,10 @@
 	<div class="tac">{{ blog.tagline }}</div>
       </a>
       {%else%}
-      <div class="tac s35 white bold">Python Blog Engine</div>
+      <div class="tac s35 white bold pt10">Python Blog Engine</div>
       {% endif %}
       {% if user and user.is_authenticated %}
-      <div align="right">
+      <div class="tar pr10">
 	{{ user.email }} - <a href="/logout/">logout</a>
       </div>
       {% endif %}

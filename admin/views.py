@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
@@ -36,7 +36,9 @@ def index(request):
             ],
         'description':MAIN_DESCRIPTION,
         }
-    return render_to_response('list.html',{'page':page,'user':request.user},)
+    return render(request,
+                  'list.html',
+                  {'page':page,'user':request.user},)
 
 def _addurls(item,editHandler,deleteHandler):
     item.editUrl,item.deleteUrl = reverse(editHandler,kwargs={'id':item.id}),reverse(deleteHandler,kwargs={'id':item.id})
@@ -71,13 +73,14 @@ def blogMain(request):
         Blog.objects.only('id','name').all().order_by('name'))
 
     
-    return render_to_response('admin/blog_main.html',
-                              {'page':page,
-                               'item_set':staticPage_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('admin_blogCreate'),
-                               'user':request.user,
-                               })
+    return render(request,
+                  'admin/blog_main.html',
+                  {'page':page,
+                   'item_set':staticPage_set,
+                   'item_display_label':'Name',
+                   'createUrl':reverse('admin_blogCreate'),
+                   'user':request.user,
+                   })
 
 @login_required
 def blog(request,id):
@@ -101,13 +104,14 @@ def blog(request,id):
             reverse('admin_blogPostEdit',kwargs={'id':x.id})),
         blog.blogpost_set.all())
 
-    return render_to_response('admin/blog_main.html',
-                              {'page':page,
-                               'item_set':blogPost_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('admin_blogPostCreate', kwargs={'blog_id':id}),
-                               'user':request.user,
-                               })
+    return render(request,
+                  'admin/blog_main.html',
+                  {'page':page,
+                   'item_set':blogPost_set,
+                   'item_display_label':'Name',
+                   'createUrl':reverse('admin_blogPostCreate', kwargs={'blog_id':id}),
+                   'user':request.user,
+                   })
 
 
 @login_required
@@ -128,10 +132,11 @@ def blogCreate(request):
     else:
         form = BlogForm() # An unbound form
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_blogCreate'),
-        'page': page},context_instance=RequestContext(request))
+    return render(request,
+                  'admin/formpage.html',
+                  {'form': form,
+                   'formAction': reverse('admin_blogCreate'),
+                   'page': page})
 
 @login_required
 def blogEdit(request,id):
@@ -151,10 +156,11 @@ def blogEdit(request,id):
     else:
         form = BlogForm(instance=blog) 
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
-        'page': page},context_instance=RequestContext(request))
+    return render(request,
+                  'admin/formpage.html',
+                  {'form': form,
+                   'formAction': reverse('admin_blogEdit',kwargs={'id':id}),
+                   'page': page})
 
 @login_required
 def blogDelete(request,id):
@@ -178,13 +184,14 @@ def blogPostMain(request,id):
 
     staticPage_set = map(lambda x:_addurls(x,'blogPostEdit','blogPostDelete'),Blog.objects.get(pk=id).blogpost_set.all())
 
-    return render_to_response('admin/item_list.html',
-                              {'page':page,
-                               'item_set':staticPage_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
-                               'user':request.user,
-                               })
+    return render(request,
+                  'admin/item_list.html',
+                  {'page':page,
+                   'item_set':staticPage_set,
+                   'item_display_label':'Name',
+                   'createUrl':reverse('blogPostCreate',kwargs={'blog_id':id}),
+                   'user':request.user,
+                   })
 
 
 @login_required
@@ -256,12 +263,13 @@ def blogPostCreate(request,blog_id):
 
     page['post_json'] = simplejson.dumps(post)
 
-    return render_to_response('admin/blogpostpage.html',
-        {
-        'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
-        'page': page,
-        'user':request.user,
-})
+    return render(request,
+                  'admin/blogpostpage.html',
+                  {
+            'formAction': reverse('admin_blogPostCreate',kwargs={'blog_id':blog_id}),
+            'page': page,
+            'user':request.user,
+            })
 
 @login_required
 @commit_on_success
@@ -368,12 +376,13 @@ def blogPostEdit(request,id):
 
     page['post_json'] = simplejson.dumps(post)
 
-    return render_to_response('admin/blogpostpage.html',
-        {
-        'formAction': reverse('admin_blogPostEdit',kwargs={'id':id}),
-        'page': page,
-        'user':request.user,
-        })
+    return render(request,
+                  'admin/blogpostpage.html',
+                  {
+            'formAction': reverse('admin_blogPostEdit',kwargs={'id':id}),
+            'page': page,
+            'user':request.user,
+            })
 
 @login_required
 @commit_on_success
@@ -401,13 +410,13 @@ def staticPageMain(request):
     
     staticPage_set = map(lambda x:_addurls(x,'admin_staticPageEdit','admin_staticPageDelete'),StaticPage.objects.all())
 
-    return render_to_response('admin/item_list.html',
-                              {'page':page,
-                               'item_set':staticPage_set,
-                               'item_display_label':'Name',
-                               'createUrl':reverse('admin_staticPageCreate'),
-                               'user':request.user,
-                               })
+    return render(request,'admin/item_list.html',
+                  {'page':page,
+                   'item_set':staticPage_set,
+                   'item_display_label':'Name',
+                   'createUrl':reverse('admin_staticPageCreate'),
+                   'user':request.user,
+                   })
 
 @login_required
 @commit_on_success
@@ -428,11 +437,12 @@ def staticPageCreate(request):
     else:
         form = StaticPageForm() # An unbound form
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_staticPageCreate'),
-        'page': page,
-         },context_instance=RequestContext(request))
+    return render(request,
+                  'admin/formpage.html',
+                  {'form': form,
+                   'formAction': reverse('admin_staticPageCreate'),
+                   'page': page,
+                   })
 
 @login_required
 @commit_on_success
@@ -453,10 +463,11 @@ def staticPageEdit(request,id):
     else:
         form = StaticPageForm(instance=staticpage) 
 
-    return render_to_response('admin/formpage.html',
-        {'form': form,
-        'formAction': reverse('admin_staticPageEdit',kwargs={'id':id}),
-        'page': page,},context_instance=RequestContext(request))
+    return render(request,
+                  'admin/formpage.html',
+                  {'form': form,
+                   'formAction': reverse('admin_staticPageEdit',kwargs={'id':id}),
+                   'page': page,})
 
 @login_required
 @commit_on_success
@@ -537,8 +548,8 @@ def unverifiedComments(request):
             'title' : "Verify Comments",
             }
         comment_list = Comment.objects.select_related('blogpost').filter(verified=False,ignored=False)
-        return render_to_response('admin/unverifiedcomments.html',
-                                  {'page': page,
-                                   'comment_list':comment_list},
-                                  context_instance=RequestContext(request))
+        return render(request,
+                      'admin/unverifiedcomments.html',
+                      {'page': page,
+                       'comment_list':comment_list})
 

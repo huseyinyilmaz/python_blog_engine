@@ -1,7 +1,14 @@
-{% extends "base.html" %}
+{% extends "layout/one_column.html" %}
 
+{% block extra_head %}
+{% endblock %}
+{% block onload %}
+
+$('.button').button();
+
+{% endblock onload%}
 {% block content %}
-<div id="" class="grid_12 ">
+<div class="w960 container">
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -11,15 +18,15 @@
 <table>
 <tr>
     <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
+    <td class="p5">{{ form.username }}</td>
 </tr>
 <tr>
     <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
+    <td class="p5">{{ form.password }}</td>
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="login" class="button"/>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 </div>

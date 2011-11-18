@@ -1,17 +1,19 @@
-{% extends "base.html" %}
+{% extends "layout/one_column.html" %}
 
-{% block head %}
+{% block extra_head %}
 <link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
 {% endblock %}
 
-{% block body %}
+{% block content %}
+<div class="w960 container pl10">
 <lu>
 {% for item in page.choices %}
-  <li class="list">
+  <li class="p5 nobullet">
 	<button class="item" value="{{ item.1 }}">{{ item.0 }}</button>
   </li>
 {% endfor %}
 </lu>
+</div>
 <script type="text/javascript">
 $(function(){
     $('button.item').button().click(
@@ -20,5 +22,5 @@ $(function(){
 		});
 });
 </script>
-{% endblock body %}
+{% endblock content %}
 

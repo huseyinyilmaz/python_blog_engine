@@ -679,9 +679,5 @@ $(function () {
                                                            document.getElementById(domManipulator.getId("slug")).value = val;
                                                            blogPost.set({slug:val});
                                                        }, 100));
-      //print scope leaks
-      if (scopeleaks.leaks().toString()) {
-          logger.log("Global Names = " + scopeleaks.leaks().toString());
-      }
       logger.endLog();
   });

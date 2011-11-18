@@ -1,17 +1,6 @@
-{% extends "base.html" %}
-{% block head %}
-<link rel="stylesheet" href="/site_media/css/main.css" type="text/css" media="screen" />
-<script type="text/javascript" src="/site_media/js/scopeleaks.js"></script>
-<!-- <script type="text/javascript" src="/site_media/js/underscore-min.js"></script> -->
-<!-- <script type="text/javascript" src="/site_media/js/backbone-min.js"></script> -->
-<script type="text/javascript" src="/site_media/js/underscore.js"></script>
-<script type="text/javascript" src="/site_media/js/json/json2.js"></script>
-<script type="text/javascript" src="/site_media/js/backbone.js"></script>
+{% extends "layout/two_columns.html" %}
 
-<script type="text/javascript" src="/site_media/js/logger.js"></script>
-
-<script type="text/javascript" src="/media/js/urlify.js"></script>
-
+{% block extra_head %}
 <script type="text/javascript">
   window.data =JSON.parse('{{ page.post_json|escapejs }}');
   window.next_url = "{{page.next_url }}";
@@ -102,9 +91,9 @@
 </script>
 
 
-{% endblock head%}
+{% endblock extra_head%}
 
-{% block body %}
+{% block content %}
 
   <!--highlight secion: this is used to give client side error messages -->
   <div class="ui-widget" id="highlightDiv"> 
@@ -121,17 +110,14 @@
   </div>
 
 
-<script type="text/javascript" src="/site_media/js/admin/blogpost.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/admin/blogpost.js"></script>
 
 <div id="messageBox" title="">
   <p id="messageContent"></p>
 </div>
-{% endblock body%}
+{% endblock content %}
 
-{% block widget_1 %}
+{% block sidebar %}
   <div id="tag_widget"></div>
-{% endblock %}
-
-{% block widget_2 %}
   <div id="category_widget"></div>
 {% endblock %}

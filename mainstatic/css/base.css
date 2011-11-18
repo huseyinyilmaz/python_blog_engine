@@ -13,7 +13,6 @@
 .show{display:inline}
 .oh{overflow:hidden;}
 .oa{overflow:auto;}
-
 /* size */
 .wf{width:100%;}
 .hf{height:100%;}
@@ -101,6 +100,7 @@
 .vam{vertical-align:middle;}
 .vat{vertical-align:top;}
 .vab{vertical-align:bottom;}
+.nobullet{list-style: none;}
 
 .w40{width: 40px;}
 .w100{width: 100px;}
