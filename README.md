@@ -17,10 +17,15 @@ Installation Notes
 ------------------
 In order to use markdown, You must install following packages on your system
 
-1. Install ElementsTree
-   		   easy_install ElementTree
-2. Install MarkDown
-		   easy_install markdown
-3. Install  Pygments
-   			easy_install Pygments
+Django==1.3.1
+Markdown==2.0.3
+Pygments==1.4
+Werkzeug==0.8.1
+django-debug-toolbar==0.8.5
+django-extensions==0.7.1
+python-memcached==1.47
+
+
+you can install those files from requirements file with following command
+pip install -r requirements.pip
 

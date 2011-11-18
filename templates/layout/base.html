@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="std"> <!--<![endif]-->
+  <head>
+    <title>{{ page.title }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <meta name="author" content="promosfer" />
+    {% if description  %}
+    <meta name="Description" content="{{ description }}" />
+    {% endif %}
+    {% if keywords %}
+    <meta name="Keywords" content="{{ keywords }}" />
+    {% endif %}
+    <!-- favicons -->
+    <!-- <link rel="icon" href="{{STATIC_URL}}images/favicon.ico" type="image/x-icon" /> -->
+    <!-- <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico" /> -->
+
+    {% include 'layout/includes.html' %}
+    {% block extra_head %}{% endblock %}
+
+    {% include 'layout/analytics.html' %}
+    
+  </head>
+  
+  <body class="{% block body_class %}{% endblock %}">
+    {% block body %}
+
+    <div id="header" class="w960 container h100 mt10 pie10 bggradient1 mb10">
+      {% if blog %}
+      <a href="{%url blog_index blog.slug%}">
+	<div class="tac s35 white bold pt10 pb10">{{ blog.name }}</div>
+	<div class="tac">{{ blog.tagline }}</div>
+      </a>
+      {%else%}
+      <div class="tac s35 white bold">Python Blog Engine</div>
+      {% endif %}
+      {% if user and user.is_authenticated %}
+      <div align="right">
+	{{ user.email }} - <a href="/logout/">logout</a>
+      </div>
+      {% endif %}
+      
+      <div>{% include "menu.html" %}</div>
+    </div>
+    
+  </div>
+
+
+      <!-- Main Content -->
+      <div class="p10">{% block main %}{% endblock %}</div>
+      
+
+      <!-- Footer -->
+      <div id="footer">
+	{% include 'layout/footer.html' %}
+      </div>
+    {% endblock body%}
+    {% block extra_foot %}{% endblock %}
+  </body>
+</html>
+

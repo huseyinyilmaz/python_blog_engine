@@ -1,0 +1,31 @@
+{% if use_local %}
+<!-- Local Links -->
+<link type="text/css" href="{{ STATIC_URL }}js/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+
+{%else%}
+<!-- Remote Links -->
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/south-street/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+
+{% endif %}
+
+<!-- General Links -->
+<!-- stylesheets -->
+<link type="text/css" href="{{ STATIC_URL }}/css/reset.css" rel="stylesheet" />	
+<!-- <link type="text/css" href="{{ STATIC_URL }}css/gs960.css" rel="stylesheet" /> -->
+<link type="text/css" href="{{ STATIC_URL }}/css/base.css" rel="stylesheet" />	
+<link type="text/css" href="{{ STATIC_URL }}/css/main.css" rel="stylesheet" />	
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/backbone.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+
+
+
+

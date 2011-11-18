@@ -1,25 +1,23 @@
-{% extends "base.html" %}
+{% extends "layout/two_columns.html" %}
 
-{% block head %}
-{% endblock %}
+{% block extra_head %}
+{% endblock extra_head%}
 
-{% block body %}
-
+{% block content %}
 {% for blogpost in blogpost_set %}
   {% include "blog/posts/blogpost_teaser.html" %}
 {% endfor %}
 
-{% endblock body %}
+{% endblock content%}
 
 
-{% block widget_1 %}
+
+{% block sidebar %}
+
 {% include "blog/widgets/categories.html" %}
-{% endblock %}
 
-{% block widget_2 %}
 {% include "blog/widgets/tags.html" %}
-{% endblock %}
 
-{% block widget_3 %}
 {% include "blog/widgets/date_archive.html" %}
-{% endblock %}
+
+{% endblock sidebar %}

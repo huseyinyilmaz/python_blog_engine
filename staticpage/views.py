@@ -1,8 +1,8 @@
-from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from staticpage.models import StaticPage
 from menu.models import get_menu_items
 from django.views.decorators.cache import cache_page
+from django.shortcuts import render
 
 @cache_page
 def index(request,slug):
@@ -13,11 +13,12 @@ def index(request,slug):
         }
 
 
-    return render_to_response('staticpage/staticpage_index.html',
-                              {'staticpage':staticpage,
-                               'page':page,
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               },
-                              )
+    return render( request,
+                   'staticpage/staticpage_index.html',
+                   {'staticpage':staticpage,
+                    'page':page,
+                    'menu': get_menu_items(),
+                    'path': request.path,
+                    },
+                   )
 

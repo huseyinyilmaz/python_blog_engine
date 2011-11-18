@@ -1,0 +1,11 @@
+<div id="footer_liner" class="w960 container db pt40 pb20">
+    {% if blog %}
+    <div class="smaller">
+      <a href="{% url blog_rss blog.slug %}">RSS</a> - 
+      <a href="{% url blog_atom blog.slug %}">Atom</a>
+    </div>
+    {% endif %}
+    <hr>
+      <div class="footer">Powered by <a href="https://github.com/huseyinyilmaz/python_blog_engine">Python Blog Engine</a>
+      </div>
+</div>

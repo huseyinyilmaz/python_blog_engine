@@ -131,3 +131,32 @@ button.icon_button{
 	height: 15px;
 	width: 15px;
 }
+
+.bgcontent1{
+	background:#5581C0;
+}
+
+
+.bggradient1{
+    background-color:#5581C0;
+
+    
+/* IE10 */ 
+background-image: -ms-linear-gradient(top, #99C5F4 0%, #5581C0 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, #99C5F4 0%, #5581C0 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top, #99C5F4 0%, #5581C0 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #99C5F4), color-stop(1, #5581C0));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, #99C5F4 0%, #5581C0 100%);
+
+/* Proposed W3C Markup */ 
+background-image: linear-gradient(top, #99C5F4 0%, #5581C0 100%);
+
+}

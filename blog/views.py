@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from django.http import Http404
@@ -25,6 +25,10 @@ from django.core.mail import send_mail
 from django.db.transaction import commit_on_success
 
 logger = logging.getLogger(__name__)
+# view_log_handler = logging.FileHandler('/var/log/blog_application.log')
+# view_log_handler.setFormatter(logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s'))
+# logger.addHandler(view_log_handler)
+
 
 @cache_page
 def index(request,blog_slug):
@@ -32,19 +36,21 @@ def index(request,blog_slug):
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
 
-    return render_to_response('blog/blogpost_index.html',
-                              {'blog':blog,
-                               'date_list':BlogPost.view_objects.date_list(blog.id),
-                               'tag_list':tag_list,
-                               'category_list':category_list,
-                               'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               },
-                              )
+    return render(request,
+                  'blog/blogpost_index.html',
+                  {'blog':blog,
+                   'date_list':BlogPost.view_objects.date_list(blog.id),
+                   'tag_list':tag_list,
+                   'category_list':category_list,
+                   'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog),
+                   'menu': get_menu_items(),
+                   'path': request.path,
+                   },
+                  )
 
 @cache_page
 def post(request,blog_slug,post_slug):
+    logger.warn('Rendering Blogpost %s/%s'%(blog_slug,post_slug) )
     blog = get_object_or_404(Blog,slug=blog_slug)
     try:
         post = BlogPost.view_objects.with_content().get(blog=blog,slug=post_slug)
@@ -59,20 +65,21 @@ def post(request,blog_slug,post_slug):
 
     comments_closed = not post.comments_closed and len(post_comment_list)>post.max_comment_count
     comment_form = CommentForm()
-    return render_to_response('blog/blogpost.html',
-                              {'blog':blog,
-                               'date_list':BlogPost.view_objects.date_list(blog.id),
-                               'tag_list':tag_list,
-                               'category_list':category_list,
-                               'blogpost':post,
-                               'post_tag_list':post_tag_list,
-                               'post_category_list':post_category_list,
-                               'post_comment_list':post_comment_list,
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               'form':comment_form,
-                               'comments_closed':comments_closed,
-                               })
+    return render(request,
+                  'blog/blogpost.html',
+                  {'blog':blog,
+                   'date_list':BlogPost.view_objects.date_list(blog.id),
+                   'tag_list':tag_list,
+                   'category_list':category_list,
+                   'blogpost':post,
+                   'post_tag_list':post_tag_list,
+                   'post_category_list':post_category_list,
+                   'post_comment_list':post_comment_list,
+                   'menu': get_menu_items(),
+                   'path': request.path,
+                   'form':comment_form,
+                   'comments_closed':comments_closed,
+                   })
 
 
 @commit_on_success
@@ -104,18 +111,19 @@ def month(request,blog_slug,year,month):
     tag_list = blog.tag_set.all()
     category_list = blog.category_set.all()
     
-    return render_to_response("blog/blogpost_archive_month.html",
-                              {'blog':blog,
-                               'date_list':date_list,
-                               'tag_list':tag_list,
-                               'category_list':category_list,
-                               'month':month,
-                               'year':year,
-                               'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog,creation_date__year=year, creation_date__month=month),
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               },
-                              )
+    return render(request,
+                  "blog/blogpost_archive_month.html",
+                  {'blog':blog,
+                   'date_list':date_list,
+                   'tag_list':tag_list,
+                   'category_list':category_list,
+                   'month':month,
+                   'year':year,
+                   'blogpost_set':BlogPost.view_objects.with_teaser().filter(blog=blog,creation_date__year=year, creation_date__month=month),
+                   'menu': get_menu_items(),
+                   'path': request.path,
+                   },
+                  )
 
 @cache_page
 def tag(request,blog_slug,tag_slug):
@@ -129,17 +137,18 @@ def tag(request,blog_slug,tag_slug):
     blogpost_set = BlogPost.view_objects.tag(tag).all()
     
     
-    return render_to_response("blog/blogpost_tag.html",
-                              {'blog':blog,
-                               'date_list':date_list,
-                               'tag_list':tag_list,
-                               'tag':tag,
-                               'category_list':category_list,
-                               'blogpost_set':blogpost_set,
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               },
-                              )
+    return render(request,
+                  "blog/blogpost_index.html",
+                  {'blog':blog,
+                   'date_list':date_list,
+                   'tag_list':tag_list,
+                   'tag':tag,
+                   'category_list':category_list,
+                   'blogpost_set':blogpost_set,
+                   'menu': get_menu_items(),
+                   'path': request.path,
+                   },
+                  )
 
 @cache_page
 def category(request,blog_slug,category_slug):
@@ -153,17 +162,18 @@ def category(request,blog_slug,category_slug):
     
     blogpost_set = BlogPost.view_objects.category(category).all()
     
-    return render_to_response("blog/blogpost_tag.html",
-                              {'blog':blog,
-                               'date_list':date_list,
-                               'tag_list':tag_list,
-                               'category':category,
-                               'category_list':category_list,
-                               'blogpost_set':blogpost_set,
-                               'menu': get_menu_items(),
-                               'path': request.path,
-                               },
-                              )
+    return render(request,
+                  "blog/blogpost_index.html",
+                  {'blog':blog,
+                   'date_list':date_list,
+                   'tag_list':tag_list,
+                   'category':category,
+                   'category_list':category_list,
+                   'blogpost_set':blogpost_set,
+                   'menu': get_menu_items(),
+                   'path': request.path,
+                   },
+                  )
 
 
  #########

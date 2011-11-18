@@ -1,0 +1,332 @@
+/* shortcut classes */
+/* layout */
+.db{display:block;}
+.di{display:inline;}
+.dib{display:inline-block;}
+.lte7 .dib{display:inline;}
+.fl{float:left;}
+.fr{float:right;}
+.pr{position:relative;}
+.clr{clear:both;}
+.hidden{display:none;}
+.hided{visibility:hidden;}
+.show{display:inline}
+.oh{overflow:hidden;}
+.oa{overflow:auto;}
+
+/* size */
+.wf{width:100%;}
+.hf{height:100%;}
+/* padding */
+.pt3{padding-top:3px;}
+.pt5{padding-top:5px;}
+.pt10{padding-top:10px;}
+.pt20{padding-top:20px;}
+.pt40{padding-top:40px;}
+.pl5{padding-left:5px;}
+.pl10{padding-left:10px;}
+.pb5{padding-bottom:5px;}
+.pb10{padding-bottom:10px;}
+.pb20{padding-bottom:20px;}
+.pr5{padding-right:5px;}
+.pr10{padding-right:10px;}
+.pr20{padding-right:10px;}
+.pv3{padding: 3px 0;}
+.pv5{padding: 5px 0;}
+.pv10{padding: 10px 0;}
+.pv20{padding: 20px 0;}
+.ph10{padding: 0 10px;}
+.ph20{padding: 0 20px;}
+.p5{padding: 5px;}
+.p10{padding: 10px;}
+.p20{padding: 20px;}
+/* margin */
+.m10{margin:10px;}
+.mt2{margin-top:2px;}
+.mt5{margin-top:5px;}
+.mt8{margin-top:8px;}
+.mt10{margin-top:10px;}
+.mt20{margin-top:20px;}
+.mt30{margin-top:30px;}
+.mt40{margin-top:40px;}
+.ml5{margin-left:5px;}
+.ml10{margin-left:10px;}
+.ml100{margin-left:100px;}
+.mb5{margin-bottom:5px;}
+.mb10{margin-bottom:10px;}
+.mb20{margin-bottom:10px;}
+.mr5{margin-right:5px;}
+.mr10{margin-right:10px;}
+.mr20{margin-right:20px;}
+.mr40{margin-right:40px;}
+
+/* text */
+.s6{font-size:6px;}
+.s7{font-size:7px;}
+.s8{font-size:8px;}
+.s9{font-size:9px;}
+.s10{font-size:10px;}
+.s11{font-size:11px;}
+.s12{font-size:12px;}
+.s13{font-size:13px;}
+.s14{font-size:14px;}
+.s15{font-size:15px;}
+.s16{font-size:16px;}
+.s17{font-size:17px;}
+.s18{font-size:18px;}
+.s20{font-size:20px;}
+.s22{font-size:22px;}
+.s35{font-size:35px;}
+.s40{font-size:40px;}
+
+.i{font-style:italic;}
+.bold{font-weight:bold;}
+.thin{font-weight:thin;}
+.lt{text-decoration: line-through;}
+.white{color:#fff;}
+.black{color:#000;}
+.pink{color: #ff0998;}
+.green{color: #96BE0D;}
+.gray{color: #b1b1b1;}
+.bw{background-color:#fff;}
+.bb{background-color:#000;}
+.bp{background-color:#cd037a;}
+.u{text-decoration: underline;}
+.hu:hover{text-decoration:underline;}
+.tal{text-align:left;}
+.tac{text-align:center;}
+.tar{text-align:right;}
+.taj{text-align:justify;}
+.lh1{line-height:1;}
+.vam{vertical-align:middle;}
+.vat{vertical-align:top;}
+.vab{vertical-align:bottom;}
+
+.w40{width: 40px;}
+.w100{width: 100px;}
+.w200{width: 200px;}
+.w250{width: 250px;}
+.w400{width: 500px;}
+.w440{width: 440px;}
+.w500{width: 500px;}
+.w520{width: 520px;}
+.w600{width: 600px;}
+.w620{width: 620px;}
+.w750{width: 750px;}
+.w960{width: 960px;}
+
+.h33{height: 33px;}
+.h40{height: 40px;}
+.h50{height: 50px;}
+.h70{height: 70px;}
+.h100{height: 100px;}
+.h500{height: 500px;}
+
+.pie10{
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.pie5{
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.bordered{
+    border-width:1px;
+    border-style:solid;
+    border-color:000000;
+}
+
+/* ie fixes */
+
+.z1{z-index:1;}
+.cp{cursor:pointer;}
+.cc{cursor:crosshair;}
+.noborder{border:none;}
+/* .clearfix:after { */
+/*    content: "."; */
+/*    visibility: hidden; */
+/*    display: block; */
+/*    height: 0; */
+/*    clear: both; */
+/* } */
+
+
+.form-error-div,.form-error{
+    margin-bottom:0px;
+    margin-top:0px;
+}
+
+
+
+/* tag modifications */
+img {
+  border: 0;
+}
+a {text-decoration: none;
+    color: #61861E;    
+  }
+
+a:hover{text-decoration:underline;}
+
+strong {
+  font-weight: bolder;
+}
+input[type=submit] {
+  border-style: none;
+  cursor: pointer;
+}
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+
+pre {
+    height: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;    
+}
+
+body{
+    font-family: Arial;
+    line-height: 20px;
+    font-size:14px;
+}
+
+.container{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.grid_1,
+.grid_2,
+.grid_3,
+.grid_4,
+.grid_5,
+.grid_6,
+.grid_7,
+.grid_8,
+.grid_9,
+.grid_10,
+.grid_11,
+.grid_12,
+.grid_13,
+.grid_14,
+.grid_15,
+.grid_16 {
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.grid_1 {width:40px;}
+.grid_2 {width:100px;}
+.grid_3 {width:160px;}
+.grid_4 {width:220px;}
+.grid_5 {width:280px;}
+.grid_6 {width:340px;}
+.grid_7 {width:400px;}
+.grid_8 {width:460px;}
+.grid_9 {width:520px;}
+.grid_10 {width:580px;}
+.grid_11 {width:640px;}
+.grid_12 {width:700px;}
+.grid_13 {width:760px;}
+.grid_14 {width:820px;}
+.grid_15 {width:880px;}
+.grid_16 {width:940px;}
+.prefix_1 {padding-left:60px;}
+.prefix_2 {padding-left:120px;}
+.prefix_3 {padding-left:180px;}
+.prefix_4 {padding-left:240px;}
+.prefix_5 {padding-left:300px;}
+.prefix_6 {padding-left:360px;}
+.prefix_7 {padding-left:420px;}
+.prefix_8 {padding-left:480px;}
+.prefix_9 {padding-left:540px;}
+.prefix_10 {padding-left:600px;}
+.prefix_11 {padding-left:660px;}
+.prefix_12 {padding-left:720px;}
+.prefix_13 {padding-left:780px;}
+.prefix_14 {padding-left:840px;}
+.prefix_15 {padding-left:900px;}
+.suffix_1 {padding-right:60px;}
+.suffix_2 {padding-right:120px;}
+.suffix_3 {padding-right:180px;}
+.suffix_4 {padding-right:240px;}
+.suffix_5 {padding-right:300px;}
+.suffix_6 {padding-right:360px;}
+.suffix_7 {padding-right:420px;}
+.suffix_8 {padding-right:480px;}
+.suffix_9 {padding-right:540px;}
+.suffix_10 {padding-right:600px;}
+.suffix_11 {padding-right:660px;}
+.suffix_12 {padding-right:720px;}
+.suffix_13 {padding-right:780px;}
+.suffix_14 {padding-right:840px;}
+.suffix_15 {padding-right:900px;}
+
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix {
+  zoom: 1;
+}
+
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+

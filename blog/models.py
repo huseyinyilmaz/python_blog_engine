@@ -86,12 +86,14 @@ class BlogPostViewManager(models.Manager):
         return self.published().filter(categories__name=category)
     def date_list(self,blog_id):
         cursor = connection.cursor()
-        if settings.DATABASE_ENGINE == 'sqlite3':
-            cursor.execute(date_query_sqlite%blog_id)
-        elif settings.DATABASE_ENGINE == 'postgresql_psycopg2':
-            cursor.execute(date_query_posgres%blog_id)
-        else:#default value will be posgres
-            cursor.execute(date_query_posgres)
+        # we should just get rid of custom queries
+        # if settings.DATABASE_ENGINE == 'sqlite3':
+        #     cursor.execute(date_query_sqlite%blog_id)
+        # elif settings.DATABASE_ENGINE == 'postgresql_psycopg2':
+        #     cursor.execute(date_query_posgres%blog_id)
+        # else:#default value will be posgres
+        #     cursor.execute(date_query_posgres)
+        cursor.execute(date_query_sqlite%blog_id)
 
         resultset = map(lambda x:_Month(*x),cursor.fetchall())
         return resultset

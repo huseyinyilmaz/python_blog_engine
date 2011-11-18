@@ -37,3 +37,8 @@ div.main_container {
 div.title_area {
     background-color:green;
 }
+
+
+.bgcontent1{
+	background:#5581C0;
+}

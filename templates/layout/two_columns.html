@@ -1,0 +1,7 @@
+{% extends 'layout/base.html' %}
+{% block main %}
+  <div class="w960 container clearfix db">
+    <div class="fl w750">{% block content %}{% endblock %}</div>
+    <div class="fr w200">{% block sidebar %}{% endblock %}</div>
+  </div>
+{% endblock %}
