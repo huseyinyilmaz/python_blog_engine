@@ -1,0 +1,56 @@
+From d890239a54e0f521c488415c563dc5c0ff267d39 Mon Sep 17 00:00:00 2001
+From: Huseyin Yilmaz <yilmazhuseyin@gmail.com>
+Date: Tue, 20 Mar 2012 19:24:31 +0200
+Subject: [PATCH] 404 and 500 pages was fixed. fixed comment bug
+
+---
+ blog/views.py      |    3 ++-
+ templates/404.html |    3 +--
+ templates/500.html |    5 ++---
+ 3 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/blog/views.py b/blog/views.py
+index 0ab97f9..9128017 100644
+--- a/blog/views.py
++++ b/blog/views.py
+@@ -97,7 +97,8 @@ def comment(request,id):
+             response = {'success':False,
+                         'form':str(form)}
+         return HttpResponse(simplejson.dumps(response))
+-    return Http404()
++    else:
++        raise Http404()
+ 
+ @cache_page
+ def month(request,blog_slug,year,month):
+diff --git a/templates/404.html b/templates/404.html
+index 69672f5..f1c990f 100644
+--- a/templates/404.html
++++ b/templates/404.html
+@@ -1,5 +1,4 @@
+-{% extends 'base.html' %}
+-{% block title %}Page not found{% endblock %}
++{% extends "layout/one_column.html" %}
+ 
+ {% block content %}
+   <div id="" class="grid_9 ">
+diff --git a/templates/500.html b/templates/500.html
+index 788c1f7..7628375 100644
+--- a/templates/500.html
++++ b/templates/500.html
+@@ -1,10 +1,9 @@
+-{% extends 'base.html' %}
+-{% block title %}Server error{% endblock %}
++{% extends "layout/one_column.html" %}
+ 
+ {% block content %}
+   <div id="" class="grid_9 ">
+ 	<h1>500</h1>
+ 	<h3>There was an error while handling your request.</h3>
+-  </div>
+ 
++  </div>
+ {% endblock %}
+-- 
+1.7.5.4
+

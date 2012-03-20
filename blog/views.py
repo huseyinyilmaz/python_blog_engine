@@ -97,7 +97,8 @@ def comment(request,id):
             response = {'success':False,
                         'form':str(form)}
         return HttpResponse(simplejson.dumps(response))
-    return Http404()
+    else:
+        raise Http404()
 
 @cache_page
 def month(request,blog_slug,year,month):
