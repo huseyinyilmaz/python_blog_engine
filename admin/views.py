@@ -218,8 +218,8 @@ def blogPostCreate(request,blog_id):
                             teaser=blogPost['teaser'],
                             title=blogPost['title'],
                             slug=blogPost['slug'],
-                            published=blogPost['published'],
-                            comments_closed=blogPost['comments_closed'],
+                            published=blogPost.get('published', False),
+                            comments_closed=blogPost.get('comments_closed', False),
                             max_comment_count=blogPost['max_comment_count'],
                             blog_id=blog_id,
                             )
