@@ -324,8 +324,8 @@ def blogPostEdit(request,id):
         postObj.teaser = blogPost['teaser']
         postObj.title = blogPost['title']
         postObj.slug = blogPost['slug']
-        postObj.published = blogPost['published']
-        postObj.comments_closed = blogPost['comments_closed']
+        postObj.published = blogPost.get('published', False)
+        postObj.comments_closed = blogPost.get('comments_closed', False)
         postObj.max_comment_count = blogPost['max_comment_count']
 
         try:
